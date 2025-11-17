@@ -210,10 +210,9 @@ Sollte der Aufwand als Scrum Master und Entwickler zu hoch werden, werden wir im
 
 \subsubsection{Entwickler}
 Ein Entwickler hat in unserem Projektteam mehrere Aufgaben.\\
-Zu Beginn eines Sprints bekommt dieser eine oder mehrere Anforderungen zugeteilt.
-Aus der Definition der Anforderungen muss der Entwickler dann ausführbare Aufgaben ableiten.
+Zu Beginn eines Sprints bekommt dieser eine oder mehrere Aufgaben zugeteilt.
 Bei Unklarkeiten oder Verständnisproblemen hat ein Entwickler die Möglichkeit, den Product Owner um Hilfe zu bitten.\\
-Nach der Ableitung der Aufgaben beginnt der Entwickler mit der Planung der Umsetzung.
+Nach der Zuteilung der Aufgaben beginnt der Entwickler mit der Planung der Umsetzung.
 Hierbei erstellt dieser notwendige Diagramme und prüft, ob Schnittstellen zu anderen Teilen des Systems benötigt werden.
 Ist dies der Fall hat der Entwickler die Möglichkeit, andere Entwickler, welche aktuell an dem betroffenen Teil des Systems arbeiten, zu konsultieren und notwendige Absprachen zu treffen.\\
 Nach erfolgter Planung beginnt der Entwickler mit der Implementierung.
@@ -221,10 +220,88 @@ Sollte für die Implementierung zusätzliches Wissen benötigt werden, kann der 
 Für die Qualitätssicherung ist ebenfalls der Entwickler zuständig.
 Hierfür muss der Entwickler automatisierte Tests erstellen und die gesamtheitliche Korrektheit des Systems manuell überprüfen.\\
 Nach der Implementierung hat ein Entwickler eine angemessene Dokumentation der Erweiterung zu erstellen.\\
-In unserem Projektteam übernimmt ein Entwickler somit die Aufgaben eines Anforderungsanalytikers, eines Architekts, eines Testers und logischerweise eines Entwicklers.
+In unserem Projektteam übernimmt ein Entwickler somit die Aufgaben eines Architekten, eines Testers und logischerweise eines Entwicklers.
 Dies hat den Vorteil, dass ein Entwickler größtenteils autonom arbeiten kann und nicht auf die Zuarbeit von anderen Projektmitgliedern angewiesen ist.\\
 Allerdings hat ein Entwickler damit viele Aufgaben zu erledigen und kann sich nur geringfügig spezialisieren.
 Der Vorteil von dedizierten Architekten wäre zum Beispiel, dass diese sich auf die Architektur des Systems spezialisieren können und so in darauffolgenden Sprints eine höhere Arbeitsgeschwindigkeit hätten.\\
 Sollte sich der Aufwand für einen Entwickler als zu hoch erweisen, können in folgenden Sprints zusätzliche Rollen definiert werden.
+
+\subsection{Backlog Management}
+Im Backlog werden alle Anforderungen und deren Status festgehalten.
+Wir haben uns entschieden das Backlog in Produktbacklog und Sprintbacklog zu unterteilen.\\
+Das Produktbacklog enthält alle aktuellen Anforderungen an das Produkt und wird vor dem ersten Sprint befüllt.
+Sollte ein Stakeholder eine neue Anforderung während der Durchführung des Projektes einbringen, wird das Produktbacklog entsprechend aktualisiert.
+Eine Anforderung kann dabei einen der folgenden Status besitzen: To Do, In Progress, Done.
+Geplegt werden die Anforderungen im GitLab in einem Issue Board.
+Das hat den Vorteil, dass alle Projektmitglieder den Status aller Anforderungen jederzeit einsehen können.\\
+Das Sprintbacklog enthält alle Anforderungen, welche im akutellen Sprint implementiert werden sollen.
+Die Anforderungen im Sprintbacklog können ebenfalls einen der drei oben genannten Status besitzen.
+Befüllt wird das Sprintbacklog während des Sprint Plannings vom Product Owner.
+Die Anforderungen werden dann ebenfalls im Sprint Planning Teammitgliedern zugewiesen.
+Ein Teammitglied ist dafür verantwortlich den Status der Anforderung zu aktualisieren.
+So können der Product Owner und die Stakeholder jederzeit den Status des Projektes einsehen.
+
+\subsection{Agile Praktiken}
+
+\subsubsection{Sprint Planning}
+Zu Beginn eines Sprints wird ein Sprint Planning durchgeführt.
+In diesem Meeting werden durch den Product Owner Anforderungen gewählt, welche in dem Sprint implementiert werden sollen.
+Auf Basis der gewählten Anforderungen werden ausführbare Aufgaben definiert.
+Daraufhin schätzen die Entwickler den Aufwand für jede dieser Aufgaben.
+Der Aufwand soll in T-Shirt Größen geschätzt werden.
+Die Größe "S" steht hierbei dafür, dass der Entwickler einen Tag zur Fertigstellung der Aufgabe benötigt.
+Die Größe "M" bedeutet, dass ein Entwickler mehrere Tage, jedoch weniger als eine Woche für die Erledigung benötigt.
+Die Größe "L" bedeutet, dass ein Entwickler eine Woche oder länger für die Fertigstellung benötigt.
+Abschließend wird jedem Entwickler eine angemessene Menge von Aufgaben zugeteilt.\\
+Die Aufwandsschätzung der Aufgaben in T-Shirt Größen ermöglicht einen besseren Überblick über den Umfang eines Sprints.
+So kann der Sprint besser geplant werden, ohne das Entwicklerteam zu über- oder unterfordern.\\
+Ein Problem stellt bei dieser Herangehensweise die fehlende Erfahrung der Entwickler dar.
+Da wenige bis keine Personen des Projektteams bereits ein Projekt dieser Größe durchgeführt haben und viele neue Technologien zum Einsatz kommen werden, wird es den meisten Entwicklern schwer fallen, einen realistischen Aufwand zu schätzen.
+
+\subsubsection{Coding Standards}
+Damit der Quellcode einheitlich geschrieben werden kann, haben wir uns dafür entschieden Coding Standards zu definieren.
+Die Standards werden zu Beginn des ersten Sprints gemeinsam definiert.
+Nach der Definition dieser Standards ist jeder Entwickler dazu verpflichtet, sich an diesen Standard zu halten.
+Die Einhaltung der Regeln wird durch andere Entwickler während des Code Review überprüft.\\
+Der erhöhte Aufwand zur Einhaltung des Standards kann durch eine Zeitersparnis beim Lesen des Quellcodes von anderen Entwicklern gerechtfertigt werden.
+
+\subsubsection{Code Review}
+Bevor Quellcode in den Main-Branch gemergt werden kann, müssen die Änderungen von einem anderen Entwickler begutachtet werden.
+Dafür hat ein Entwickler nach Fertigstellung der Aufgabe einen Pull-Request zu erstellen.
+Daraufhin muss mindestens ein anderer Entwickler den Pull-Request genehmigen.
+Vor der Genehmigung sollte der Entwickler auf folgende Dinge achten:
+\begin{itemize}
+	\item Einhaltung der Coding Standards
+	\item Vorhandensein von Tests
+	\item Freiheit von offensichtlichen logischen Fehlern
+	\item Effizienz der Implementierung
+\end{itemize}
+Die Durchführung von Code Reviews erhöht die Wahrscheinlichkeit, dass die Implementierung fehlerfrei programmiert wurde, was den erhöhten Aufwand gerechtfertigt.
+
+\subsubsection{Test Driven Development}
+Während der Entwicklung sind die Entwickler dazu angehalten, Test Driven Development durchzuführen.
+Diese Vorgehensweise beim Entwickeln hat den Vorteil, dass Testfälle zunächst unabhängig vom Quellcode entstehen.
+Dadurch wird die Wahrscheinlichkeit erhöht, dass der Quellcode vollumfänglich getestet wird.\\
+Allerdings sind automatisierte Tests für die Qualitätssicherung nicht hinreichend.
+Es können beispielsweise Fälle vergessen werden, die dann nicht implementiert werden oder die Integration mit dem restlichen System ist fehlerhaft.
+Demnach müssen auch manuelle Tests durch die Entwickler durchgeführt werden.
+
+\subsubsection{Sprint Review}
+Zum Abschluss des Sprints werden wir ein Sprint Review durchführen.
+Hier werden die erreichten Ergebnisse kurz dem Product Owner präsentiert.
+Dieser vergleicht die Ergebnisse und identifiziert weiteren Handlungsbedarf für den nächsten Sprint.\\
+Wir haben uns für die Durchführung dieses Meetings entschieden, um einen reibungslosen Übergang in den nächsten Sprint zu gewährleisten.
+Ohne dieses Meeting müsste man im nächsten Sprint Planning zunächst die übrig gebliebenen Aufgaben aus dem alten Sprint identifizieren, was eine Ausdehnung des Sprint Plannings zur Folge hätte.\\
+Auch dieses Meeting bedeutet zusätzlichen Aufwand, ohne das ein Fortschritt erzielt wird.
+Daher sollte dieses Meeting möglichst kurz gehalten werden.
+
+\subsubsection{Retrospective}
+Das Ziel dieses Meetings ist es den Prozess zu optimieren.
+Einen Verbesserungsvorschlag kann jedes Teammitglied einbringen.
+Der Scrum Master moderiert dieses Meeting und identifiziert, welche Verbesserungen die höchste Priorität haben.
+Die Verbesserungen werden dann in den nächsten Sprint integriert.\\
+Im Optimalfall führt das zu einer effizienteren Arbeitsweise während des nächsten Sprints, was den Zeitaufwand rechtfertigt.\\
+
+\subsection{Zeitplanung}
 
 \end{document}
