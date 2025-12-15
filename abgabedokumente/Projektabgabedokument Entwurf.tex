@@ -1,0 +1,114 @@
+\documentclass{article}
+
+\newcommand{\rnum}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{pdflscape}
+\usepackage{array}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{titlepage}
+	{
+		\centering
+		\huge
+		\textbf{Abgabedokument Entwurf}\\
+	}
+	\vspace{1cm}
+	\begin{table}[h]
+		\centering
+		\footnotesize
+		\begin{tabular}{| p{1.5cm} | p{2.5cm} | p{2cm} | p{2cm} | p{2cm} |}
+			\hline
+			                           & Verantwortliche Teammitglieder (Organisation, Anlegen der Dokumentenversion, Moderation, Abgabe)                                   & Anwesende während der Meetings                                                                                                     & (Online-) Beiträge zum Inhalt durch                                                                                                & Korrektur-gelesen durch                                                                                                            \\
+			\hline
+			Dokument Entwurf Version 1 & Paul Schröder, Eric Buthmann, Yanik Buthmann, Erik Seeck, Mathis Behrendt, David Nguyen, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Erik Seeck, Mathis Behrendt, David Nguyen, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Erik Seeck, Mathis Behrendt, David Nguyen, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Erik Seeck, Mathis Behrendt, David Nguyen, Adrian Gode, Niklas Krüger, Kevin Zellmer \\
+			\hline
+		\end{tabular}
+	\end{table}
+\end{titlepage}
+
+
+
+\begin{landscape}
+\section{Initialer Backlog}
+
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.3}
+
+\begin{tabular}{|
+    >{\raggedright\arraybackslash}p{2.8cm} |
+    >{\raggedright\arraybackslash}p{6.2cm} |
+    >{\raggedright\arraybackslash}p{6.2cm} |
+    >{\raggedright\arraybackslash}p{5.5cm} |
+}
+\hline
+ & \textbf{Ursprüngliche Anforderung} & \textbf{Verbesserte Anforderung} & \textbf{User Story} \\
+\hline
+
+\multirow{9}{*}{\textbf{funktional}}
+& 1. Nutzerregistrierung und Authentifikation: Erlaubt Nutzern Accounts anzulegen, sich einzuloggen, und ihre Passwörter zurückzusetzen.
+& 1.1 Erlaubt Nutzern Accounts anzulegen.
+& ................... \\
+\cline{3-4}
+& 
+& 1.2 Erlaubt Nutzern sich einzuloggen.
+& ................... \\
+\cline{3-4}
+& 
+& 1.3 Erlaubt Nutzern ihre Passwörter zurückzusetzen.
+& ............... \\
+\cline{2-4}
+&2. User Story- und Backlog-Management: Erlaubt dem Team und speziell dem Product Owner (PO) neue User Stories im Backlog anzulegen. Der PO soll
+Prioritäten für die User Stories festlegen können.
+& 2.1 Erlaubt dem Team und dem Product Owner neue User Stories im Backlog anzulegen.
+& ................. \\
+\cline{3-4}
+& 
+& 2.2 Erlaubt dem Product Owner Prioritäten für die User Stories festzulegen.
+& ................ \\
+\cline{2-4}
+& 3.Task Management: Erlaubt dem Team Tasks als Verfeinerung der User Stories
+zu erstellen (und entsprechend mit den User Stories zu verlinken). Erlaubt dem
+Team Tasks zu priorisieren und als “complete” oder “incomplete” zu markieren.
+& 3.1 Zu user-stories sollen Tasks erstellbar sein 
+& ............... \\
+\cline{3-4}
+& 
+& 3.2 tasks besitzen Eigenschaft complete oder incomplete haben
+& ............... \\
+\cline{3-4}
+& 
+& 3.3 Jede Tasks hat Zuordnung: Hoch, Mittel, Niedrig 
+& ............... \\
+\cline{3-4}
+& 
+& 3.4 user Stories und tasks sind verlinkt 
+& ............... \\
+\hline
+
+\multirow{3}{*}{\textbf{nicht funktional}}
+& Inhalt & Inhalt & Inhalt \\
+\cline{2-4}
+& Inhalt & Inhalt & Inhalt \\
+\cline{2-4}
+& Inhalt & Inhalt & Inhalt \\
+\hline
+
+\end{tabular}
+
+\caption{Anforderungen im Überblick}
+\end{table}
+\end{landscape}
+
+\end{document}
