@@ -12,6 +12,7 @@
 \usepackage{pdflscape}
 \usepackage{array}
 \usepackage{enumitem}
+\usepackage{longtable}
 
 \begin{document}
 
@@ -40,75 +41,222 @@
 \begin{landscape}
 \section{Initialer Backlog}
 
-\begin{table}[H]
-\centering
 \small
 \setlength{\tabcolsep}{6pt}
 \renewcommand{\arraystretch}{1.3}
 
-\begin{tabular}{|
+\begin{longtable}{|
     >{\raggedright\arraybackslash}p{2.8cm} |
     >{\raggedright\arraybackslash}p{6.2cm} |
     >{\raggedright\arraybackslash}p{6.2cm} |
     >{\raggedright\arraybackslash}p{5.5cm} |
 }
+\caption{Anforderungen im Überblick} \\
 \hline
  & \textbf{Ursprüngliche Anforderung} & \textbf{Verbesserte Anforderung} & \textbf{User Story} \\
 \hline
+\endfirsthead
 
-\multirow{9}{*}{\textbf{funktional}}
-& 1. Nutzerregistrierung und Authentifikation: Erlaubt Nutzern Accounts anzulegen, sich einzuloggen, und ihre Passwörter zurückzusetzen.
-& 1.1 Erlaubt Nutzern Accounts anzulegen.
-& ................... \\
-\cline{3-4}
-& 
-& 1.2 Erlaubt Nutzern sich einzuloggen.
-& ................... \\
-\cline{3-4}
-& 
-& 1.3 Erlaubt Nutzern ihre Passwörter zurückzusetzen.
-& ............... \\
-\cline{2-4}
-&2. User Story- und Backlog-Management: Erlaubt dem Team und speziell dem Product Owner (PO) neue User Stories im Backlog anzulegen. Der PO soll
-Prioritäten für die User Stories festlegen können.
-& 2.1 Erlaubt dem Team und dem Product Owner neue User Stories im Backlog anzulegen.
-& ................. \\
-\cline{3-4}
-& 
-& 2.2 Erlaubt dem Product Owner Prioritäten für die User Stories festzulegen.
-& ................ \\
-\cline{2-4}
-& 3.Task Management: Erlaubt dem Team Tasks als Verfeinerung der User Stories
-zu erstellen (und entsprechend mit den User Stories zu verlinken). Erlaubt dem
-Team Tasks zu priorisieren und als “complete” oder “incomplete” zu markieren.
-& 3.1 Zu user-stories sollen Tasks erstellbar sein 
-& ............... \\
-\cline{3-4}
-& 
-& 3.2 tasks besitzen Eigenschaft complete oder incomplete haben
-& ............... \\
-\cline{3-4}
-& 
-& 3.3 Jede Tasks hat Zuordnung: Hoch, Mittel, Niedrig 
-& ............... \\
-\cline{3-4}
-& 
-& 3.4 user Stories und tasks sind verlinkt 
-& ............... \\
+\multicolumn{4}{c}%
+{{\bfseries \tablename\ \thetable{} -- Fortsetzung}} \\
 \hline
+ & \textbf{Ursprüngliche Anforderung} & \textbf{Verbesserte Anforderung} & \textbf{User Story} \\
+\hline
+\endhead
+
+\hline \multicolumn{4}{r}{{Fortsetzung auf nächster Seite}} \\
+\endfoot
+
+\hline
+\endlastfoot
 
 \multirow{3}{*}{\textbf{nicht funktional}}
-& Inhalt & Inhalt & Inhalt \\
+& 1. Nutzerregistrierung und Authentifikation: Erlaubt Nutzern Accounts anzulegen, sich einzuloggen, und ihre Passwörter zurückzusetzen.
+& 1.1 Nutzer können Accounts anlegen.
+& Als Nutzer kann ich einen Account anlegen, sodass ich das System nutzen kann. \\
+\cline{3-4}
+& 
+& 1.2 Nutzer können sich einloggen.
+& Als Nutzer kann ich mich einloggen, sodass ich auf meine persönlichen Daten und Tasks zugreifen kann. \\
+\cline{3-4}
+& 
+& 1.3 Nutzer können ihre Passwörter zurücksetzen.
+& Als Nutzer kann ich mein Passwort zurücksetzen, sodass ich wieder Zugriff auf meinen Account erhalte. \\
 \cline{2-4}
-& Inhalt & Inhalt & Inhalt \\
+
+& 2. User Story- und Backlog-Management: Erlaubt dem Team und speziell dem Product Owner (PO) neue User Stories im Backlog anzulegen. Der PO soll Prioritäten für die User Stories festlegen können.
+& 2.1 Das Team kann neue User Stories im Backlog anlegen.
+& Als Teammitglied kann ich neue User Stories im Backlog anlegen, sodass Anforderungen dokumentiert werden. \\
+\cline{3-4}
+& 
+& 2.2 Der Product Owner kann neue User Stories im Backlog anlegen.
+& Als Product Owner kann ich neue User Stories im Backlog anlegen, sodass die wichtigsten Anforderungen erfasst werden. \\
+\cline{3-4}
+& 
+& 2.3 Der Product Owner kann Prioritäten für User Stories festlegen.
+& Als Product Owner kann ich Prioritäten für User Stories festlegen, sodass das Team an den wichtigsten Aufgaben arbeitet. \\
 \cline{2-4}
-& Inhalt & Inhalt & Inhalt \\
+
+& 3. Task Management: Erlaubt dem Team Tasks als Verfeinerung der User Stories zu erstellen (und entsprechend mit den User Stories zu verlinken). Erlaubt dem Team Tasks zu priorisieren und als „complete" oder „incomplete" zu markieren.
+& 3.1 Das Team kann Tasks erstellen.
+& Als Teammitglied kann ich Tasks erstellen, sodass User Stories in konkrete Arbeitsschritte aufgeteilt werden. \\
+\cline{3-4}
+& 
+& 3.2 Tasks können mit User Stories verlinkt werden.
+& Als Teammitglied kann ich Tasks mit User Stories verlinken, sodass der Zusammenhang zwischen Aufgaben und Anforderungen klar ist. \\
+\cline{3-4}
+& 
+& 3.3 Das Team kann Tasks priorisieren.
+& Als Teammitglied kann ich Tasks priorisieren, sodass wichtige Aufgaben zuerst bearbeitet werden. \\
+\cline{3-4}
+& 
+& 3.4 Das Team kann Tasks als „complete" markieren.
+& Als Teammitglied kann ich Tasks als „complete" markieren, sodass der Fortschritt sichtbar wird. \\
+\cline{3-4}
+& 
+& 3.5 Das Team kann Tasks als „incomplete" markieren.
+& Als Teammitglied kann ich Tasks als „incomplete" markieren, sodass offene Aufgaben erkennbar sind. \\
+\cline{2-4}
+
+& 4. Task/User Story Listen: Erlauben dem Team mehrere Listen für Tasks und User Stories zu managen. Die Listen sollen helfen zwischen Projekt Backlog und Sprintbacklog zu unterscheiden. Zusätzlich soll zwischen folgenden unterschieden werden: Tasks in Bearbeitung, Tasks unter Review, Tasks unter Test, und fertiggestellte Tasks. Das Team soll in der Lage sein, Tasks zwischen den Listen hin- und her- zu bewegen.
+& 4.1 Tasks und User Stories können in mehreren Listen verwaltet werden.
+& Als Teammitglied kann ich Tasks und User Stories in mehreren Listen verwalten, sodass eine übersichtliche Organisation möglich ist. \\
+\cline{3-4}
+& 
+& 4.2 Das System unterscheidet zwischen Projekt Backlog und Sprint Backlog.
+& Als Teammitglied kann ich zwischen Projekt Backlog und Sprint Backlog unterscheiden, sodass langfristige und kurzfristige Planung getrennt sind. \\
+\cline{3-4}
+& 
+& 4.3 Tasks werden nach den Status In Bearbeitung, Review, Test und Fertiggestellt unterschieden.
+& Als Teammitglied kann ich den Status von Tasks erkennen, sodass ich den aktuellen Bearbeitungsstand sehe. \\
+\cline{3-4}
+& 
+& 4.4 Tasks können zwischen den Listen verschoben werden.
+& Als Teammitglied kann ich Tasks zwischen Listen verschieben, sodass der Workflow flexibel angepasst werden kann. \\
+\cline{2-4}
+
+& 5. Nutzer Profile: Nutzer sollen Profile mit persönlichen Informationen haben (z.B. Name und Rolle (Tester, PO, Entwickler, ...) die Sie ansehen und editieren können.
+& 5.1 Nutzer besitzen Profile mit persönlichen Informationen (Name,Rolle, E-Mail,
+Telefonnummer, Straße, Hausnummer).
+& Als Nutzer habe ich ein Profil mit persönlichen Informationen, sodass mich andere Teammitglieder identifizieren und kontaktieren können. \\
+\cline{3-4}
+& 
+& 5.3 Nutzer können ihre Profile ansehen.
+& Als Nutzer kann ich mein Profil ansehen, sodass ich meine gespeicherten Informationen überprüfen kann. \\
+\cline{3-4}
+& 
+& 5.4 Nutzer können ihre Profile editieren.
+& Als Nutzer kann ich mein Profil editieren, sodass meine Informationen aktuell bleiben. \\
+\cline{2-4}
+
+& 6. Nutzer-Task Zuordnung: Das System erlaubt es eine Zuordnung von Nutzern zu Tasks zu definieren, die auf dem Task-Board zu sehen ist.
+& 6.1 Nutzer können Tasks zugeordnet werden.
+& Als Teammitglied kann ich Nutzer zu Tasks zuordnen, sodass klar ist, wer woran arbeitet. \\
+\cline{3-4}
+& 
+& 6.2 Die Zuordnung von Nutzern zu Tasks wird im Task-Board angezeigt.
+& Als Teammitglied kann ich die Zuordnung von Nutzern zu Tasks im Task-Board sehen, sodass die Verantwortlichkeiten transparent sind. \\
+\cline{2-4}
+
+& 7. Pair-programming Planung: Um Pair-Programming zu planen, soll es möglich sein, mehrere Nutzer zu einer Task zuzuordnen.
+& 7.1 Mehrere Nutzer können einer Task zugeordnet werden.
+& Als Teammitglied kann ich mehrere Nutzer einer Task zuordnen, sodass Pair-Programming und Teamarbeit unterstützt werden. \\
+\cline{3-4}
+
+& 8. Schätzungstracking: Das System erlaubt dem Team Tasks mit Aufwandsschätzungen zu annotieren. Wenn Tasks beendet werden kann zudem annotieret werden wie lange die Lösung der Task tatsächlich gedauert hat. Das Schätzungstracking soll eine Visualisierung bereitstellen die zusammenfasst, wie sehr sich Schätzungen und tatsächliche Bearbeitungszeiten unterscheiden um dem Team die Möglichkeit zu geben, ihre Schätzungen über die Zeit zu verbessern.
+& 8.1 Tasks können mit Aufwandsschätzungen versehen werden.
+& Als Teammitglied kann ich Tasks mit Aufwandsschätzungen versehen, sodass die Planung realistischer wird. \\
+\cline{3-4}
+& 
+& 8.2 Die tatsächliche Bearbeitungszeit abgeschlossener Tasks kann erfasst werden.
+& Als Teammitglied kann ich die tatsächliche Bearbeitungszeit erfassen, sodass wir aus Erfahrungen lernen können. \\
+\cline{3-4}
+& 
+& 8.3 Abweichungen zwischen Schätzung und tatsächlicher Bearbeitungszeit werden visualisiert.
+& Als Teammitglied kann ich Abweichungen zwischen Schätzung und Realität visualisiert sehen, sodass unsere Schätzungen über Zeit verbessert werden. \\
+\cline{2-4}
+
+& 9. Suche und Filter: Das System bietet Such- und Filterfunktionen an um Nutzern zu helfen Tasks zu finden.
+& 9.1 Tasks können gesucht werden.
+& Als Nutzer kann ich Tasks suchen, sodass ich schnell relevante Aufgaben finde. \\
+\cline{3-4}
+& 
+& 9.2 Tasks können gefiltert werden.
+& Als Nutzer kann ich Tasks filtern, sodass ich nur bestimmte Aufgabenkategorien sehe. \\
+\cline{2-4}
+
+& 10. Benachrichtigungen: Basierend auf den Schätzungen des Teams, sendet das System eine E-Mail oder in-system Benachrichtigung, um Nutzer an Tasks zu erinnern die bald beendet sein müssen.
+& 10.1 Nutzer werden an bald fällige Tasks erinnert.
+& Als Nutzer werde ich an bald fällige Tasks erinnert, sodass ich keine Deadlines verpasse. \\
+\cline{3-4}
+& 
+& 10.2 Benachrichtigungen erfolgen per E-Mail oder im System.
+& Als Nutzer erhalte ich Benachrichtigungen per E-Mail oder im System, sodass ich immer informiert bin. \\
+\cline{2-4}
+
+& 11. Agile Practices: Das Tool soll so viele Agile Practices wie möglich unterstützen.
+& 11.1 Agile Arbeitsweisen werden unterstützt.
+& Als Teammitglied kann ich agile Arbeitsweisen nutzen, sodass wir flexibel und iterativ arbeiten können. \\
 \hline
 
-\end{tabular}
 
-\caption{Anforderungen im Überblick}
-\end{table}
+\multirow{3}{*}{\textbf{nicht funktional}}
+& 12. Synchronisation: Neue Angaben die auf einem Rechner von einem Nutzer gemacht wurden sollen in Echtzeit allen anderen Nutzern angezeigt werden.
+& 12.1 -> mit 16 zusammengafsst: Änderungen werden allen Nutzern inerhalb von 2 Sekunden angezeigt.
+& Als Nutzer sehe ich Änderungen innerhalb von 2 Sekunden, sodass ich immer mit aktuellen Informationen arbeite. \\
+\cline{2-4}
+
+& 13. Parallele Bearbeitung: Das Tool soll mehreren Nutzern gleichzeitig erlauben Tasks zwischen den Listen zu bewegen und zu bearbeiten. Konflikte sollen dabei verhindert werden.
+& 13.1 Mehrere Nutzer können Tasks gleichzeitig bearbeiten.
+& Als Teammitglied kann ich Tasks bearbeiten, während andere ebenfalls arbeiten, sodass parallele Arbeit möglich ist. \\
+\cline{3-4}
+& 
+& 13.2 Tasks können gleichzeitig zwischen Listen bewegt werden.
+& Als Teammitglied kann ich Tasks verschieben, während andere das System nutzen, sodass der Workflow nicht blockiert wird. \\
+\cline{3-4}
+& 
+& 13.3 Bearbeitungskonflikte werden verhindert.
+& Als Nutzer werden Konflikte bei gleichzeitiger Bearbeitung verhindert, sodass keine Daten verloren gehen. \\
+\cline{2-4}
+
+& 14. Multi-Nutzer: Das System soll mehrere Entwickler/Nutzer gleichzeitig handhaben können.
+& 14.1 Das System unterstützt mehrere gleichzeitige Nutzer.
+& Als Administrator kann das System mehrere Nutzer gleichzeitig handhaben, sodass alle Teammitglieder parallel arbeiten können. \\
+\cline{2-4}
+
+& 15. Verfügbarkeit: Das System soll immer verfügbar sein.
+& 15.1 Das System weist eine hohe Verfügbarkeit auf.
+& Als Nutzer kann ich mich auf eine hohe Systemverfügbarkeit verlassen, sodass ich jederzeit arbeiten kann. \\
+\cline{2-4}
+
+& 16. Updates: Nutzer sollten nicht länger als 2 Sekunden warten um Updates in den Tasklisten zu sehen.
+& -> mit 12 in 12.1 zusammengefasst.
+& - \\
+\cline{2-4}
+
+& 17. Änderungen: Das System soll für Entwickler nach dem Release leicht erweiterbar bleiben. Spezifisch sollen Entwickler später einfach neue Tasklistentypen erstellen können, weitere Such und Filtertypen hinzufügen können, weitere Arten von Benachrichtigungen hinzufügen können, und weitere Funktionalität zur Unterstützung von Agile Practices hinzufügen können.
+& 17.1 Neue Tasklistentypen können hinzugefügt werden.
+& Als Entwickler kann ich neue Tasklistentypen hinzufügen, sodass das System erweiterbar bleibt. \\
+\cline{3-4}
+& 
+& 17.2 Neue Suchtypen können hinzugefügt werden.
+& Als Entwickler kann ich neue Suchtypen hinzufügen, sodass die Suchfunktionalität erweitert werden kann. \\
+\cline{3-4}
+& 
+& 17.3 Neue Filtertypen können hinzugefügt werden.
+& Als Entwickler kann ich neue Filtertypen hinzufügen, sodass Nutzer flexibler filtern können. \\
+\cline{3-4}
+& 
+& 17.4 Neue Benachrichtigungsarten können hinzugefügt werden.
+& Als Entwickler kann ich neue Benachrichtigungsarten hinzufügen, sodass Nutzer vielfältiger informiert werden können. \\
+\cline{3-4}
+& 
+& 17.5 Weitere Funktionen zur Unterstützung agiler Praktiken können ergänzt werden.
+& Als Entwickler kann ich neue agile Funktionen ergänzen, sodass das System mit den Bedürfnissen des Teams wächst. \\
+
+\hline
+
+\end{longtable}
 \end{landscape}
 
 \end{document}
