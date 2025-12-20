@@ -36,4 +36,66 @@
 	\end{table}
 \end{titlepage}
 
+\section{Initialer Backlog}
+
+Auf Grundlage der vorgegebenen Anforderungen haben wir eine Liste von verfeinerten Anforderungen und User-Stories erstellt.
+Zu finden ist das initiale Backlog im Verzeichnis \textit{anforderungen} im Dokument \linebreak \textit{anforderungen.pdf}.
+Damit im weiteren Verlauf nachvollzogen werden kann, woher Anforderungen kommen, haben wir uns dazu entschieden jeder verfeinerten Anforderung und jeder User-Story eine ID zu geben.
+Verfeinerte Anforderungen haben IDs der Form \textit{xx.x}, wobei der erste Teil die ID der ursprünglichen Anforderung und der zweite Teil eine laufende Nummer für die resultierenden Anforderungen ist.
+User-Stories haben IDs der Form \textit{Sxx.x}.
+Diese ID ist eine Kombination aus einem Prefix für eine User-Story und der ID der verfeinerten Anforderung.\\
+Im Folgenden sollen die Verfeinerungen motiviert werden.\\
+Zunächst haben wir die Benennung der Akteure in den Anforderungen vereinheitlicht.
+Jeder Akteur, der das System nutzen kann, ist ein Nutzer.
+Das heißt konkret, wenn in den ursprünglichen Anforderungen von Team, Teammitglied, Nutzer etc. gesprochen wird, dann sind das in den verfeinerten Anforderungen und User Stories Nutzer.
+Die restlichen Akteure, welche Nutzer mit bestimmten zusätzlichen Eigenschaften sind (z.B. Product Owner), wurden nicht umbenannt.\\
+Desweiteren ist ein großer Teil der Anforderungen nicht atomar.
+Daher haben wir die meisten Anforderungen in mehrere verfeinerte Anforderungen aufgeteilt.
+Zum Beispiel haben wir die erste Anforderung in drei verfeinerte Anforderungen aufgeteilt, welche die Eigenschaft der Atomarität besitzen.
+Dieses Beispiel soll exemplarisch die Aufteilung der Anforderungen zeigen.
+Im weiteren Verlauf wird aufgrund der Existenz eines Beispiels und der Übertragbarkeit des Beispiels auf die anderen Fälle nicht weiter auf die Eigenschaft der Atomarität eingegangen.\\
+Die zweite Anforderung fordert unter anderem, dass ein Product Owner einer User-Story eine Priorität zuordnen kann.
+Diese Anforderung ist nicht eindeutig.
+Wir haben uns daher entschieden, den Begriff \textit{Priorität} zu konkretisieren und die Prioritätsstufen \textit{hoch}, \textit{normal} und \textit{niedrig} zu definieren.\\
+Außerdem haben wir uns dafür entschieden, den anderen Teil der Anforderung umzuformulieren.
+Neue User Stories werden einem Backlog hinzugefügt, da es mehrere Backlogs geben kann.\\
+Anforderung 4 ist nicht eindeutig.
+Der Begriff Liste wird mehrmals für unterschiedliche Dinge verwendet.
+Daher haben wir uns entschieden, verschiedene Begriffe für Listen in unterschiedlichen Kontexten einzuführen.
+Ein \textit{Backlog} ist eine Liste an User Stories und Tasks.
+In einem \textit{Backlog} gibt es mehrere Listen an Tasks.
+Diese Tasklisten beinhalten alle Tasks, die sich in einem gewissen Status befinden.
+Daher haben wir Listen in diesem Kontext \textit{Tasklisten mit dazugehörigem Status} genannt.
+Die Aktion \textit{Task verschieben} kann nun in unterschiedlichen Kontexten ausgeführt werden.
+Daher haben wir für jeden Kontext eine separate Anforderung und User Story erstellt.
+Außerdem haben wir den Zustand \textit{Wartet} hinzugefügt, da dieser unserer Meinung nach essentiell für Tasks ist, an denen noch nicht gearbeitet wird.\\
+Anforderung 5 ist ebenfalls nicht eindeutig, da nicht konkret darauf eingegangen wird, welche Menge an Informationen ein Profil besitzen soll.
+Wir haben daher diese Menge exakt definiert.
+Zusätzlich haben wir definiert, welche Informationen in einem Profil geändert werden dürfen.
+Zum Beispiel ist die Änderung der Rolle durch den Nutzer selbst ist unserer Meinung nach nicht sinnvoll.
+Daher haben wir diese Information aus der Menge der editierbaren Eigenschaften ausgeschlossen.\\
+Die Anforderung mit der ID 7 ist nicht einzigartig, denn diese wird bereits durch Anforderung 6 abgedeckt.
+Daher haben wir daraus keine verfeinerte Anforderung entwickelt.\\
+Die 8. Anforderung fordert eine Visualisierung der Abweichungen zwischen geschätztem Aufwand und tatsächlichem Aufwand.
+Der Begriff \textit{Visualisierung} ist nicht eindeutig.
+Daher haben wir uns entschieden die Anforderung zu konkretisieren und als Visualisierungsart ein Balkendiagramm zu wählen.\\
+In Anforderung 10 werden Benachrichtigungen mittels E-Mail oder in-system gefordert.
+E-Mail Benachrichtigungen sind im Kontext dieser Projektarbeit unpraktisch.
+Daher haben wir uns entschieden nur in-system Benachrichtigungen zu fordern.\\
+Die Anforderung mit der ID 11 haben wir entfernt, da diese nicht einzigartig ist und bereits von anderen Anforderungen abgedeckt wird, und ebenfalls nicht messbar ist.
+Zum Beispiel fordert Anforderung 7 die Zuordnung von Tasks zu mehreren Nutzern, um Pair Programming zu unterstützen.
+Außerdem unterstützt das System inhärent die Agile Praktik \textit{Sprint Planung}.
+Wir haben entschieden, dass das der Formulierung ``so viele Agile Practices wie möglich`` genügt.\\
+Anforderung 16 ist eine Konkretisierung von Anforderung 12.
+Daher haben wir uns entschieden, diese Anfoderungen zu vereinigen.\\
+Die Anforderungen 14 und 15 sind beide nicht eindeutig.
+Im Fall der Anforderungen 14 haben wir uns dazu entschieden, 10 gleichzeitige Nutzer zu unterstützen.
+Im Rahmen dieser Projektarbeit erachten wir diese Anzahl als praktisch, obwohl wir wissen, dass in der Realität deutlich höhere Nutzerzahlen zu erwarten wären.
+Die 15. Anforderung haben wir dahingehend konkretisiert, dass das System eine Verfügbarkeit von 99\% erbringen soll.
+Im Rahmen dieser Projektarbeit können wir diese Metrik jedoch nicht prüfen, da diese unter anderem von Faktoren wie dem Update-Zyklus abhängt.
+Daher soll die genannte Zahl als fiktiv betrachtet werden.\\
+Die Gesamtheit der Use Cases kann der Abbildung ... entnommen werden.\\ %TODO
+Die entwickelten User Stories werden in das Gitlab übertragen.
+Während der Sprint Plaung werden diese dann in ausführbare Aufgaben übersetzt.
+
 \end{document}

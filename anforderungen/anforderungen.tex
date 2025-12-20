@@ -15,15 +15,15 @@
 \usepackage{everypage}
 
 \newcommand{\Lpagenumber}{\ifdim\textwidth=\linewidth\else\bgroup
-  \dimendef\margin=0 %use \margin instead of \dimen0
+  \dimendef\margin=0 
   \ifodd\value{page}\margin=\oddsidemargin
   \else\margin=\evensidemargin
   \fi
-  \raisebox{\dimexpr -\topmargin-\headheight-\headsep-0.5\linewidth}[0pt][0pt]{%
-    \rlap{\hspace{\dimexpr \margin+\textheight+\footskip}%
-    \llap{\rotatebox{90}{\thepage}}}}%
+  \raisebox{\dimexpr -\topmargin-\headheight-\headsep-0.5\linewidth}[0pt][0pt]{
+    \rlap{\hspace{\dimexpr \margin+\textheight+\footskip}
+    \llap{\rotatebox{90}{\thepage}}}}
 \egroup\fi}
-\AddEverypageHook{\Lpagenumber}%
+\AddEverypageHook{\Lpagenumber}
 
 \begin{document}
 \pagestyle{empty}
@@ -83,43 +83,43 @@
 \cline{2-4}
 
 & 2. User Story- und Backlog-Management: Erlaubt dem Team und speziell dem Product Owner (PO) neue User Stories im Backlog anzulegen. Der PO soll Prioritäten für die User Stories festlegen können.
-& 2.1 Das Team kann neue User Stories im Backlog anlegen.
-& S2.1 Als Teammitglied kann ich neue User Stories im Backlog anlegen, sodass Anforderungen dokumentiert werden. \\
+& 2.1 Nutzer können neue User Stories in einem Backlog anlegen.
+& S2.1 Als Nutzer kann ich neue User Stories in einem Backlog anlegen, sodass alle User Stories zentral gesammelt werden können. \\
 \cline{3-4}
 & 
-& 2.2 Der Product Owner kann neue User Stories im Backlog anlegen.
-& S2.2 Als Product Owner kann ich neue User Stories im Backlog anlegen, sodass die wichtigsten Anforderungen erfasst werden. \\
-\cline{3-4}
-& 
-& 2.3 Der Product Owner kann einer User Story die Priorität \textit{hoch}, \textit{normal} oder \textit{niedrig} zuweisen. 
-& S2.3 Als Product Owner kann ich einer User Story die Priorität \textit{hoch}, \textit{normal} oder \textit{niedrig} zuweisen, sodass das Team an den wichtigsten Aufgaben arbeitet. \\
+& 2.2 Der Product Owner kann einer User Story die Priorität \textit{hoch}, \textit{normal} oder \textit{niedrig} zuweisen. 
+& S2.2 Als Product Owner kann ich einer User Story die Priorität \textit{hoch}, \textit{normal} oder \textit{niedrig} zuweisen, sodass in der Sprintplanung berücksichtigt werden kann, welche User Stories am dringendsten implementiert werden müssen.\\
 \cline{2-4}
 
 & 3. Task Management: Erlaubt dem Team Tasks als Verfeinerung der User Stories zu erstellen (und entsprechend mit den User Stories zu verlinken). Erlaubt dem Team Tasks zu priorisieren und als \textit{complete} oder \textit{incomplete} zu markieren.
-& 3.1 Das Team kann Tasks erstellen.
-& S3.1 Als Teammitglied kann ich Tasks erstellen, sodass User Stories in konkrete Arbeitsschritte aufgeteilt werden. \\
+& 3.1 Nutzer können Tasks in einem Backlog erstellen.
+& S3.1 Als Nutzer kann ich Tasks in einem Backlog erstellen, welche einem Backlog hinzugefügt werden, sodass User Stories in konkrete Arbeitsschritte aufgeteilt werden können. \\
 \cline{3-4}
 & 
 & 3.2 Tasks können mit User Stories verlinkt werden.
-& S3.2 Als Teammitglied kann ich Tasks mit User Stories verlinken, sodass der Zusammenhang zwischen Aufgaben und Anforderungen klar ist. \\
+& S3.2 Als Nutzer kann ich Tasks mit User Stories verlinken, sodass der Zusammenhang zwischen Tasks und User Stories klar ist. \\
 \cline{3-4}
 
 & 4. Task/User Story Listen: Erlauben dem Team mehrere Listen für Tasks und User Stories zu managen. Die Listen sollen helfen zwischen Projekt Backlog und Sprintbacklog zu unterscheiden. Zusätzlich soll zwischen folgenden unterschieden werden: Tasks in Bearbeitung, Tasks unter Review, Tasks unter Test, und fertiggestellte Tasks. Das Team soll in der Lage sein, Tasks zwischen den Listen hin- und her- zu bewegen.
-& 4.1 Tasks und User Stories können in mehreren Listen verwaltet werden.
-& S4.1 Als Teammitglied kann ich Tasks und User Stories in mehreren Listen verwalten, sodass eine übersichtliche Organisation möglich ist. \\
+& 4.1 Nutzer können Backlogs erstellen.
+& S4.1 Als Nutzer kann ich Backlogs erstellen, damit ich die geplanten User Stories und Tasks des jeweiligen Sprints dort sammeln kann.\\
+\cline{3-4}
+&
+& 4.2 Tasks werden in einem Backlog in Tasklisten mit dazugehörigem Status \textit{Wartet}, \textit{In Bearbeitung}, \textit{Review}, \textit{Test} oder \textit{Fertiggestellt} gesammelt.
+& S4.2.1 Als Nutzer kann ich in einem Backlog Tasks in Tasklisten mit dazugehörigem Status \textit{Wartet}, \textit{In Bearbeitung}, \textit{Review}, \textit{Test} oder \textit{Fertiggestellt} organisieren, damit alle Nutzer einen Überblick über den aktuellen Bearbeitungsstand einer Task erhalten können.\\
 \cline{3-4}
 & 
-& 4.2 Tasks werden nach den Status \textit{Wartet}, \textit{In Bearbeitung}, \textit{Review}, \textit{Test} und \textit{Fertiggestellt} unterschieden.
-& S4.2 Als Teammitglied kann ich den Status von Tasks erkennen, sodass ich den aktuellen Bearbeitungsstand sehe. \\
+& 4.3 Tasks können von einem Backlog in ein anderes Backlog verschoben werden.
+& S4.3 Als Nutzer kann ich Tasks von einem Backlog in ein anderes Backlog verschieben, damit in der Sprint Planung eine Zuordnung von Tasks zu Sprints möglich ist.\\
 \cline{3-4}
-& 
-& 4.3 Tasks können zwischen den Listen verschoben werden.
-& S4.3 Als Teammitglied kann ich Tasks zwischen Listen verschieben, sodass der Workflow flexibel angepasst werden kann. \\
-\cline{2-4}
+&
+& 4.4 Tasks können von einer Taskliste mit Zustand in eine andere Taskliste mit Zustand verschoben werden.
+& S4.4 Als Nutzer kann ich eine Task von einer Taskliste mit Zustand in eine andere Taskliste mit Zustand verschieben, um den Zustand der Task an den aktuellen Bearbeitungsstand anpassen zu können.\\
 
+\cline{2-4}
 & 5. Nutzer Profile: Nutzer sollen Profile mit persönlichen Informationen haben (z.B. Name und Rolle (Tester, PO, Entwickler, ...) die Sie ansehen und editieren können.
 & 5.1 Nutzer besitzen Profile mit persönlichen Informationen (Name, Rolle, E-Mail, Telefonnummer, Straße, Hausnummer).
-& S5.1 Als Nutzer habe ich ein Profil mit persönlichen Informationen, sodass mich andere Teammitglieder identifizieren und kontaktieren können. \\
+& S5.1 Als Nutzer habe ich ein Profil mit persönlichen Informationen (Name, Rolle, E-Mail, Telefonnummer, Straße, Hausnummer), sodass mich andere Teammitglieder identifizieren und kontaktieren können. \\
 \cline{3-4}
 & 
 & 5.3 Nutzer können ihre Profile ansehen.
@@ -127,34 +127,34 @@
 \cline{3-4}
 & 
 & 5.4 Nutzer können den Namen, die E-Mail, die Telefonnummer, die Straße und die Hausnummer ändern.
-& S5.4 Als Nutzer kann ich mein Profil editieren, sodass meine Informationen aktuell bleiben. \\
+& S5.4 Als Nutzer kann ich meinen Namen, meine E-Mail, meine Telefonnummer, meine Straße und meine Hausnummer editieren, sodass meine Informationen aktuell bleiben. \\
 \cline{2-4}
 
 & 6. Nutzer-Task Zuordnung: Das System erlaubt es eine Zuordnung von Nutzern zu Tasks zu definieren, die auf dem Task-Board zu sehen ist.
 & 6.1 Nutzer können Tasks zugeordnet werden.
-& S6.1 Als Teammitglied kann ich Nutzer zu Tasks zuordnen, sodass klar ist, wer woran arbeitet. \\
+& S6.1 Als Nutzer kann ich mehrere Nutzer einer Task zuordnen, sodass klar ist, wer woran arbeitet. \\
 \cline{3-4}
 & 
 & 6.2 Die Zuordnung von Nutzern zu Tasks wird im Task-Board angezeigt.
-& S6.2 Als Teammitglied kann ich die Zuordnung von Nutzern zu Tasks im Task-Board sehen, sodass die Verantwortlichkeiten transparent sind. \\
+& S6.2 Als Nutzer kann ich die Zuordnung von Nutzern zu Tasks im Task-Board sehen, sodass die Verantwortlichkeiten transparent sind. \\
 \cline{2-4}
 
 & 7. Pair-programming Planung: Um Pair-Programming zu planen, soll es möglich sein, mehrere Nutzer zu einer Task zuzuordnen.
-& 7.1 Mehrere Nutzer können einer Task zugeordnet werden.
-& S7.1 Als Teammitglied kann ich mehrere Nutzer einer Task zuordnen, sodass Pair-Programming und Teamarbeit unterstützt werden. \\
+& -
+& - \\
 \cline{2-4}
 
 & 8. Schätzungstracking: Das System erlaubt dem Team Tasks mit Aufwandsschätzungen zu annotieren. Wenn Tasks beendet werden kann zudem annotieret werden wie lange die Lösung der Task tatsächlich gedauert hat. Das Schätzungstracking soll eine Visualisierung bereitstellen die zusammenfasst, wie sehr sich Schätzungen und tatsächliche Bearbeitungszeiten unterscheiden um dem Team die Möglichkeit zu geben, ihre Schätzungen über die Zeit zu verbessern.
 & 8.1 Tasks können mit Aufwandsschätzungen versehen werden.
-& S8.1 Als Teammitglied kann ich Tasks mit Aufwandsschätzungen versehen, sodass die Planung realistischer wird. \\
+& S8.1 Als Nutzer kann ich Tasks mit Aufwandsschätzungen versehen, sodass der Umfang des Sprints in der Sprint Planung besser geplant werden kann. \\
 \cline{3-4}
 & 
 & 8.2 Die tatsächliche Bearbeitungszeit abgeschlossener Tasks kann erfasst werden.
-& S8.2 Als Teammitglied kann ich die tatsächliche Bearbeitungszeit erfassen, sodass wir aus Erfahrungen lernen können. \\
+& S8.2 Als Nutzer kann ich die tatsächliche Bearbeitungszeit erfassen, sodass die Differenz der Schätzung und der tatsächlichen Bearbeitungszeit ermittelt werden kann. \\
 \cline{3-4}
 & 
 & 8.3 Abweichungen zwischen Schätzung und tatsächlicher Bearbeitungszeit werden in einem Balkendiagramm visualisiert.
-& S8.3 Als Teammitglied kann ich Abweichungen zwischen Schätzung und Realität in einem Balkendiagramm sehen, sodass die Bearbeitungszeit in Zukunft realistischer geschätzt werden kann.\\ 
+& S8.3 Als Nutzer kann ich Abweichungen zwischen Schätzung und Realität in einem Balkendiagramm sehen, sodass die Bearbeitungszeit in Zukunft realistischer geschätzt werden kann.\\ 
 \cline{2-4}
 
 & 9. Suche und Filter: Das System bietet Such- und Filterfunktionen an um Nutzern zu helfen Tasks zu finden.
@@ -167,12 +167,8 @@
 \cline{2-4}
 
 & 10. Benachrichtigungen: Basierend auf den Schätzungen des Teams, sendet das System eine E-Mail oder in-system Benachrichtigung, um Nutzer an Tasks zu erinnern die bald beendet sein müssen.
-& 10.1 Nutzer werden an bald fällige Tasks erinnert.
-& S10.1 Als Nutzer werde ich an bald fällige Tasks erinnert, sodass ich keine Deadlines verpasse. \\
-\cline{3-4}
-& 
-& 10.2 Das System sendet interne Benachrichtigungen, welche den Nutzer an fällige Tasks erinnern.
-& S10.2 Als Nutzer erhalte ich Benachrichtigungen im System, sodass ich alle Informationen über das Projekt an einem Ort habe. \\
+& 10.1 Das System sendet interne Benachrichtigungen, welche den Nutzer an Tasks erinnert, die bald beendet werden müssen.
+& S10.1 Als Nutzer erhalte ich in-system Benachrichtigungen über Tasks, die bald beendet werden müssen. \\
 \cline{2-4}
 
 & 11. Agile Practices: Das Tool soll so viele Agile Practices wie möglich unterstützen.
