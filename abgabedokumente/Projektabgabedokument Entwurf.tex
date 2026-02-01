@@ -100,4 +100,39 @@ Die Gesamtheit der Use Cases kann der Abbildung ... entnommen werden.\\ %TODO
 Die entwickelten User Stories werden in das Gitlab übertragen.
 Während der Sprint Plaung werden diese dann in ausführbare Aufgaben übersetzt.
 
+\section{Technologien}
+Bei der Auswahl von Frameworks und Bibliotheken haben wir einen minimalistischen Ansatz gewählt.
+Das bedeutet, wir werden nur dort Frameworks und Bibliotheken einsetzen, wo eine deutliche Reduzierung der Komplexität und Zeitersparnis zu erwarten ist.
+Damit erhoffen wir uns, die Zeit, welche für die Einarbeitung in komplexe Frameworks und Bibliotheken benötigt wird, zu sparen und diese in die Implementierung von Funktionalitäten einfliesen lassen zu können.
+
+\subsection{Frontend}
+Für die Umsetzung des Frontends haben wir uns entschieden, serverseitig gerenderte HTML-Templates einzusetzen.
+Hierfür wird eine Template-Engine benötigt, welche die Templates im Backend rendert.
+Gewählt haben wir \textit{Mustache}.
+Grundlage wir diese Entscheidung war die simple Syntax und die Unterstützung unserer gewählten Programmiersprache im Backend.
+
+\subsection{Backend}
+Eine Vorgabe für diese Projektarbeit ist es, das Backend in einer objektorientierten Sprache zu implementieren.
+Wir haben uns für die Programmiersprache \textit{Java} entschieden.
+Diese Programmiersprache ist allen Teammitgliedern bekannt und bietet eine umfangreiche Auswahl an Bibliotheken und Frameworks, welche die Entwicklung vereinfachen.\\
+Da wir mit verschiedenen Frameworks und Bibliotheken arbeiten werden, haben wir uns dazu entschieden das Build-Werkzeug \textit{Maven} einzusetzen.
+\textit{Maven} vereinfacht das Hinzufügen von neuen Bibliotheken und das Kompilieren der Anwendung enorm.\\
+Um die Entwicklung des Backends zu vereinfachen, haben wir uns für den Einsatz des Web-Frameworks \textit{Javalin} entschieden.
+Die flache Lernkurve beim Erlernen dieses Framworks und die Leichtgewichtigkeit sind die ausschlaggebenden Aspekte, die uns zu dieser Entscheidung bewegt haben.\\
+Für Unit-Tests und Integrationstests werden wir das Test-Framework JUnit verwenden.
+Dieses Framework ist allen Teammitgliedern bekannt und erfordert somit keine Einarbeitungszeit.
+Daher haben wir uns für den Einsatz dieses Frameworks entschieden.\\
+Aufgrund unseres minimalistischen Ansatzes bei der Auswahl von Frameworks und Bibliotheken haben wir uns gegen den Einsatz eines ORM-Frameworks entschieden.
+Ein solches Framework würde eine hohe Einarbeitungszeit für alle Teammitglieder erfordern.
+Dieser Zeitaufwand würde sich nach aktuellem Kenntnisstand nicht amortisieren.
+Wir denken, dass die Verwendung der mitgelieferten SQL-API der gewählten Programmiersprache für den Umfang des Projektes ausreichend ist.
+
+\subsection{Datenbank}
+Wir haben uns für den Einsatz der eingebetteten relationalen Datenbank \textit{SQLite} entschieden.
+Zum einen erleichtert diese den Entwicklungsprozess enorm, da kein separater lokaler oder externer Server beim Ausführen der Anwendung gestartet werden muss.
+Zum anderen ist diese Datenbank für die Zwecke dieses Projektes vollkommen ausreichend.
+Eine Datenbank mit Client-Server-Architektur würde nur dann sinnvoller sein, wenn auch außerhalb der Anwendung auf die Daten zugegriffen werden oder die Anwendung eine sehr hohe Anzahl an Nutzern unterstützen muss.
+Beide Kriterien sind im Rahmen dieses Projektes nicht erfüllt.
+Daher haben wir uns für eine SQLite-Datenbank entschieden.
+
 \end{document}
