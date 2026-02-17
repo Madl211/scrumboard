@@ -8,11 +8,13 @@
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{graphicx}
 \usepackage{float}
-\usepackage{multirow}
+%\usepackage{multirow}
 \usepackage{pdflscape}
 \usepackage{array}
 \usepackage{enumitem}
 \usepackage{longtable}
+\usepackage{graphics}
+\usepackage{wrapfig}
 
 \begin{document}
 
@@ -99,6 +101,87 @@ Daher soll die genannte Zahl als fiktiv betrachtet werden.\\
 Die Gesamtheit der Use Cases kann der Abbildung ... entnommen werden.\\ %TODO
 Die entwickelten User Stories werden in das Gitlab übertragen.
 Während der Sprint Plaung werden diese dann in ausführbare Aufgaben übersetzt.
+
+\section{Entwurf der Architektur}
+
+\subsection{Geplantes Architekturmuster und geplante Hauptkomponenten}
+
+Wir haben uns für die Schichtenarchitektur entschieden, da wir hier die seperation of concernssicherstellen können. Außerdem ist können wir die Abstraktion unserer Komponenten einfachdarstellen und umsetzen. Die Modularität ist hier vom Vorteil, da wir dadurch einfacher Schichtenaustauschen / Löschen können, falls es zu Fehlern oder anderen Problemen mit einzelnen Schichten im Verlaufe der Entwicklung oder nach Veröffentlichung kommen sollte.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{schichten}
+	\caption{Die gewählte Schichtenarchitektur}
+\end{figure}
+
+\subsubsection{DATA-Layer} 
+\begin{itemize}
+	\item Task-Klasse:\\
+	Dies ist die Hauptklasse für Tasks, um dort Regeln und das Grundkonstrukt einer Taskfestzulegen.
+	\item User-Klasse:\\
+	Dies ist die abstrakte Klasse für unsere Benutzer, dort wird festgelegt was einen Benutzerausmacht.
+	\item Tasks-Listenobjekt:\\
+	Dies ist die Sammlung aller Tasks in der Datenbank.
+	\item Developer-Klasse:\\
+	Spezifierung des User, der default Nutzer.
+	\item Team-Klasse:\\
+	Objekte dieser Klasse enthalten Nutzer, um die Teamzugehörigkeit zu Speichern.
+	\item Corporation-Klasse:\\
+	Dies ist eine Spezifierung von Team und stellt das Unternehmen dar.
+	\item ScrumMaster-Klasse:\\
+	Spezifierung des User, der Scrummaster.
+	\item UserActions-Interfaces:\\
+	Dieses abstrakte Interface stellt die grundlegenden Methoden für die User zur Verfügung.
+	\item DeveloperActions-Interfaces:\\
+	Diese Spezifikation von UserActions stellt die Methoden für Developer zur Verfügung.
+	\item ScrumMasterActions-Interfaces:\\
+	Diese Spezifikation von DeveloperActions stellt alle Methoden für Scrummaster zurVerfügung. Sie übernimmt also alle „klassischen“ Methoden die auch die default Nutzerhaben und fügt Methoden hinzu, die nur der ScrumMaster hat.
+	\item „ ...“-Klasse:\\
+	Die „...“ Klasse haben wir angegeben im UML-Diagramm um darzustellen, dass es nochweitere Nutzer geben kann. (Die wir im Verlauf der Entwicklungsphase noch „finden“ )
+\end{itemize}
+
+\subsubsection{SERVICE-Layer}
+
+\begin{itemize}
+	\item UserService-Klasse: \\
+	Bereitstellen der Userdaten, durch Methoden die Daten(z.B. ScrumMaster, Developer,Team) aus DB abrufen.
+	\item Taskservice-Klasse: \\
+	Bereitstellen der Taskdaten, durch Methoden die Daten(z.B. Task) aus DB abrufen.
+	\item DBContext-Interface: \\
+	Bereitstellen der Methoden, um mit der Datenbank zu kommunizieren.
+\end{itemize}
+
+\subsubsection{PRESENTATION-Layer}
+
+\begin{itemize}
+	\item View-Klasse:\\
+	Umwandlung der Daten für den Application Layer.
+	\item UserView-Klasse :\\
+	Umwandlung speziell der Userdaten, für den Application Layer.
+	\item TaskView-Klasse :\\
+	Umwandlung speziell der Taskdaten, für den Application Layer.
+	\item Controller-Intferace:\\
+	Definiert unsere Methoden zwischen dem Service und der View.
+	\item UserController-Interface:\\
+	Spezifiziert die Methoden des Interfaces Controller, um die Methoden die speziell für Usergebraucht werden.
+	\item TaskController-Interace :\\
+	Spezifiziert die Methoden des Interfaces Controller, um die Methoden die speziell für dieTasks / Bearbeitung der Tasks gebraucht werden.
+\end{itemize}
+
+\subsubsection{APPLICATION-Layer}
+
+\begin{itemize}
+	\item  Template-Klasse:\\
+	Diese Abstrakte Oberklasse ist für unsere Templates, die Daten dafür kommen aus unsererView(Presentation Layer) .
+	\item  InputHandler-Inteface:\\
+	Diese abstrakte Oberklasse stellt Methoden bereit, die verarbeitet die aktuellen Änderungenin der Eingabe und gibt dafür die Daten an die View(Pres. Layer) weiter, welche die Datendann weiter verarbeitet.
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{komponenten}
+	\caption{Die Hauptkomponenten innerhalb der Schichtenarchitektur}
+\end{figure}
 
 \section{Technologien}
 Bei der Auswahl von Frameworks und Bibliotheken haben wir einen minimalistischen Ansatz gewählt.
