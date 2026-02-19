@@ -182,6 +182,139 @@ Wir haben uns für die Schichtenarchitektur entschieden, da wir hier die seperat
 	\includegraphics[width=0.9\textwidth]{komponenten}
 	\caption{Die Hauptkomponenten innerhalb der Schichtenarchitektur}
 \end{figure}
+\subsection{Interfaces zwischen diesen Komponenten}
+
+\subsubsection{Erklärung Methoden und Operationen}
+
+\paragraph{UserActions}
+\begin{itemize}
+    \item \textbf{addUser(...)} -- Erstellt einen neuen Benutzer im System.
+    \item \textbf{getUser(password, username)} -- Authentifiziert einen Benutzer anhand seiner Zugangsdaten.
+    \item \textbf{resetPassword(username)} -- Setzt das Passwort eines Benutzers zurück.
+    \item \textbf{setUser(password, username)} -- Aktualisiert die Zugangsdaten eines Benutzers.
+\end{itemize}
+
+\paragraph{DeveloperActions}
+\begin{itemize}
+    \item \textbf{addUserstory(userstoryTitle, userstoryDescription, username)} -- Erstellt eine neue User Story im Backlog.
+    \item \textbf{getPriority()} -- Gibt die gesetzte Priorität einer User Story oder Task zurück.
+    \item \textbf{addTask(taskTitle, taskDescription, username, backlogID, tasklistID)} -- Erstellt eine neue Task und ordnet sie einem Backlog und einer Liste zu.
+    \item \textbf{linkUserstory(userstoryID, taskID)} -- Verknüpft eine Task mit einer User Story.
+    \item \textbf{setTaskPriority(taskID, priority)} -- Setzt die Priorität einer Task.
+    \item \textbf{addBacklog(name)} -- Erstellt ein neues Backlog.
+    \item \textbf{setStatus(taskID, status)} -- Ändert den Status einer Task (z.\,B.\ In Progress, Review).
+    \item \textbf{getStatus(taskID)} -- Gibt den aktuellen Status einer Task zurück.
+    \item \textbf{getTaskBacklogID(taskTitle, backlogID)} -- Ermittelt das Backlog einer bestimmten Task.
+    \item \textbf{addTasklist(tasklistTitle)} -- Erstellt eine neue Taskliste (z.\,B.\ Sprint Backlog).
+    \item \textbf{changeTasklist(taskID, tasklistID)} -- Verschiebt eine Task in eine andere Liste.
+    \item \textbf{getUserTask()} -- Gibt alle Tasks eines bestimmten Nutzers zurück.
+    \item \textbf{getTask()} -- Gibt eine bestimmte Task zurück.
+    \item \textbf{setTaskExpense(taskID, expense)} -- Speichert die Aufwandsschätzung einer Task.
+    \item \textbf{setTaskTime(taskID)} -- Speichert die tatsächlich benötigte Bearbeitungszeit.
+\end{itemize}
+
+\paragraph{ProductOwnerActions}
+\begin{itemize}
+    \item \textbf{setUserstoryPriority(priority)} -- Legt die Priorität einer User Story fest.
+\end{itemize}
+
+\paragraph{ScrumMasterActions}
+\begin{itemize}
+    \item \textbf{setUserRole(userID)} -- Weist einem Benutzer eine Rolle zu.
+    \item \textbf{setUserTask(userID, taskID)} -- Ordnet einem Benutzer eine Task zu.
+\end{itemize}
+
+\paragraph{DBContext}
+\begin{itemize}
+    \item \textbf{save()} -- Speichert ein Objekt in der Datenbank.
+    \item \textbf{update()} -- Aktualisiert ein bestehendes Objekt in der Datenbank.
+    \item \textbf{delete()} -- Löscht ein Objekt aus der Datenbank.
+    \item \textbf{findById()} -- Sucht ein Objekt anhand seiner ID.
+    \item \textbf{findAll()} -- Gibt alle Objekte eines Typs zurück.
+    \item \textbf{beginTransaction()} -- Startet eine Datenbanktransaktion.
+    \item \textbf{commit()} -- Bestätigt eine Transaktion dauerhaft.
+    \item \textbf{rollback()} -- Macht eine Transaktion rückgängig.
+\end{itemize}
+
+\paragraph{Controller}
+\begin{itemize}
+    \item \textbf{handleRequest()} -- Verarbeitet eine eingehende Anfrage vom Application Layer.
+    \item \textbf{updateView()} -- Aktualisiert die Darstellung in der View.
+    \item \textbf{notifyError()} -- Informiert die View über einen Fehler.
+\end{itemize}
+
+\paragraph{UserController}
+\begin{itemize}
+    \item \textbf{registerUser()} -- Registriert einen neuen Benutzer.
+    \item \textbf{loginUser()} -- Meldet einen Benutzer im System an.
+    \item \textbf{logoutUser()} -- Meldet einen Benutzer ab.
+    \item \textbf{updateUserProfile()} -- Aktualisiert die Profildaten eines Benutzers.
+    \item \textbf{getUserTasks()} -- Gibt alle Tasks eines Benutzers zurück.
+    \item \textbf{getUserNotifications()} -- Gibt alle Benachrichtigungen eines Benutzers zurück.
+\end{itemize}
+
+\paragraph{TaskController}
+\begin{itemize}
+    \item \textbf{createTask()} -- Erstellt eine neue Task.
+    \item \textbf{updateTask()} -- Bearbeitet eine bestehende Task.
+    \item \textbf{moveTask()} -- Verschiebt eine Task in eine andere Liste.
+    \item \textbf{assignUser()} -- Ordnet einer Task einen Benutzer zu.
+    \item \textbf{estimateTask()} -- Speichert die Aufwandsschätzung einer Task.
+    \item \textbf{completeTask()} -- Markiert eine Task als abgeschlossen.
+    \item \textbf{searchTasks()} -- Sucht Tasks anhand bestimmter Kriterien.
+    \item \textbf{filterTasks()} -- Filtert Tasks nach bestimmten Eigenschaften.
+    \item \textbf{getTaskBoard()} -- Lädt die aktuelle Task-Board-Ansicht.
+    \item \textbf{getEstimationDashboard()} -- Zeigt die Auswertung von Schätzungen und tatsächlichem Aufwand an.
+\end{itemize}
+
+\paragraph{InputHandler}
+\begin{itemize}
+    \item \textbf{processUserInput()} -- Verarbeitet Benutzereingaben aus der UI.
+    \item \textbf{validateInput()} -- Prüft Eingaben auf Korrektheit.
+    \item \textbf{dispatchToController()} -- Leitet die Eingabe an den passenden Controller weiter.
+    \item \textbf{handleRealtimeUpdate()} -- Reagiert auf Echtzeit-Updates anderer Nutzer.
+\end{itemize}
+
+\paragraph{LoginHandler}
+\begin{itemize}
+    \item \textbf{submitLogin()} -- Sendet Login-Daten zur Authentifizierung.
+    \item \textbf{submitRegistration()} -- Sendet Registrierungsdaten zur Erstellung eines Accounts.
+    \item \textbf{requestPasswordReset()} -- Fordert eine Passwort-Zurücksetzung an.
+    \item \textbf{confirmPasswordReset()} -- Bestätigt das neue Passwort nach Reset.
+    \item \textbf{navigateToHome()} -- Leitet nach erfolgreichem Login zur Startseite weiter.
+\end{itemize}
+
+\subsubsection{Begründung der Sequenzdiagramm-Auswahl}
+
+\paragraph{1.\ Login-Versuch}
+\begin{itemize}
+    \item \textbf{submitLogin(username, password)} -- Nimmt Benutzereingaben entgegen und initiiert den Login-Prozess.
+    \item \textbf{loginUser()} -- Koordiniert die Authentifizierung im Presentation Layer.
+    \item \textbf{getUser(password, username)} -- Führt die Authentifizierungslogik im Service Layer aus.
+    \item \textbf{findById(userID)} -- Sucht Benutzerdaten in der Datenbank.
+    \item \textbf{navigateToHome()} -- Leitet nach erfolgreichem Login weiter.
+\end{itemize}
+
+\paragraph{2.\ Username ändern}
+\begin{itemize}
+    \item \textbf{updateUserProfile()} -- Initiiert und koordiniert die Profiländerung.
+    \item \textbf{setUser(password, username)} -- Aktualisiert Zugangsdaten mit Businesslogik.
+    \item \textbf{beginTransaction()} -- Startet eine atomare Datenbanktransaktion.
+    \item \textbf{update()} -- Aktualisiert das Objekt in der Datenbank.
+    \item \textbf{commit()} -- Bestätigt die Transaktion dauerhaft.
+\end{itemize}
+
+\paragraph{3.\ Task verschieben}
+\begin{itemize}
+    \item \textbf{moveTask(taskID, targetList)} -- Nimmt die Task-Verschiebung entgegen.
+    \item \textbf{changeTasklist(taskID, tasklistID)} -- Führt die Verschiebung im Service Layer aus.
+    \item \textbf{beginTransaction()} -- Startet eine Transaktion gegen konkurrierende Änderungen.
+    \item \textbf{update()} -- Aktualisiert die Task.
+    \item \textbf{commit()} -- Speichert die Änderung dauerhaft.
+    \item \textbf{refreshBoard()} -- Aktualisiert das Board für alle Nutzer.
+\end{itemize}
+
+
 
 \section{Technologien}
 Bei der Auswahl von Frameworks und Bibliotheken haben wir einen minimalistischen Ansatz gewählt.
