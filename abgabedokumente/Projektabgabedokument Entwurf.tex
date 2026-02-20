@@ -284,6 +284,14 @@ Wir haben uns für die Schichtenarchitektur entschieden, da wir hier die seperat
     \item \textbf{navigateToHome()} -- Leitet nach erfolgreichem Login zur Startseite weiter.
 \end{itemize}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{interfaces-verfeinert}
+	\caption{Verfeinerte Interfaces}
+\end{figure}
+
+\newpage
+
 \subsubsection{Begründung der Sequenzdiagramm-Auswahl}
 
 \paragraph{1.\ Login-Versuch}
@@ -295,6 +303,12 @@ Wir haben uns für die Schichtenarchitektur entschieden, da wir hier die seperat
     \item \textbf{navigateToHome()} -- Leitet nach erfolgreichem Login weiter.
 \end{itemize}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{loginversuch}
+	\caption{Login-Versuch}
+\end{figure}
+
 \paragraph{2.\ Username ändern}
 \begin{itemize}
     \item \textbf{updateUserProfile()} -- Initiiert und koordiniert die Profiländerung.
@@ -303,6 +317,12 @@ Wir haben uns für die Schichtenarchitektur entschieden, da wir hier die seperat
     \item \textbf{update()} -- Aktualisiert das Objekt in der Datenbank.
     \item \textbf{commit()} -- Bestätigt die Transaktion dauerhaft.
 \end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{username-ändern}
+	\caption{Username ändern}
+\end{figure}
 
 \paragraph{3.\ Task verschieben}
 \begin{itemize}
@@ -314,7 +334,13 @@ Wir haben uns für die Schichtenarchitektur entschieden, da wir hier die seperat
     \item \textbf{refreshBoard()} -- Aktualisiert das Board für alle Nutzer.
 \end{itemize}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{task-verschieben}
+	\caption{Task verschieben}
+\end{figure}
 
+\newpage
 
 \section{Technologien}
 Bei der Auswahl von Frameworks und Bibliotheken haben wir einen minimalistischen Ansatz gewählt.
