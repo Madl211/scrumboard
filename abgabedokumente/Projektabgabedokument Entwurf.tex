@@ -342,6 +342,32 @@ Wir haben uns für die Schichtenarchitektur entschieden, da wir hier die seperat
 
 \newpage
 
+\subsection{Datenstrukturen}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{Klassendiagramm_2.3 (1).jpg}
+	\caption{Klassendiagramm}
+\end{figure}
+\subsubsection{Klassen}
+Team (Klasse) besteht aus mehreren Usern (abstrakte Klasse). User besitzt die Subklassen Product Owner, Developer und Scrum Master.  Project Backlog (Klasse) besteht aus Listen und diese bestehen aus Tasks (Klasse). Eine Liste ist abstrakt und kann Entweder eine Backlog-Liste (Subklasse) sein (d.h. z.B. Sprint-Backlog-1) oder eine Status-Liste (Subklasse) (z.B. "Fertiggestellt", "In Bearbeitung"). Außerdem gibt es Klassen für Profile, Accounts, User-Story und Task-Board.
+\subsubsection{Beziehungen und Bezug zu Anforderungen}
+\begin{itemize}
+\item Zwischen Nutzer  und Account: Accounts anlegen (Anforderung 1.1), einloggen (1.2), Passwort zurücksetzen (1.3)
+\item Zwischen Nutzer und User Story: User Stories anlegen (2.1)
+\item Zwischen Nutzer und Task: erstellen (3.1), Priorität ändern(3.3), Nutzer Task zuordnen(6.1), Aufwandsschätzung(8.1), suchen (9.1), filtern (9.2)
+\item Zwischen Product Owner und User Story: Priorität ändern (2.2)
+\item Zwischen Task und User Story: Verlinkung (3.2)(ausgelöst durch Methode in User)
+\item Zwischen Nutzer und Backlog-Liste: erstellen(4.1)
+\item Zwischen Task und Liste: verschoben in(4.2,4.3,4.4)(ausgelöst durch Methode in User)
+\item Zwischen Nutzer und Profil: editieren(5.4: 5.1 und 5.3 implizit)
+\item Zwischen Task und Task-Board: Zuordnung anzeigen(6.2)
+\end{itemize}
+\subsubsection{Speichern}
+Gespeichert werden müssen die Daten zu User, Profil, Account, Task, User-Story und Liste. Die Übergabe an die Interfaces ist in 2.2 ersichtlich.
+
+
+
 \section{Technologien}
 Bei der Auswahl von Frameworks und Bibliotheken haben wir einen minimalistischen Ansatz gewählt.
 Das bedeutet, wir werden nur dort Frameworks und Bibliotheken einsetzen, wo eine deutliche Reduzierung der Komplexität und Zeitersparnis zu erwarten ist.
