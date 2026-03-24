@@ -1,0 +1,156 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{pdflscape}
+\usepackage{longtable}
+
+\geometry{a4paper, margin=1.5cm, landscape}
+
+% Farben definieren
+\definecolor{headercolor}{RGB}{69, 90, 100}
+\definecolor{userstorycolor}{RGB}{178, 170, 191}
+\definecolor{taskcolor}{RGB}{109, 104, 117}
+
+\begin{document}
+
+\section*{Sprint 1}
+
+\renewcommand{\arraystretch}{1.8}
+\footnotesize
+\begin{longtable}{|>{\columncolor{userstorycolor}}p{5cm}|p{3.8cm}|p{3.3cm}|p{3.3cm}|p{3.3cm}|}
+\hline
+\rowcolor{headercolor}
+\textcolor{white}{\textbf{User Stories}} & \textcolor{white}{\textbf{Tasks}} & \textcolor{white}{\textbf{Tasks in Progress}} & \textcolor{white}{\textbf{Tasks Completed}} & \textcolor{white}{\textbf{Tasks Closed}} \\
+\hline
+\endfirsthead
+
+\multicolumn{5}{c}%
+{{\tablename\ \thetable{} -- Fortsetzung}} \\
+\hline
+\rowcolor{headercolor}
+\textcolor{white}{\textbf{User Stories}} & \textcolor{white}{\textbf{Tasks}} & \textcolor{white}{\textbf{Tasks in Progress}} & \textcolor{white}{\textbf{Tasks Completed}} & \textcolor{white}{\textbf{Tasks Closed}} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{5}{r}{{Fortsetzung auf nächster Seite}} \\
+\endfoot
+
+\hline
+\caption{Sprint Board - User Stories und Tasks}
+\endlastfoot
+\cellcolor{userstorycolor}\textbf{S1.1} Als Nutzer kann ich einen Account anlegen, sodass ich das System nutzen kann
+
+\textit{Aufwand: 3 h} & 
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize DB-Tabelle accounts}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Endpoint POST /register}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Passwort-Hashing}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Validierungslogik}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Registrierungs-Formular}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Fehlerbehandlung}}}
+& 
+& 
+& 
+\\
+\hline
+\cellcolor{userstorycolor}\textbf{S1.2} Als Nutzer kann ich mich einloggen, sodass ich auf meine persönlichen Daten und Tasks zugreifen kann
+
+\textit{Aufwand: 2 h } & 
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Session-Management}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Endpoint POST /login}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Passwort-Hash Abfrage}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Login-Formular}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Weiterleitung}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Fehlermeldung}}}
+& 
+& 
+& 
+\\
+\hline
+\cellcolor{userstorycolor}\textbf{S1.3} Als Nutzer kann ich mein Passwort zurücksetzen, sodass ich wieder Zugriff auf meinen Account erhalte
+
+\textit{Aufwand: 3 h} & 
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Tabelle reset\_tokens}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Endpoint /reset-request}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Token generieren}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize E-Mail simulieren}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Endpoint /reset-password}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Frontend-Formulare}}}
+& 
+& 
+& 
+\\
+\hline
+\cellcolor{userstorycolor}\textbf{S4.1} Als Nutzer kann ich Backlogs erstellen, damit ich die geplanten User Stories und Tasks des jeweiligen Sprints dort sammeln kann
+
+\textit{Aufwand: 2 h} & 
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize DB-Tabelle backlogs}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Endpoint POST /backlogs}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Frontend-Formular}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Weiterleitung}}}
+& 
+& 
+& 
+\\
+\hline
+\cellcolor{userstorycolor}\textbf{S5.1} Als Nutzer habe ich ein Profil mit persönlichen Informationen (Name, Rolle, E-Mail, Telefonnummer, Straße, Hausnummer), sodass mich andere Teammitglieder identifizieren und kontaktieren können
+
+\textit{Aufwand: 3 h} & 
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize DB-Tabelle profiles}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Endpoint GET /profile}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Endpoint PUT /profile}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Validierung Rolle}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Frontend-Profilseite}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Validieren \& Speichern}}}
+& 
+& 
+& 
+\\
+\hline
+\cellcolor{userstorycolor}\textbf{S6.1} Als Nutzer kann ich neue User Stories in einem Backlog anlegen, sodass alle User Stories zentral gesammelt werden können
+
+\textit{Aufwand: 2 h} & 
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize DB-Tabelle user\_stories}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Endpoint POST backlogs/\{id\}}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Berechtigungsprüfung}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Frontend-Formular}}} \vspace{0.05cm}
+
+\colorbox{taskcolor}{\textcolor{white}{\parbox{3.5cm}{\scriptsize Liste aktualisieren}}}
+& 
+& 
+& 
+\\
+\hline
+\end{longtable}
+
+\end{document}
