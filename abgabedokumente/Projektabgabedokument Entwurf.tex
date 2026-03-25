@@ -1,7 +1,5 @@
 \documentclass{article}
 
-\newcommand{\rnum}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
-
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[ngerman]{babel}
@@ -15,7 +13,10 @@
 \usepackage{longtable}
 \usepackage{graphics}
 \usepackage{wrapfig}
+\usepackage{hyperref}
+
 \newcommand{\gquote}[1][]{\glqq#1\grqq}
+\newcommand{\rnum}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
 
 \begin{document}
 
@@ -42,7 +43,7 @@
 \section{Initialer Backlog}
 
 Auf Grundlage der vorgegebenen Anforderungen haben wir eine Liste von verfeinerten Anforderungen und User-Stories erstellt.
-Zu finden ist das initiale Backlog im Verzeichnis \textit{anforderungen} im Dokument \linebreak \textit{anforderungen.pdf}.
+Zu finden ist das initiale Backlog im Verzeichnis \textit{anforderungen} im Dokument \linebreak \href{run:./../anforderungen/anforderungen.pdf}{anforderungen.pdf}, welches auch \href{https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/uebung3/team3/projekt-team3-uebung3/-/blob/main/anforderungen/anforderungen.pdf?ref_type=heads}{im Gitlab Repository} zu finden ist.
 Damit im weiteren Verlauf nachvollzogen werden kann, woher Anforderungen kommen, haben wir uns dazu entschieden jeder verfeinerten Anforderung und jeder User-Story eine ID zu geben.
 Verfeinerte Anforderungen haben IDs der Form \textit{xx.x}, wobei der erste Teil die ID der ursprünglichen Anforderung und der zweite Teil eine laufende Nummer für die resultierenden Anforderungen ist.
 User-Stories haben IDs der Form \textit{Sxx.x}.
@@ -107,7 +108,8 @@ Während der Sprint Plaung werden diese dann in ausführbare Aufgaben übersetzt
 
 \subsection{Geplantes Architekturmuster und geplante Hauptkomponenten}
 
-Wir haben uns für eine Schichtenarchitektur entschieden, da sie das Prinzip der \textit{Separation of Concerns} implementiert. Dabei übernimmt jede Schicht eine Funktionalität innerhalb der Anwendung, ohne dass andere Schichten die konkrete Implementierung kennen oder berücksichtigen müssen. Sie müssen nur über eine eindeutig definierte Schnittstelle verfügen, die die Kommunikation mit den Schichten \gquote[über]/\gquote[unter] dieser erlaubt. Außerhalb davon erlaubt uns die Schichtenarchitektur die Implementierung der Funktionalitäten innerhalb der Schichten anzupassen, ohne andere Schichten zu beeinflussen, solange die Schnittstellen zwischen den Schichten gleich bleiben. Für unsere Anwendung entschieden wir uns die Schichten entsprechend Abbildung \ref{fig:layers} zu wählen. Die \gquote[Verantwortungen] der jeweiligen Schichten sind im Folgenden stichpunktartig genauer dargestellt.
+Wir haben uns für eine Schichtenarchitektur entschieden, da sie das Prinzip der \textit{Separation of Concerns} implementiert. Dabei übernimmt jede Schicht eine Funktionalität innerhalb der Anwendung, ohne dass andere Schichten die konkrete Implementierung kennen oder berücksichtigen müssen. Sie müssen nur über eine eindeutig definierte Schnittstelle verfügen, die die Kommunikation mit den Schichten \gquote[über]/\gquote[unter] dieser erlaubt. Außerhalb davon erlaubt uns die Schichtenarchitektur die Implementierung der Funktionalitäten innerhalb der Schichten anzupassen, ohne andere Schichten zu beeinflussen, solange die Schnittstellen zwischen den Schichten gleich bleiben. Für unsere Anwendung entschieden wir uns die Schichten entsprechend Abbildung \ref{fig:layers} zu wählen. Die \gquote[Verantwortungen] der jeweiligen Schichten sind im Folgenden stichpunktartig genauer dargestellt. Abbildung \ref{fig:main_components} zeigt die Hauptkomponenten innerhalb der Schichtenarchitektur und wie sie vernetzt sind. 
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{schichten}
@@ -182,7 +184,9 @@ Wir haben uns für eine Schichtenarchitektur entschieden, da sie das Prinzip der
 	\centering
 	\includegraphics[width=0.9\textwidth]{komponenten}
 	\caption{Die Hauptkomponenten innerhalb der Schichtenarchitektur}
+	\label{fig:main_components}
 \end{figure}
+
 \subsection{Interfaces zwischen diesen Komponenten}
 
 \subsubsection{Erklärung Methoden und Operationen}
