@@ -1,0 +1,107 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage{geometry}
+\usepackage{parskip}
+
+\geometry{a4paper, margin=2.5cm}
+
+\begin{document}
+
+\section*{2.2 Modellierung für User Story S1.2: Einloggen}
+
+\subsection*{2.2.1 Modellierung verfeinerter Struktur}
+
+\subsubsection*{Überblick}
+
+Fuer diese User Story werden nur die Teile beschrieben, die direkt fuer den Login noetig sind. Die Loesung bleibt bewusst einfach und orientiert sich an der bestehenden 4-Schichten-Architektur mit Application, Presentation, Service und Data Layer.
+
+Die geplanten Tasks sind:
+\begin{itemize}
+	\item Session-Management
+	\item Endpoint \texttt{POST /login}
+	\item Passwort-Hash-Abfrage
+	\item Login-Formular
+	\item Weiterleitung
+	\item Fehlermeldung
+\end{itemize}
+
+\subsubsection*{Struktur des Systems}
+
+Im Application Layer befindet sich das \texttt{LoginForm}. Es stellt das Login-Formular bereit, nimmt Benutzername oder Email sowie Passwort entgegen und zeigt spaeter Erfolg oder Fehler an. Im Presentation Layer liegt der \texttt{UserController}. Er nimmt die Anfrage des Formulars ueber den Endpoint \texttt{POST /login} entgegen und uebergibt die Daten an die Fachlogik.
+
+Die eigentliche Login-Logik liegt im \texttt{LoginService}. Dort werden die Eingaben geprueft, der passende Account gesucht, der gespeicherte Passwort-Hash abgefragt und das eingegebene Passwort damit verglichen. Bei erfolgreichem Login wird zusaetzlich eine Session angelegt. Unterstuetzt wird der Service dabei durch einen \texttt{PasswordHasher}, einen \texttt{SessionManager} und ein \texttt{AccountRepository}. Im Data Layer greift das Repository auf die Tabelle \texttt{accounts} zu.
+
+\subsubsection*{Wichtige Klassen und Verantwortlichkeiten}
+
+Die Klasse \texttt{LoginForm} enthaelt die Eingabefelder \texttt{usernameOrEmail} und \texttt{password}. Ihre Aufgabe besteht darin, die Eingaben abzusenden und dem Nutzer Fehlermeldungen oder eine erfolgreiche Anmeldung anzuzeigen.
+
+Der \texttt{UserController} nimmt Login-Anfragen entgegen und gibt eine einfache Erfolgs- oder Fehlerantwort zurueck. Der \texttt{LoginService} enthaelt die zentrale Fachlogik. Er prueft, ob die Eingaben vollstaendig sind, sucht den passenden Account, vergleicht das Passwort mit dem gespeicherten Hash und startet bei Erfolg eine Session.
+
+Der \texttt{PasswordHasher} wird hier nicht zum Erzeugen eines neuen Passwort-Hashs genutzt, sondern fuer den Vergleich zwischen Eingabepasswort und gespeichertem Hash. Der \texttt{SessionManager} erstellt und verwaltet die Sitzung des eingeloggten Nutzers. Das \texttt{AccountRepository} uebernimmt den Zugriff auf die gespeicherten Account-Daten.
+
+\subsubsection*{Begruendung der Wahl}
+
+Diese Aufteilung ist einfach, aber ausreichend fuer die User Story. Sie unterstuetzt \textbf{Separation of Concerns}, weil Oberflaeche, Request-Verarbeitung, Fachlogik, Session-Verwaltung und Datenzugriff getrennt bleiben. Gleichzeitig ist sie erweiterbar, weil spaetere User Stories wie Passwort zuruecksetzen oder Profilverwaltung dieselben Bausteine weiterverwenden koennen.
+
+\subsubsection*{Eingesetzte Design Patterns}
+
+Es werden nur zwei einfache Muster genutzt:
+\begin{itemize}
+	\item \textbf{Repository Pattern:} \texttt{AccountRepository} kapselt den Datenbankzugriff.
+	\item \textbf{Service Pattern:} \texttt{LoginService} buendelt die Login-Logik.
+\end{itemize}
+
+Diese Wahl ist sinnvoll, weil der Login damit klar strukturiert ist, ohne das Modell unnoetig komplex zu machen.
+
+\newpage
+
+\subsection*{2.2.2 Modellierung verfeinerter Interfaces und Datenstrukturen}
+
+\subsubsection*{Schnittstellen und Datenstrukturen}
+
+Zwischen den Komponenten werden fuer den Login vor allem drei Datenstrukturen verwendet: \texttt{LoginDTO}, \texttt{LoginResult} und \texttt{Session}. Das \texttt{LoginDTO} enthaelt die vom Formular uebergebenen Eingaben, also Benutzername oder Email sowie das Passwort. Das \texttt{LoginResult} enthaelt die Antwort des Systems. Darin werden festgehalten, ob der Login erfolgreich war, welche Nachricht angezeigt werden soll und ob eine Weiterleitung erfolgen soll. Die Datenstruktur \texttt{Session} repraesentiert die aktive Sitzung eines angemeldeten Nutzers.
+
+Die wichtigste Methode des \texttt{UserController} ist \texttt{login(dto)}, wobei ein \texttt{LoginDTO} uebergeben und ein \texttt{LoginResult} zurueckgegeben wird. Der \texttt{LoginService} stellt ebenfalls eine \texttt{login(dto)}-Methode bereit. Der \texttt{PasswordHasher} besitzt eine Methode zur Pruefung des Passworts gegen den gespeicherten Hash. Der \texttt{SessionManager} stellt eine Methode zur Erstellung einer Session bereit und das \texttt{AccountRepository} besitzt eine Methode zum Suchen eines Accounts.
+
+\subsubsection*{Kommunikation zwischen den Komponenten}
+
+Der Ablauf des Logins ist einfach. Zuerst sendet das \texttt{LoginForm} die eingegebenen Daten an den Endpoint \texttt{POST /login}. Der \texttt{UserController} uebergibt diese Daten an den \texttt{LoginService}. Dort wird zunaechst geprueft, ob alle noetigen Eingaben vorhanden sind. Falls Eingaben fehlen, wird sofort ein \texttt{LoginResult} mit Fehlerstatus zurueckgegeben.
+
+Falls die Eingaben vollstaendig sind, sucht das \texttt{AccountRepository} den passenden Account und liest den gespeicherten Passwort-Hash. Anschliessend vergleicht der \texttt{PasswordHasher} das eingegebene Passwort mit dem gespeicherten Hash. Ist der Vergleich erfolgreich, erzeugt der \texttt{SessionManager} eine Session. Danach gibt der Controller eine Erfolgsantwort mit Weiterleitung an das Formular zurueck. Wenn der Account nicht gefunden wird oder das Passwort nicht passt, wird eine Fehlermeldung ausgegeben.
+
+\subsubsection*{Gespeicherte Datenstruktur}
+
+Die eigentlichen Account-Daten liegen weiterhin in der Tabelle \texttt{accounts}. Fuer den Login werden daraus insbesondere Benutzername, Email und \texttt{password\_hash} benoetigt. Zusaetzlich wird bei erfolgreichem Login eine Session gespeichert. Diese Session enthaelt mindestens eine Session-ID und die Zuordnung zum eingeloggten Account. Die Session kann serverseitig verwaltet werden und dient dazu, dass der Nutzer nach dem Login auf seine persoenlichen Daten und Tasks zugreifen kann.
+
+\subsubsection*{Passwort-Hash-Abfrage, Weiterleitung und Fehlermeldung}
+
+Die Passwort-Hash-Abfrage erfolgt nicht ueber ein neues Passwort, sondern ueber den Vergleich des eingegebenen Passworts mit dem in der Datenbank gespeicherten Hash. Dadurch wird das Passwort auch beim Login nie im Klartext gespeichert oder direkt verglichen.
+
+Die Weiterleitung erfolgt nach erfolgreichem Login auf die persoenliche Startseite oder das Scrum-Board des Nutzers. Damit wird direkt sichtbar, dass der Login erfolgreich war und die Sitzung aktiv ist.
+
+Die Fehlermeldung bleibt bewusst einfach. Typische Meldungen sind zum Beispiel, dass Eingaben fehlen, dass kein passender Nutzer gefunden wurde oder dass Benutzername beziehungsweise Email und Passwort nicht zusammenpassen.
+
+\subsubsection*{Begruendung der Interfaces und Datenstrukturen}
+
+\texttt{LoginDTO} ist sinnvoll, weil fuer den Login nur wenige Eingabedaten benoetigt werden. \texttt{LoginResult} ist sinnvoll, weil Erfolg, Fehler und Weiterleitung einheitlich zwischen Controller und Formular uebertragen werden. Die Datenstruktur \texttt{Session} ist notwendig, weil der Nutzer nach dem erfolgreichen Login identifiziert bleiben muss, um auf seine persoenlichen Daten und Tasks zugreifen zu koennen.
+
+Die Trennung in \texttt{LoginService}, \texttt{SessionManager} und \texttt{AccountRepository} ist fuer diese User Story ausreichend und gut begruendbar. Der Service steuert den Ablauf, der SessionManager verwaltet die Sitzung und das Repository uebernimmt die Datenabfrage. Damit bleibt das Modell einfach, klar und spaeter erweiterbar.
+
+\newpage
+
+\subsection*{2.2.3 Modellierung relevanter Verhaltensaspekte}
+
+\subsubsection*{Beschreibung des Verhaltens}
+
+Das zentrale Verhalten dieser User Story ist der Login-Ablauf. Der Nutzer fuellt das Login-Formular aus und sendet es ab. Danach werden die eingegebenen Daten geprueft. Falls Eingaben fehlen oder ungueltig sind, wird der Ablauf frueh beendet und dem Nutzer wird ein Fehler angezeigt. Sind die Eingaben formal korrekt, wird der passende Account gesucht und das eingegebene Passwort mit dem gespeicherten Hash verglichen.
+
+Wenn diese Pruefung erfolgreich ist, wird eine Session erstellt. Anschliessend wird der Nutzer auf seine persoenliche Seite weitergeleitet und kann auf seine Daten und Tasks zugreifen. Wenn kein passender Account gefunden wird oder das Passwort nicht stimmt, erhaelt der Nutzer eine Fehlermeldung und bleibt auf der Login-Seite.
+
+\subsubsection*{Begruendung der Verhaltensmodellierung}
+
+Fuer diese User Story ist vor allem die Reihenfolge der Verarbeitungsschritte wichtig. Deshalb steht inhaltlich der Ablauf von Eingabepruefung, Accountsuche, Passwort-Hash-Vergleich, Session-Erstellung und Weiterleitung im Mittelpunkt. Zusaetzlich sind die beiden wichtigsten Alternativen zu beachten: fehlgeschlagene Eingaben und fehlgeschlagene Authentifizierung.
+
+Weitere Verhaltensmodelle sind fuer diese User Story nicht zwingend noetig, weil der Ablauf insgesamt ueberschaubar bleibt. Es gibt nur einen Hauptprozess mit wenigen Entscheidungspunkten. Eine zusaetzliche, detaillierte Verhaltensmodellierung wuerde die Loesung eher aufblaehen, ohne einen grossen inhaltlichen Mehrwert zu schaffen.
+
+\end{document}
