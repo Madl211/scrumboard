@@ -15,6 +15,7 @@
 \usepackage{longtable}
 \usepackage{graphics}
 \usepackage{wrapfig}
+\newcommand{\gquote}[1][]{\glqq#1\grqq}
 
 \begin{document}
 
@@ -106,12 +107,12 @@ Während der Sprint Plaung werden diese dann in ausführbare Aufgaben übersetzt
 
 \subsection{Geplantes Architekturmuster und geplante Hauptkomponenten}
 
-Wir haben uns für die Schichtenarchitektur entschieden, da wir hier die seperation of concernssicherstellen können. Außerdem ist können wir die Abstraktion unserer Komponenten einfachdarstellen und umsetzen. Die Modularität ist hier vom Vorteil, da wir dadurch einfacher Schichtenaustauschen / Löschen können, falls es zu Fehlern oder anderen Problemen mit einzelnen Schichten im Verlaufe der Entwicklung oder nach Veröffentlichung kommen sollte.
-
+Wir haben uns für eine Schichtenarchitektur entschieden, da sie das Prinzip der \textit{Separation of Concerns} implementiert. Dabei übernimmt jede Schicht eine Funktionalität innerhalb der Anwendung, ohne dass andere Schichten die konkrete Implementierung kennen oder berücksichtigen müssen. Sie müssen nur über eine eindeutig definierte Schnittstelle verfügen, die die Kommunikation mit den Schichten \gquote[über]/\gquote[unter] dieser erlaubt. Außerhalb davon erlaubt uns die Schichtenarchitektur die Implementierung der Funktionalitäten innerhalb der Schichten anzupassen, ohne andere Schichten zu beeinflussen, solange die Schnittstellen zwischen den Schichten gleich bleiben. Für unsere Anwendung entschieden wir uns ,die Schichten entsprechend Abbildung \ref{fig:layers} zu wählen. Die \gquote[Verantwortungen] der jeweiligen Schichten sind im Folgenden stichpunktartig genauer dargestellt.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{schichten}
 	\caption{Die gewählte Schichtenarchitektur}
+	\label{fig:layers}
 \end{figure}
 
 \subsubsection{DATA-Layer} 
@@ -346,7 +347,7 @@ Wir haben uns für die Schichtenarchitektur entschieden, da wir hier die seperat
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=15cm]{Klassendiagramm_2.3 (1).jpg}
+	\includegraphics[width=15cm]{Klassendiagramm_2.3.jpg}
 	\caption{Klassendiagramm}
 \end{figure}
 \subsubsection{Klassen}
