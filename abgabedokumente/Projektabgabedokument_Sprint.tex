@@ -7,6 +7,8 @@
 
 \geometry{a4paper, margin=2.5cm}
 
+\graphicspath{{images/}}
+
 \begin{document}
 
 \begin{table}[h]
@@ -45,32 +47,32 @@ Die geplanten Tasks für diese User Story sind befinden sich im Sprintbacklog.
 
 Im Application Layer befindet sich das \texttt{RegistrationForm}, das die Nutzereingaben entgegennimmt und Erfolg oder Fehler anzeigt. Im Presentation Layer liegt der \texttt{UserController}, der ueber \texttt{POST /register} die Daten an die Fachlogik weitergibt. Die eigentliche Registrierungslogik liegt im \texttt{RegistrationService}, unterstuetzt durch \texttt{Validator}, \texttt{PasswordHasher} und \texttt{AccountRepository}. Im Data Layer greift das Repository auf die Tabelle \texttt{accounts} zu.
 
-Die Klasse \texttt{RegistrationForm} enthaelt die Felder \texttt{username}, \texttt{email}, \texttt{password} und \texttt{confirmPassword}. Der \texttt{UserController} nimmt Registrierungsanfragen entgegen und gibt Erfolgs- oder Fehlerantworten zurueck. Der \texttt{RegistrationService} prueft Eingaben, kontrolliert auf bereits existierende Accounts, ruft das Passwort-Hashing auf und speichert neue Accounts. Der \texttt{Validator} prueft Pflichtfelder, Email-Format und Passwortuebereinstimmung. Der \texttt{PasswordHasher} sorgt dafuer, dass Passwoerter nicht im Klartext gespeichert werden. Das \texttt{AccountRepository} uebernimmt den Datenbankzugriff.
+Die Klasse \texttt{RegistrationForm} enthaelt die Felder \texttt{username}, \texttt{email}, \texttt{password} und \texttt{confirmPassword}. Der \texttt{UserController} nimmt Registrierungsanfragen entgegen und gibt Erfolgs- oder Fehlerantworten zurueck. Der \texttt{RegistrationService} prueft Eingaben, kontrolliert auf bereits existierende Accounts, ruft das Passwort-Hashing auf und speichert neue Accounts. Der \texttt{Validator} prueft Pflichtfelder, Email-Format und Passwortuebereinstimmung. Der \texttt{PasswordHasher} sorgt dafür, dass Passwoerter nicht im Klartext gespeichert werden. Das \texttt{AccountRepository} uebernimmt den Datenbankzugriff.
 
-Diese Aufteilung unterstuetzt \textbf{Separation of Concerns} und ist erweiterbar fuer spaetere User Stories. Als Design Patterns kommen das \textbf{Repository Pattern} (\texttt{AccountRepository}) und das \textbf{Service Pattern} (\texttt{RegistrationService}) zum Einsatz.
+Diese Aufteilung unterstuetzt \textbf{Separation of Concerns} und ist erweiterbar für spaetere User Stories. Als Design Patterns kommen das \textbf{Repository Pattern} (\texttt{AccountRepository}) und das \textbf{Service Pattern} (\texttt{RegistrationService}) zum Einsatz.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{2_1_story1.png}
-    \caption{Verfeinerte Struktur fuer User Story S1.1: Account anlegen}
+    \caption{Verfeinerte Struktur für User Story S1.1: Account anlegen}
 \end{figure}
 
 \subsubsection{Modellierung verfeinerter Interfaces und Datenstrukturen}
 
-Fuer die Kommunikation zwischen den Komponenten werden zwei zentrale Datenstrukturen verwendet: \texttt{RegisterDTO} und \texttt{RegisterResult}.
+Für die Kommunikation zwischen den Komponenten werden zwei zentrale Datenstrukturen verwendet: \texttt{RegisterDTO} und \texttt{RegisterResult}.
 
 Das \texttt{RegisterDTO} enthaelt die Felder \texttt{username}, \texttt{email}, \texttt{password} und \texttt{confirmPassword}. Es wird vom \texttt{RegistrationForm} an den \texttt{UserController} uebergeben und bildet die Eingabedaten der Registrierung ab. Das \texttt{RegisterResult} enthaelt ein \texttt{success}-Flag, eine \texttt{message} und eine Liste von \texttt{errors}. Es dient als einheitliche Rueckgabe von Controller an Formular.
 
-Die Interfaces zwischen den Komponenten sind wie folgt verfeinert: Der \texttt{UserController} stellt die Methode \texttt{register(dto: RegisterDTO): RegisterResult} bereit, die die Anfrage ueber \texttt{POST /register} entgegennimmt und an den Service delegiert. Der \texttt{RegistrationService} bietet ebenfalls eine Methode \texttt{register(dto: RegisterDTO): RegisterResult}, die Validierung, Duplikatspruefung, Hashing und Speicherung durchfuehrt. Der \texttt{Validator} stellt \texttt{validate(dto: RegisterDTO): List<String>} bereit, um Pflichtfelder, Email-Format und Passwortuebereinstimmung zu pruefen. Der \texttt{PasswordHasher} bietet \texttt{hash(password: String): String} zum Erzeugen eines sicheren Hashs. Das \texttt{AccountRepository} verfuegt ueber \texttt{findByUsername(username: String): Account?} und \texttt{findByEmail(email: String): Account?} fuer die Duplikatspruefung sowie \texttt{save(account: Account): void} zum Speichern eines neuen Accounts.
+Die Interfaces zwischen den Komponenten sind wie folgt verfeinert: Der \texttt{UserController} stellt die Methode \texttt{register(dto: RegisterDTO): RegisterResult} bereit, die die Anfrage ueber \texttt{POST /register} entgegennimmt und an den Service delegiert. Der \texttt{RegistrationService} bietet ebenfalls eine Methode \texttt{register(dto: RegisterDTO): RegisterResult}, die Validierung, Duplikatspruefung, Hashing und Speicherung durchfuehrt. Der \texttt{Validator} stellt \texttt{validate(dto: RegisterDTO): List<String>} bereit, um Pflichtfelder, Email-Format und Passwortuebereinstimmung zu pruefen. Der \texttt{PasswordHasher} bietet \texttt{hash(password: String): String} zum Erzeugen eines sicheren Hashs. Das \texttt{AccountRepository} verfuegt ueber \texttt{findByUsername(username: String): Account?} und \texttt{findByEmail(email: String): Account?} für die Duplikatspruefung sowie \texttt{save(account: Account): void} zum Speichern eines neuen Accounts.
 
 Gespeichert wird die Datenstruktur \texttt{Account} in der Tabelle \texttt{accounts}. Sie enthaelt \texttt{id} (eindeutig), \texttt{username} (eindeutig), \texttt{email} (eindeutig) und \texttt{password\_hash}. Das Passwort wird ausschliesslich als Hash gespeichert. Benutzername und Email muessen eindeutig sein, um doppelte Accounts zu verhindern.
 
-\texttt{RegisterDTO} ist bewusst von \texttt{Account} getrennt, weil das Feld \texttt{confirmPassword} nur fuer die Validierung benoetigt und nicht persistiert wird. \texttt{RegisterResult} ermoeglicht eine einheitliche Fehler- und Erfolgskommunikation zwischen Controller und Frontend. Die Methoden des \texttt{AccountRepository} sind gezielt auf die Anforderungen der Registrierung zugeschnitten: Duplikatspruefung per \texttt{findBy}-Methoden und Persistierung per \texttt{save}.
+\texttt{RegisterDTO} ist bewusst von \texttt{Account} getrennt, weil das Feld \texttt{confirmPassword} nur für die Validierung benoetigt und nicht persistiert wird. \texttt{RegisterResult} ermoeglicht eine einheitliche Fehler- und Erfolgskommunikation zwischen Controller und Frontend. Die Methoden des \texttt{AccountRepository} sind gezielt auf die Anforderungen der Registrierung zugeschnitten: Duplikatspruefung per \texttt{findBy}-Methoden und Persistierung per \texttt{save}.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{2_2_story1.png}
-    \caption{Verfeinerte Interfaces und Datenstrukturen fuer User Story S1.1: Account anlegen}
+    \caption{Verfeinerte Interfaces und Datenstrukturen für User Story S1.1: Account anlegen}
 \end{figure}
 
 \subsubsection{Modellierung relevanter Verhaltensaspekte}
@@ -82,7 +84,7 @@ Auf weitere Verhaltensdiagramme wie State Machines oder Aktivitaetsdiagramme wir
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{2_3_story1.png}
-    \caption{Sequenzdiagramm fuer User Story S1.1: Account anlegen}
+    \caption{Sequenzdiagramm für User Story S1.1: Account anlegen}
 \end{figure}
 
 \newpage
@@ -91,19 +93,19 @@ Auf weitere Verhaltensdiagramme wie State Machines oder Aktivitaetsdiagramme wir
 
 \subsubsection{Modellierung verfeinerter Struktur}
 
-Fuer den Login wird die bestehende 4-Schichten-Architektur um folgende Klassen erweitert: Im Application Layer nimmt das \texttt{LoginForm} (Felder: \texttt{usernameOrEmail}, \texttt{password}) die Nutzereingaben entgegen. Im Presentation Layer delegiert der \texttt{UserController} ueber \texttt{POST /login} an den \texttt{LoginService} im Service Layer, der die zentrale Fachlogik enthaelt: Eingabepruefung, Accountsuche, Passwort-Hash-Vergleich und Session-Erstellung. Unterstuetzt wird er durch den \texttt{PasswordHasher} (hier fuer den Vergleich, nicht fuer die Erzeugung), den \texttt{SessionManager} (Sitzungsverwaltung) und das \texttt{AccountRepository} (Datenbankzugriff auf Tabelle \texttt{accounts}) im Data Layer.
+Für den Login wird die bestehende 4-Schichten-Architektur um folgende Klassen erweitert: Im Application Layer nimmt das \texttt{LoginForm} (Felder: \texttt{usernameOrEmail}, \texttt{password}) die Nutzereingaben entgegen. Im Presentation Layer delegiert der \texttt{UserController} ueber \texttt{POST /login} an den \texttt{LoginService} im Service Layer, der die zentrale Fachlogik enthaelt: Eingabepruefung, Accountsuche, Passwort-Hash-Vergleich und Session-Erstellung. Unterstuetzt wird er durch den \texttt{PasswordHasher} (hier für den Vergleich, nicht für die Erzeugung), den \texttt{SessionManager} (Sitzungsverwaltung) und das \texttt{AccountRepository} (Datenbankzugriff auf Tabelle \texttt{accounts}) im Data Layer.
 
-Die Komponenten \texttt{PasswordHasher} und \texttt{AccountRepository} werden aus User Story S1.1 wiederverwendet, was die Erweiterbarkeit der Architektur bestaetigt. Neu hinzu kommen \texttt{LoginService} und \texttt{SessionManager}. Diese Aufteilung unterstuetzt \textbf{Separation of Concerns}, da Oberflaeche, Fachlogik, Session-Verwaltung und Datenzugriff klar getrennt bleiben. Als Design Patterns kommen das \textbf{Repository Pattern} (\texttt{AccountRepository}) und das \textbf{Service Pattern} (\texttt{LoginService}) zum Einsatz -- konsistent zur Registrierung und erweiterbar fuer spaetere User Stories wie Passwort zuruecksetzen.
+Die Komponenten \texttt{PasswordHasher} und \texttt{AccountRepository} werden aus User Story S1.1 wiederverwendet, was die Erweiterbarkeit der Architektur bestaetigt. Neu hinzu kommen \texttt{LoginService} und \texttt{SessionManager}. Diese Aufteilung unterstuetzt \textbf{Separation of Concerns}, da Oberflaeche, Fachlogik, Session-Verwaltung und Datenzugriff klar getrennt bleiben. Als Design Patterns kommen das \textbf{Repository Pattern} (\texttt{AccountRepository}) und das \textbf{Service Pattern} (\texttt{LoginService}) zum Einsatz  konsistent zur Registrierung und erweiterbar für spaetere User Stories wie Passwort zuruecksetzen.
 
 \subsubsection{Modellierung verfeinerter Interfaces und Datenstrukturen}
 
-Fuer den Login werden drei Datenstrukturen zwischen den Komponenten ausgetauscht: \texttt{LoginDTO} (Felder: \texttt{usernameOrEmail}, \texttt{password}), \texttt{LoginResult} (Felder: \texttt{success}, \texttt{message}, \texttt{redirectUrl}) und \texttt{Session} (Felder: \texttt{sessionId}, \texttt{accountId}). Das \texttt{LoginDTO} bildet die Eingabedaten ab, das \texttt{LoginResult} dient als einheitliche Rueckgabe fuer Erfolg und Fehler, und die \texttt{Session} repraesentiert die aktive Sitzung nach erfolgreichem Login.
+Für den Login werden drei Datenstrukturen zwischen den Komponenten ausgetauscht: \texttt{LoginDTO} (Felder: \texttt{usernameOrEmail}, \texttt{password}), \texttt{LoginResult} (Felder: \texttt{success}, \texttt{message}, \texttt{redirectUrl}) und \texttt{Session} (Felder: \texttt{sessionId}, \texttt{accountId}). Das \texttt{LoginDTO} bildet die Eingabedaten ab, das \texttt{LoginResult} dient als einheitliche Rueckgabe für Erfolg und Fehler, und die \texttt{Session} repraesentiert die aktive Sitzung nach erfolgreichem Login.
 
-Die verfeinerten Interfaces sind: Der \texttt{UserController} stellt \texttt{login(dto: LoginDTO): LoginResult} bereit und delegiert an den \texttt{LoginService}, der ebenfalls \texttt{login(dto: LoginDTO): LoginResult} anbietet. Der \texttt{PasswordHasher} stellt \texttt{verify(password: String, hash: String): boolean} fuer den Vergleich bereit. Der \texttt{SessionManager} bietet \texttt{create(accountId: String): Session} zur Sitzungserstellung. Das \texttt{AccountRepository} stellt \texttt{findByUsernameOrEmail(input: String): Account?} fuer die Accountsuche bereit.
+Die verfeinerten Interfaces sind: Der \texttt{UserController} stellt \texttt{login(dto: LoginDTO): LoginResult} bereit und delegiert an den \texttt{LoginService}, der ebenfalls \texttt{login(dto: LoginDTO): LoginResult} anbietet. Der \texttt{PasswordHasher} stellt \texttt{verify(password: String, hash: String): boolean} für den Vergleich bereit. Der \texttt{SessionManager} bietet \texttt{create(accountId: String): Session} zur Sitzungserstellung. Das \texttt{AccountRepository} stellt \texttt{findByUsernameOrEmail(input: String): Account?} für die Accountsuche bereit.
 
 Gespeichert werden zwei Datenstrukturen: Die \texttt{Account}-Daten liegen in der Tabelle \texttt{accounts} (aus S1.1 bekannt). Zusaetzlich wird die \texttt{Session} serverseitig persistiert, damit der Nutzer nach dem Login identifiziert bleibt und auf seine Daten zugreifen kann.
 
-\texttt{LoginDTO} ist von \texttt{Account} getrennt, da nur minimale Eingabedaten benoetigt werden. \texttt{LoginResult} ermoeglicht eine einheitliche Kommunikation inkl. Weiterleitung. Die \texttt{Session} als eigene Datenstruktur ist notwendig, weil die Sitzungsverwaltung unabhaengig von der Account-Logik bleiben soll -- das unterstuetzt Separation of Concerns und erleichtert spaetere Erweiterungen wie Logout oder Session-Timeout.
+\texttt{LoginDTO} ist von \texttt{Account} getrennt, da nur minimale Eingabedaten benoetigt werden. \texttt{LoginResult} ermoeglicht eine einheitliche Kommunikation inkl. Weiterleitung. Die \texttt{Session} als eigene Datenstruktur ist notwendig, weil die Sitzungsverwaltung unabhaengig von der Account-Logik bleiben soll  das unterstuetzt Separation of Concerns und erleichtert spaetere Erweiterungen wie Logout oder Session-Timeout.
 
 \subsubsection{Modellierung relevanter Verhaltensaspekte}
 
