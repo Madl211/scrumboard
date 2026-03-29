@@ -21,16 +21,16 @@
 \begin{document}
 
 \begin{table}[h]
-		\centering
-		\footnotesize
-		\begin{tabular}{| p{1.5cm} | p{2.5cm} | p{2cm} | p{2cm} | p{2cm} |}
-			\hline
-			                           & Verantwortliche Teammitglieder (Organisation, Anlegen der Dokumentenversion, Moderation, Abgabe)                                   & Anwesende während der Meetings                                                                                                     & (Online-) Beiträge zum Inhalt durch                                                                                                & Korrektur-gelesen durch                                                                                                            \\
-			\hline
-			Dokument Sprint Version 1 & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer \\
-			\hline
-		\end{tabular}
-	\end{table}
+	\centering
+	\footnotesize
+	\begin{tabular}{| p{1.5cm} | p{2.5cm} | p{2cm} | p{2cm} | p{2cm} |}
+		\hline
+		                          & Verantwortliche Teammitglieder (Organisation, Anlegen der Dokumentenversion, Moderation, Abgabe)         & Anwesende während der Meetings                                                                           & (Online-) Beiträge zum Inhalt durch                                                                      & Korrektur-gelesen durch                                                                                  \\
+		\hline
+		Dokument Sprint Version 1 & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer \\
+		\hline
+	\end{tabular}
+\end{table}
 
 
 \section{Sprint Planung}
@@ -52,7 +52,7 @@ Unser Team besteht aus sieben Teammitgliedern, deshalb haben wir unser Team in z
 \subsubsection{Modellierung für User Story S1.1: Account anlegen}
 \paragraph{Modellierung verfeinerter Struktur}
 
-Die geplanten Tasks für diese User Story sind befinden sich im Sprintbacklog. 
+Die geplanten Tasks für diese User Story sind befinden sich im Sprintbacklog.
 
 Im Application Layer befindet sich das \texttt{RegistrationForm}, das die Nutzereingaben entgegennimmt und Erfolg oder Fehler anzeigt. Im Presentation Layer liegt der \texttt{UserController}, der über \texttt{POST /register} die Daten an die Fachlogik weitergibt. Die eigentliche Registrierungslogik liegt im \texttt{RegistrationService}, unterstützt durch \texttt{Validator}, \texttt{PasswordHasher} und \texttt{AccountRepository}. Im Data Layer greift das Repository auf die Tabelle \texttt{accounts} zu.
 
@@ -61,9 +61,9 @@ Die Klasse \texttt{RegistrationForm} enthält die Felder \texttt{username}, \tex
 Diese Aufteilung unterstützt \textbf{Separation of Concerns} und ist erweiterbar für spätere User Stories. Als Design Patterns kommen das \textbf{Repository Pattern} (\texttt{AccountRepository}) und das \textbf{Service Pattern} (\texttt{RegistrationService}) zum Einsatz.
 \newpage
 \begin{figure}[h]
-    \centering
-    \includegraphics[width=\textwidth]{2_1_story1.png}
-    \caption{Verfeinerte Struktur für User Story S1.1: Account anlegen}
+	\centering
+	\includegraphics[width=\textwidth]{2_1_story1.png}
+	\caption{Verfeinerte Struktur für User Story S1.1: Account anlegen}
 \end{figure}
 
 \paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
@@ -79,9 +79,9 @@ Gespeichert wird die Datenstruktur \texttt{Account} in der Tabelle \texttt{accou
 \texttt{RegisterDTO} ist bewusst von \texttt{Account} getrennt, weil das Feld \texttt{confirmPassword} nur für die Validierung benötigt und nicht persistiert wird. \texttt{RegisterResult} ermöglicht eine einheitliche Fehler- und Erfolgskommunikation zwischen Controller und Frontend. Die Methoden des \texttt{AccountRepository} sind gezielt auf die Anforderungen der Registrierung zugeschnitten: Duplikatsprüfung per \texttt{findBy}-Methoden und Persistierung per \texttt{save}.
 \newpage
 \begin{figure}[h]
-    \centering
-    \includegraphics[width=\textwidth]{2_2_story1.png}
-    \caption{Verfeinerte Interfaces und Datenstrukturen für User Story S1.1: Account anlegen}
+	\centering
+	\includegraphics[width=\textwidth]{2_2_story1.png}
+	\caption{Verfeinerte Interfaces und Datenstrukturen für User Story S1.1: Account anlegen}
 \end{figure}
 
 \paragraph{Modellierung relevanter Verhaltensaspekte}
@@ -91,9 +91,9 @@ Das Verhalten der Registrierung wird durch ein Sequenzdiagramm modelliert, das d
 Auf weitere Verhaltensdiagramme wie State Machines oder Aktivitätsdiagramme wird verzichtet, da der Registrierungsablauf linear ist, nur einen Akteur betrifft und keine komplexen Zustandswechsel enthält. Das Sequenzdiagramm genügt, um die Komponentenkommunikation und die beiden Alternativpfade (ungültige Eingaben, bestehender Account) vollständig darzustellen.
 
 \begin{figure}[h]
-    \centering
-    \includegraphics[width=\textwidth]{2_3_story1.png}
-    \caption{Sequenzdiagramm für User Story S1.1: Account anlegen}
+	\centering
+	\includegraphics[width=\textwidth]{2_3_story1.png}
+	\caption{Sequenzdiagramm für User Story S1.1: Account anlegen}
 \end{figure}
 
 \newpage
@@ -134,17 +134,17 @@ Diese Aufteilung unterstützt Seperation of Concerns und verwendet Repository Pa
 \paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
 Zugriffe erfolgen nur über Interfaces. Andere Erweiterungen sind nicht nötig, da das Anlegen eines Backlogs unkomplex ist.
 \begin{figure}[h]
-    \centering
-    \includegraphics[width=10cm]{diagram31.png}
-    \caption{Klassendiagramm für User Story S3.1: Task erstellen}
+	\centering
+	\includegraphics[width=10cm]{diagram31.png}
+	\caption{Klassendiagramm für User Story S3.1: Task erstellen}
 \end{figure}
 
 \paragraph{Modellierung relevanter Verhaltensaspekte}
 Das erstellen einer Task wird hier anschaulich in einem Sequenzdiagramm dargestellt. Dieses entspricht ganz dem Ablauf, der in 2.1.4.1 beschrieben wurde.
 \begin{figure}[h]
-    \centering
-    \includegraphics[width=10cm]{diagram32.png}
-    \caption{Sequenzdiagramm für User Story S3.1: Task erstellen}
+	\centering
+	\includegraphics[width=10cm]{diagram32.png}
+	\caption{Sequenzdiagramm für User Story S3.1: Task erstellen}
 \end{figure}
 \newpage
 \subsubsection{Modellierung für User Story S4.1}
@@ -155,57 +155,99 @@ Diese Aufteilung unterstützt Seperation of Concerns und verwendet Repository Pa
 \paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
 Zugriffe erfolgen nur ueber Interfaces. Andere Erweiterungen sind nicht nötig, da das Anlegen eines Backlogs unkomplex ist.
 \begin{figure}[h]
-    \centering
-    \includegraphics[width=10cm]{diagram41.png}
-    \caption{Klassendiagramm für User Story S4.1: Backlog erstellen}
+	\centering
+	\includegraphics[width=10cm]{diagram41.png}
+	\caption{Klassendiagramm für User Story S4.1: Backlog erstellen}
 \end{figure}
 \newpage
 \paragraph{Modellierung relevanter Verhaltensaspekte}
 Der Ablauf des Anlegens eines Backlogs wird durch ein Sequenzdiagramm modelliert. Der Ablauf entspricht der Beschreibung aus 2.1.5.1.
 \newpage
 \begin{figure}[h]
-    \centering
-    \includegraphics[width=10cm]{diagram42.png}
-    \caption{Sequenzdiagramm für User Story S4.1: Backlog erstellen}
+	\centering
+	\includegraphics[width=10cm]{diagram42.png}
+	\caption{Sequenzdiagramm für User Story S4.1: Backlog erstellen}
 \end{figure}
+
 \subsubsection{Modellierung für User Story S5.1}
 \paragraph{Modellierung verfeinerter Struktur}
+Im Presentation Layer wird die Klasse \textbf{ProfileController} hinzugefügt.
+Diese beinhaltet die Logik zur Behandlung von Anfragen an die Routen \textbf{GET /profile} und \textbf{POST /profile}.\\
+Die Klasse \textbf{ProfileService} wird im Service Layer hinzugefügt.
+Diese Klasse beinhaltet die Logik zum Hinzufügen und Abfragen von Profilen.
+Außerdem werden dort die Eingaben validiert.
+Dafür werden die Klassen \textbf{EMailValidator} und \textbf{TelfonNumberValidator} benötigt, welche jeweils das entsprechende Interface implementieren.\\
+Im Data Layer wird die Klasse \textbf{ProfileRepository} hinzugefügt.
+Diese Klasse bietet eine Methode zum Speichern von Profilen in der Tabelle \textbf{profiles} an.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{s5_1_klassendiagramm.png}
+	\caption{Klassendiagramm für User Story S5.1}
+\end{figure}
+
 \paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+Für das Speichern und Abfragen von Profilen wird die Klasse \textbf{Profile} benötigt.
+Diese Klasse besitzt folgende Attribute: Name, Rolle, E-Mail, Telefonnummer, Postleitzahl, Ort, Straße, Hausnummer.\\
+Das Attribut Rolle ist vom Typ \textbf{Role}.
+\textbf{Role} ist eine Enumeration der möglichen Rollen eines Nutzers.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{s5_1_datenstrukturen.png}
+	\caption{Datenstrukturen für User Story S5.1}
+\end{figure}
+
 \paragraph{Modellierung relevanter Verhaltensaspekte}
 
+Die User Story S5.1 umfasst zwei verschiedene Abläufe.
+Zum einen kann ein Nutzer seine Profilinformationen abfragen.
+Dieser Ablauf hat einen geringe Komplexität und es existieren keine Ausnahmefälle, welche beachtet werden müssen.
+Daher wird hier auf ein Sequenzdiagramm verzichtet.\\
+Zum anderen kann ein Nutzer Profilinformationen speichern.
+In diesem Ablauf müssen die übergebenen Daten validiert und entsprechend auf Fehler reagiert werden.
+Daher ist die Erstellung eines Sequenzdiagramms sinnvoll.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=15cm]{s5_1_sequenzdiagramm.png}
+	\caption{Sequenzdiagramm für User Story S5.1}
+\end{figure}
+
 \newpage
+
 \subsection{Tracing}
 
 Die folgende Tabelle zeigt, welche User Stories durch welche Klassen umgesetzt werden.
 
 \begin{table}[h]
-\centering
-\small
-\renewcommand{\arraystretch}{1.4}
-\begin{tabular}{| p{3.5cm} | p{10cm} |}
-\hline
-\textbf{User Story} & \textbf{Wichtigste Klassen} \\
-\hline
-\textbf{S1.1} - Account anlegen &
-\texttt{RegistrationForm}, \texttt{UserController}, \texttt{RegistrationService}, \texttt{Validator}, \texttt{PasswordHasher}, \texttt{AccountRepository}, \texttt{Account} \\
-\hline
-\textbf{S1.2} - Einloggen &
-\texttt{LoginForm}, \texttt{UserController}, \texttt{LoginService}, \texttt{PasswordHasher}, \texttt{SessionManager}, \texttt{AccountRepository}, \texttt{Session} \\
-\hline
-\textbf{S1.3} - Passwort zurücksetzen &
-\texttt{ResetForm}, \texttt{UserController}, \texttt{PasswordResetService}, \texttt{TokenGenerator}, \texttt{AccountRepository}, \texttt{ResetToken} \\
-\hline
-\textbf{S3.1} - Task erstellen &
-\texttt{TaskCreation}, \texttt{TaskController}, \texttt{TaskService}, \texttt{TaskRepository}, \texttt{Task} \\
-\hline
-\textbf{S4.1} - Backlog erstellen &
-\texttt{BacklogCreation}, \texttt{BacklogController}, \texttt{BacklogService}, \texttt{BacklogRepository}, \texttt{Backlog} \\
-\hline
-\textbf{S5.1} - Nutzerprofil &
-\texttt{ProfileForm}, \texttt{ProfileController}, \texttt{ProfileService}, \texttt{ProfileRepository}, \texttt{UserProfile} \\
-\hline
-\end{tabular}
-\caption{Tracing: User Stories zu modellierten Klassen}
+	\centering
+	\small
+	\renewcommand{\arraystretch}{1.4}
+	\begin{tabular}{| p{3.5cm} | p{10cm} |}
+		\hline
+		\textbf{User Story}                   & \textbf{Wichtigste Klassen}                                                                                                         \\
+		\hline
+		\textbf{S1.1} - Account anlegen       &
+		\texttt{RegistrationForm}, \texttt{UserController}, \texttt{RegistrationService}, \texttt{Validator}, \texttt{PasswordHasher}, \texttt{AccountRepository}, \texttt{Account} \\
+		\hline
+		\textbf{S1.2} - Einloggen             &
+		\texttt{LoginForm}, \texttt{UserController}, \texttt{LoginService}, \texttt{PasswordHasher}, \texttt{SessionManager}, \texttt{AccountRepository}, \texttt{Session}          \\
+		\hline
+		\textbf{S1.3} - Passwort zurücksetzen &
+		\texttt{ResetForm}, \texttt{UserController}, \texttt{PasswordResetService}, \texttt{TokenGenerator}, \texttt{AccountRepository}, \texttt{ResetToken}                        \\
+		\hline
+		\textbf{S3.1} - Task erstellen        &
+		\texttt{TaskCreation}, \texttt{TaskController}, \texttt{TaskService}, \texttt{TaskRepository}, \texttt{Task}                                                                \\
+		\hline
+		\textbf{S4.1} - Backlog erstellen     &
+		\texttt{BacklogCreation}, \texttt{BacklogController}, \texttt{BacklogService}, \texttt{BacklogRepository}, \texttt{Backlog}                                                 \\
+		\hline
+		\textbf{S5.1} - Nutzerprofil          &
+		\texttt{ProfileForm}, \texttt{ProfileController}, \texttt{ProfileService}, \texttt{ProfileRepository}, \texttt{UserProfile}                                                 \\
+		\hline
+	\end{tabular}
+	\caption{Tracing: User Stories zu modellierten Klassen}
 \end{table}
 
 \bigskip
@@ -225,8 +267,4 @@ Die folgende Tabelle zeigt, welche User Stories durch welche Klassen umgesetzt w
 \textbf{S5.1 - Nutzerprofil:} Das \texttt{ProfileForm} zeigt persönliche Daten an und nimmt Änderungen entgegen. Der \texttt{ProfileController} leitet diese an den \texttt{ProfileService} weiter, der die Daten über das \texttt{ProfileRepository} speichert oder abruft. \texttt{UserProfile} referenziert dabei den zugehörigen \texttt{Account} aus S1.1.
 
 \end{document}
-
-
-
-
 
