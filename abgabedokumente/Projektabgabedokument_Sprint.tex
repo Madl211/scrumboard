@@ -172,6 +172,58 @@ Der Ablauf des Anlegens eines Backlogs wird durch ein Sequenzdiagramm modelliert
 \paragraph{Modellierung verfeinerter Struktur}
 \paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
 \paragraph{Modellierung relevanter Verhaltensaspekte}
+
+\newpage
+\subsection{Tracing}
+
+Die folgende Tabelle zeigt, welche User Stories durch welche Klassen umgesetzt werden.
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{| p{3.5cm} | p{10cm} |}
+\hline
+\textbf{User Story} & \textbf{Wichtigste Klassen} \\
+\hline
+\textbf{S1.1} - Account anlegen &
+\texttt{RegistrationForm}, \texttt{UserController}, \texttt{RegistrationService}, \texttt{Validator}, \texttt{PasswordHasher}, \texttt{AccountRepository}, \texttt{Account} \\
+\hline
+\textbf{S1.2} - Einloggen &
+\texttt{LoginForm}, \texttt{UserController}, \texttt{LoginService}, \texttt{PasswordHasher}, \texttt{SessionManager}, \texttt{AccountRepository}, \texttt{Session} \\
+\hline
+\textbf{S1.3} - Passwort zurücksetzen &
+\texttt{ResetForm}, \texttt{UserController}, \texttt{PasswordResetService}, \texttt{TokenGenerator}, \texttt{AccountRepository}, \texttt{ResetToken} \\
+\hline
+\textbf{S3.1} - Task erstellen &
+\texttt{TaskCreation}, \texttt{TaskController}, \texttt{TaskService}, \texttt{TaskRepository}, \texttt{Task} \\
+\hline
+\textbf{S4.1} - Backlog erstellen &
+\texttt{BacklogCreation}, \texttt{BacklogController}, \texttt{BacklogService}, \texttt{BacklogRepository}, \texttt{Backlog} \\
+\hline
+\textbf{S5.1} - Nutzerprofil &
+\texttt{ProfileForm}, \texttt{ProfileController}, \texttt{ProfileService}, \texttt{ProfileRepository}, \texttt{UserProfile} \\
+\hline
+\end{tabular}
+\caption{Tracing: User Stories zu modellierten Klassen}
+\end{table}
+
+\bigskip
+
+\noindent\textbf{Beschreibung der Beziehungen:}
+
+\textbf{S1.1 - Account anlegen:} Das \texttt{RegistrationForm} nimmt die Eingaben des Nutzers entgegen und gibt sie an den \texttt{UserController} weiter. Der \texttt{RegistrationService} prüft die Eingaben mit dem \texttt{Validator}, stellt sicher dass der Account noch nicht existiert (via \texttt{AccountRepository}) und hasht das Passwort mit dem \texttt{PasswordHasher}, bevor der neue \texttt{Account} gespeichert wird.
+
+\textbf{S1.2 - Einloggen:} Das \texttt{LoginForm} gibt die Zugangsdaten an den \texttt{UserController} weiter, der den \texttt{LoginService} aufruft. Dieser sucht den Account im \texttt{AccountRepository} und prüft das Passwort über den \texttt{PasswordHasher}. Bei Erfolg erstellt der \texttt{SessionManager} eine neue \texttt{Session}. \texttt{AccountRepository} und \texttt{PasswordHasher} werden aus S1.1 wiederverwendet.
+
+\textbf{S1.3 - Passwort zurücksetzen:} Das \texttt{ResetForm} gibt die E-Mail des Nutzers weiter. Der \texttt{PasswordResetService} generiert einen Reset-Token (gespeichert als \texttt{ResetToken}) und aktualisiert nach Eingabe eines neuen Passworts den Account über das \texttt{AccountRepository}. Auch hier werden \texttt{AccountRepository} und \texttt{PasswordHasher} aus S1.1 wiederverwendet.
+
+\textbf{S3.1 - Task erstellen:} \texttt{TaskCreation} übergibt die Eingaben an den \texttt{TaskController}, der sie zum \texttt{TaskService} weiterleitet. Dieser speichert die neue \texttt{Task} über das \texttt{TaskRepository} in der Datenbank.
+
+\textbf{S4.1 - Backlog erstellen:} \texttt{BacklogCreation} gibt Name und ID an den \texttt{BacklogController} weiter, der den \texttt{BacklogService} aufruft. Dieser legt ein neues \texttt{Backlog}-Objekt an und speichert es über das \texttt{BacklogRepository}.
+
+\textbf{S5.1 - Nutzerprofil:} Das \texttt{ProfileForm} zeigt persönliche Daten an und nimmt Änderungen entgegen. Der \texttt{ProfileController} leitet diese an den \texttt{ProfileService} weiter, der die Daten über das \texttt{ProfileRepository} speichert oder abruft. \texttt{UserProfile} referenziert dabei den zugehörigen \texttt{Account} aus S1.1.
+
 \end{document}
 
 
