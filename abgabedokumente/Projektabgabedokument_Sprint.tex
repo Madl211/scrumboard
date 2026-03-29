@@ -4,6 +4,15 @@
 \usepackage{geometry}
 \usepackage{graphicx}
 \usepackage{parskip}
+\usepackage{titlesec}
+
+\setcounter{secnumdepth}{4}
+
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
 
 \geometry{a4paper, margin=2.5cm}
 
@@ -26,7 +35,7 @@
 
 Wir haben insgesamt vier Sprints, dementsprechend teilen wir die Umsetzung unserer User Stories in vier Sprints auf und testen die Funktionalität unserer Software immer am Ende eines Sprints. Dementsprechend haben wir pro Sprint 6 User Stories die in Tasks umgewandelt werden und vom Team umgesetzt werden müssen. Im ersten Sprint haben wir den Fokus auf das Herstellen einer Grundfunktionalität unserer Software, wie zum Beispiel das Erstellen eines Accounts, das Einloggen in einen erstellten Account und weitere Grundfunktionen. Grundlegend soll die Umsetzung der ausgewählten sechs User Stories dazu führen, dass wir eine Basis haben für unsere Software, auf der wir aufbauen und dann die komplexeren User Stories befriedigen können und unser Programm somit Schritt für Schritt in der Komplexität zu erweitern.
 
-Die Auswahl der User Story S1.1 wurde getroffen, da das Anlegen eines Accounts essentiell dafür ist, um sich später einloggen zu können, Backlogs zu erstellen et cetera, es legt also den Grundstein für die Funktionalität. Die User Story S1.2 ist wichtig, um dann mit dem angelegten Account auch arbeiten zu können, denn ohne Einloggen Funktion ist ein Account nicht von Nutzen. Die User Story S1.3 ist wichtig, da das Zurücksetzen eines Passwortes ebenfalls eine essenzielle Funktion ist, um das Programm überhaupt nutzen zu können, da bei Vergessen des Passworts beispielsweise das Programm nicht mehr nutzbar ist, da man sich nicht mehr einloggen kann. Die User Story S4.1 wurde gewählt, da das Erstellen eines Backlogs, der Kern unseres Programms ist und auf dieser Funktion bauen dann die folgenden Sprints und deren User Stories auf. User Story S5.1 haben wir gewählt, da es nahe liegt beim Erstellen der Funktionalität zum Anlegen eines Accounts auch die Funktionalität zum Einrichten des dazugehörigen Profils bereitzustellen. Als letzte User Story in diesem Sprint haben wir S6.1 also das Hinzufügen von User Stories in ein Backlog, das ist ebenfalls eine Kernaufgabe und wird ebenfalls der Grundstein sein für spätere Spezifikationen.
+Die Auswahl der User Story S1.1 wurde getroffen, da das Anlegen eines Accounts essentiell dafür ist, um sich später einloggen zu können, Backlogs zu erstellen et cetera, es legt also den Grundstein für die Funktionalität. Die User Story S1.2 ist wichtig, um dann mit dem angelegten Account auch arbeiten zu können, denn ohne Einloggen Funktion ist ein Account nicht von Nutzen. Die User Story S1.3 ist wichtig, da das Zurücksetzen eines Passwortes ebenfalls eine essenzielle Funktion ist, um das Programm überhaupt nutzen zu können, da bei Vergessen des Passworts beispielsweise das Programm nicht mehr nutzbar ist, da man sich nicht mehr einloggen kann. Die User Story S4.1 wurde gewählt, da das Erstellen eines Backlogs, der Kern unseres Programms ist und auf dieser Funktion bauen dann die folgenden Sprints und deren User Stories auf. User Story S5.1 haben wir gewählt, da es nahe liegt beim Erstellen der Funktionalität zum Anlegen eines Accounts auch die Funktionalität zum Einrichten des dazugehörigen Profils bereitzustellen. Als letzte User Story in diesem Sprint haben wir S3.1 also das Hinzufügen von User Stories in ein Backlog, das ist ebenfalls eine Kernaufgabe und wird ebenfalls der Grundstein sein für spätere Spezifikationen.
 
 Wir sind folgendermaßen vorgegangen, um die User Stories in Tasks aufzuteilen. Wir haben eine User Story betrachtet und haben diese in eine sinnvolle Reihenfolge gebracht, damit zuerst die User Story zum Anlegen eines Accounts bearbeitet wird und dann die zum Zurücksetzen eines Passworts beispielsweise. Anschließend haben wird analysiert, was in jeder einzelnen Schicht unserer Schichtenarchitektur geschehen muss, damit das Programm diese Funktionalität der User Story bereitstellen kann. Das heißt was muss im Data-Layer geschehen (im ersten Sprint größtenteils DB-Tabellen initialisieren), dann was im Service Layer geschehen muss (Endpunkte etablieren) und im Presentation/Application Layer (Frontend erstellen, erstmal Plain HTML). Dementsprechend haben wir dann die Tasks formuliert. Wir haben die Tasks für unsere User Stories so angeordnet, dass die Reihenfolge auch die Abhängigkeit darstellt, das heißt die Tasks, die weiter unten angeordnet sind, sind abhängig von der erfolgreichen Bearbeitung der oberen Tasks.
 
@@ -37,9 +46,9 @@ Unser Team besteht aus sieben Teammitgliedern, deshalb haben wir unser Team in z
 
 \section{Verfeinerte Architektur}
 
-\subsection{Modellierung für User Story S1.1: Account anlegen}
-
-\subsubsection{Modellierung verfeinerter Struktur}
+\subsection{Task/User Stories}
+\subsubsection{Modellierung für User Story S1.1: Account anlegen}
+\paragraph{Modellierung verfeinerter Struktur}
 
 Die geplanten Tasks für diese User Story sind befinden sich im Sprintbacklog. 
 
@@ -48,14 +57,14 @@ Im Application Layer befindet sich das \texttt{RegistrationForm}, das die Nutzer
 Die Klasse \texttt{RegistrationForm} enthält die Felder \texttt{username}, \texttt{email}, \texttt{password} und \texttt{confirmPassword}. Der \texttt{UserController} nimmt Registrierungsanfragen entgegen und gibt Erfolgs- oder Fehlerantworten zurück. Der \texttt{RegistrationService} prüft Eingaben, kontrolliert auf bereits existierende Accounts, ruft das Passwort-Hashing auf und speichert neue Accounts. Der \texttt{Validator} prüft Pflichtfelder, Email-Format und Passwortübereinstimmung. Der \texttt{PasswordHasher} sorgt dafür, dass Passwörter nicht im Klartext gespeichert werden. Das \texttt{AccountRepository} übernimmt den Datenbankzugriff.
 
 Diese Aufteilung unterstützt \textbf{Separation of Concerns} und ist erweiterbar für spätere User Stories. Als Design Patterns kommen das \textbf{Repository Pattern} (\texttt{AccountRepository}) und das \textbf{Service Pattern} (\texttt{RegistrationService}) zum Einsatz.
-
+\newpage
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{2_1_story1.png}
     \caption{Verfeinerte Struktur für User Story S1.1: Account anlegen}
 \end{figure}
 
-\subsubsection{Modellierung verfeinerter Interfaces und Datenstrukturen}
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
 
 Für die Kommunikation zwischen den Komponenten werden zwei zentrale Datenstrukturen verwendet: \texttt{RegisterDTO} und \texttt{RegisterResult}.
 
@@ -66,14 +75,14 @@ Die Interfaces zwischen den Komponenten sind wie folgt verfeinert: Der \texttt{U
 Gespeichert wird die Datenstruktur \texttt{Account} in der Tabelle \texttt{accounts}. Sie enthält \texttt{id} (eindeutig), \texttt{username} (eindeutig), \texttt{email} (eindeutig) und \texttt{password\_hash}. Das Passwort wird ausschliesslich als Hash gespeichert. Benutzername und Email müssen eindeutig sein, um doppelte Accounts zu verhindern.
 
 \texttt{RegisterDTO} ist bewusst von \texttt{Account} getrennt, weil das Feld \texttt{confirmPassword} nur für die Validierung benötigt und nicht persistiert wird. \texttt{RegisterResult} ermöglicht eine einheitliche Fehler- und Erfolgskommunikation zwischen Controller und Frontend. Die Methoden des \texttt{AccountRepository} sind gezielt auf die Anforderungen der Registrierung zugeschnitten: Duplikatsprüfung per \texttt{findBy}-Methoden und Persistierung per \texttt{save}.
-
+\newpage
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{2_2_story1.png}
     \caption{Verfeinerte Interfaces und Datenstrukturen für User Story S1.1: Account anlegen}
 \end{figure}
 
-\subsubsection{Modellierung relevanter Verhaltensaspekte}
+\paragraph{Modellierung relevanter Verhaltensaspekte}
 
 Das Verhalten der Registrierung wird durch ein Sequenzdiagramm modelliert, das die Kommunikation über die definierten Interfaces zeigt. Der Ablauf ist: Das \texttt{RegistrationForm} sendet ein \texttt{RegisterDTO} an den \texttt{UserController}, dieser ruft \texttt{RegistrationService.register(dto)} auf. Der Service delegiert an \texttt{Validator.validate(dto)}. Bei Fehlern wird sofort ein \texttt{RegisterResult} mit Fehlerstatus zurückgegeben. Bei gültigem Input ruft der Service \texttt{AccountRepository.findByUsername()} und \texttt{findByEmail()} auf. Existiert bereits ein Account, folgt eine Fehlerantwort. Andernfalls wird \texttt{PasswordHasher.hash(password)} aufgerufen, ein \texttt{Account}-Objekt erzeugt und per \texttt{AccountRepository.save(account)} gespeichert. Der Controller gibt das \texttt{RegisterResult} an das Formular zurück.
 
@@ -87,15 +96,15 @@ Auf weitere Verhaltensdiagramme wie State Machines oder Aktivitätsdiagramme wir
 
 \newpage
 
-\subsection{Modellierung für User Story S1.2: Einloggen}
+\subsubsection{Modellierung für User Story S1.2: Einloggen}
 
-\subsubsection{Modellierung verfeinerter Struktur}
+\paragraph{Modellierung verfeinerter Struktur}
 
 Für den Login wird die bestehende 4-Schichten-Architektur um folgende Klassen erweitert: Im Application Layer nimmt das \texttt{LoginForm} (Felder: \texttt{usernameOrEmail}, \texttt{password}) die Nutzereingaben entgegen. Im Presentation Layer delegiert der \texttt{UserController} über \texttt{POST /login} an den \texttt{LoginService} im Service Layer, der die zentrale Fachlogik enthält: Eingabeprüfung, Accountsuche, Passwort-Hash-Vergleich und Session-Erstellung. Unterstützt wird er durch den \texttt{PasswordHasher} (hier für den Vergleich, nicht für die Erzeugung), den \texttt{SessionManager} (Sitzungsverwaltung) und das \texttt{AccountRepository} (Datenbankzugriff auf Tabelle \texttt{accounts}) im Data Layer.
 
 Die Komponenten \texttt{PasswordHasher} und \texttt{AccountRepository} werden aus User Story S1.1 wiederverwendet, was die Erweiterbarkeit der Architektur bestätigt. Neu hinzu kommen \texttt{LoginService} und \texttt{SessionManager}. Diese Aufteilung unterstützt \textbf{Separation of Concerns}, da Oberfläche, Fachlogik, Session-Verwaltung und Datenzugriff klar getrennt bleiben. Als Design Patterns kommen das \textbf{Repository Pattern} (\texttt{AccountRepository}) und das \textbf{Service Pattern} (\texttt{LoginService}) zum Einsatz -- konsistent zur Registrierung und erweiterbar für spätere User Stories wie Passwort zurücksetzen.
 
-\subsubsection{Modellierung verfeinerter Interfaces und Datenstrukturen}
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
 
 Für den Login werden drei Datenstrukturen zwischen den Komponenten ausgetauscht: \texttt{LoginDTO} (Felder: \texttt{usernameOrEmail}, \texttt{password}), \texttt{LoginResult} (Felder: \texttt{success}, \texttt{message}, \texttt{redirectUrl}) und \texttt{Session} (Felder: \texttt{sessionId}, \texttt{accountId}). Das \texttt{LoginDTO} bildet die Eingabedaten ab, das \texttt{LoginResult} dient als einheitliche Rückgabe für Erfolg und Fehler, und die \texttt{Session} repräsentiert die aktive Sitzung nach erfolgreichem Login.
 
@@ -105,10 +114,65 @@ Gespeichert werden zwei Datenstrukturen: Die \texttt{Account}-Daten liegen in de
 
 \texttt{LoginDTO} ist von \texttt{Account} getrennt, da nur minimale Eingabedaten benötigt werden. \texttt{LoginResult} ermöglicht eine einheitliche Kommunikation inkl. Weiterleitung. Die \texttt{Session} als eigene Datenstruktur ist notwendig, weil die Sitzungsverwaltung unabhängig von der Account-Logik bleiben soll -- das unterstützt Separation of Concerns und erleichtert spätere Erweiterungen wie Logout oder Session-Timeout.
 
-\subsubsection{Modellierung relevanter Verhaltensaspekte}
+\paragraph{Modellierung relevanter Verhaltensaspekte}
 
 Das Verhalten des Logins wird durch ein Sequenzdiagramm modelliert. Der Ablauf über die Interfaces ist: Das \texttt{LoginForm} sendet ein \texttt{LoginDTO} an \texttt{UserController.login(dto)}. Dieser delegiert an \texttt{LoginService.login(dto)}, der zunächst \texttt{AccountRepository.findByUsernameOrEmail(input)} aufruft. Wird kein Account gefunden, wird ein \texttt{LoginResult} mit Fehlerstatus zurückgegeben. Andernfalls ruft der Service \texttt{PasswordHasher.verify(password, hash)} auf. Bei fehlgeschlagenem Vergleich folgt ebenfalls eine Fehlerantwort. Bei Erfolg wird \texttt{SessionManager.create(accountId)} aufgerufen und ein \texttt{LoginResult} mit Weiterleitung zurückgegeben.
 
 Auf State Machines oder Aktivitätsdiagramme wird verzichtet, da der Login-Ablauf linear ist, nur einen Akteur betrifft und lediglich zwei Alternativpfade (Account nicht gefunden, Passwort falsch) aufweist. Das Sequenzdiagramm genügt, um die Komponentenkommunikation über die Interfaces vollständig darzustellen.
+\subsubsection{Modellierung für User Story S1.3}
+\paragraph{Modellierung verfeinerter Struktur}
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+\paragraph{Modellierung relevanter Verhaltensaspekte}
 
+\subsubsection{Modellierung für User Story S3.1}
+\paragraph{Modellierung verfeinerter Struktur}
+Das Anlegen einer Task erfolgt ähnlich zum erstellen eines Backlogs. Hierbei muss jedoch neben Namen und ID der Task auch ein entsprechendes Backlog, das durch das Attribut bl\_id gegeben ist, in dem die Task erstellt werden soll, identifiziert werden. TaskCreation (Application Layer) übergibt die Daten der zu erstellenden Task an den TaskController (Presentation Layer). Dieser übergibt dieselben Daten weiter an TaskService (Service Layer). TaskService leitet die Daten dann anschließend weiter an das Task Repository(Data Layer) und sendet anschließend eine Rückmeldung an TaskCreation. Das Repository verwaltet den Datenbankzugriff und speichert die Task. Zusätzlich kann das Repository Tasks nach Namen und nach ID suchen.
+Diese Aufteilung unterstützt Seperation of Concerns und verwendet Repository Pattern sowie Service Pattern.
+
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+Zugriffe erfolgen nur über Interfaces. Andere Erweiterungen sind nicht nötig, da das Anlegen eines Backlogs unkomplex ist.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=10cm]{diagram31.png}
+    \caption{Klassendiagramm für User Story S3.1: Task erstellen}
+\end{figure}
+
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+Das erstellen einer Task wird hier anschaulich in einem Sequenzdiagramm dargestellt. Dieses entspricht ganz dem Ablauf, der in 2.1.4.1 beschrieben wurde.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=10cm]{diagram32.png}
+    \caption{Sequenzdiagramm für User Story S3.1: Task erstellen}
+\end{figure}
+\newpage
+\subsubsection{Modellierung für User Story S4.1}
+\paragraph{Modellierung verfeinerter Struktur}
+BacklogCreation findet im Application Layer statt. Dort kann mit Angabe eines Namen und einer ID die Erstellung eines Backlogs initiiert werden. Diese Daten werden dann weitergereicht zum BacklogController (Presentation Layer) und anschließend zum BacklogService (Service Layer). Der BacklogService sendet die Daten an das BacklogRepository und sendet anschließend eine Rückmeldung an BacklogCreation. Das BacklogRepository ist für den Zugriff auf die Datenbank verantwortlich (Data Layer). Zusätzlich kann das Repository Backlogs nach Namen oder nach der ID suchen.
+Diese Aufteilung unterstützt Seperation of Concerns und verwendet Repository Pattern sowie Service Pattern.
+
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+Zugriffe erfolgen nur ueber Interfaces. Andere Erweiterungen sind nicht nötig, da das Anlegen eines Backlogs unkomplex ist.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=10cm]{diagram41.png}
+    \caption{Klassendiagramm für User Story S4.1: Backlog erstellen}
+\end{figure}
+\newpage
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+Der Ablauf des Anlegens eines Backlogs wird durch ein Sequenzdiagramm modelliert. Der Ablauf entspricht der Beschreibung aus 2.1.5.1.
+\newpage
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=10cm]{diagram42.png}
+    \caption{Sequenzdiagramm für User Story S4.1: Backlog erstellen}
+\end{figure}
+\subsubsection{Modellierung für User Story S5.1}
+\paragraph{Modellierung verfeinerter Struktur}
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+\paragraph{Modellierung relevanter Verhaltensaspekte}
 \end{document}
+
+
+
+
+
