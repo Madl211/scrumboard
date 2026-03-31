@@ -102,7 +102,7 @@ Im Rahmen dieser Projektarbeit erachten wir diese Anzahl als praktisch, obwohl w
 Die 15. Anforderung haben wir dahingehend konkretisiert, dass das System eine Verfügbarkeit von 99\% erbringen soll.
 Im Rahmen dieser Projektarbeit können wir diese Metrik jedoch nicht prüfen, da diese unter anderem von Faktoren wie dem Update-Zyklus abhängt.
 Daher soll die genannte Zahl als fiktiv betrachtet werden.\\
-Die Gesamtheit der Use Cases kann der Abbildung ... entnommen werden.\\ %TODO
+Die Gesamtheit der Use Cases kann dem \href{https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/uebung3/team3/projekt-team3-uebung3/-/blob/main/anforderungen/Use-Case-Diagram.svg?ref_type=heads}{Use-Case-Diagramm} entnommen werden.\\
 Die entwickelten User Stories werden in das Gitlab übertragen.
 Während der Sprint Plaung werden diese dann in ausführbare Aufgaben übersetzt.
 
@@ -110,7 +110,7 @@ Während der Sprint Plaung werden diese dann in ausführbare Aufgaben übersetzt
 
 \subsection{Geplantes Architekturmuster und geplante Hauptkomponenten}
 
-Wir haben uns für eine Schichtenarchitektur entschieden, da sie das Prinzip der \textit{Separation of Concerns} implementiert. Dabei übernimmt jede Schicht eine Funktionalität innerhalb der Anwendung, ohne dass andere Schichten die konkrete Implementierung kennen oder berücksichtigen müssen. Sie müssen nur über eine eindeutig definierte Schnittstelle verfügen, die die Kommunikation mit den Schichten \gquote[über]/\gquote[unter] dieser erlaubt. Außerhalb davon erlaubt uns die Schichtenarchitektur die Implementierung der Funktionalitäten innerhalb der Schichten anzupassen, ohne andere Schichten zu beeinflussen, solange die Schnittstellen zwischen den Schichten gleich bleiben. Für unsere Anwendung entschieden wir uns die Schichten entsprechend Abbildung \ref{fig:layers} zu wählen. Die \gquote[Verantwortungen] der jeweiligen Schichten sind im Folgenden stichpunktartig genauer dargestellt. Abbildung \ref{fig:main_components} zeigt die Hauptkomponenten innerhalb der Schichtenarchitektur und wie sie vernetzt sind. 
+Wir haben uns für eine Schichtenarchitektur entschieden, da sie das Prinzip der \textit{Separation of Concerns} implementiert. Dabei übernimmt jede Schicht eine Funktionalität innerhalb der Anwendung, ohne dass andere Schichten die konkrete Implementierung kennen oder berücksichtigen müssen. Sie müssen nur über eine eindeutig definierte Schnittstelle verfügen, die die Kommunikation mit den Schichten \gquote[über]/\gquote[unter] dieser erlaubt. Außerhalb davon erlaubt uns die Schichtenarchitektur die Implementierung der Funktionalitäten innerhalb der Schichten anzupassen, ohne andere Schichten zu beeinflussen, solange die Schnittstellen zwischen den Schichten gleich bleiben. Für unsere Anwendung entschieden wir uns die Schichten entsprechend Abbildung \ref{fig:layers} zu wählen. Die \gquote[Verantwortungen] der jeweiligen Schichten sind im Folgenden stichpunktartig genauer dargestellt. Abbildung \ref{fig:main_components} zeigt die Hauptkomponenten innerhalb der Schichtenarchitektur und wie sie vernetzt sind.
 
 \begin{figure}[H]
 	\centering
@@ -119,67 +119,67 @@ Wir haben uns für eine Schichtenarchitektur entschieden, da sie das Prinzip der
 	\label{fig:layers}
 \end{figure}
 
-\subsubsection{DATA-Layer} 
+\subsubsection{DATA-Layer}
 \begin{itemize}
 	\item Task-Klasse:\\
-	Dies ist die Hauptklasse für Tasks, um dort Regeln und das Grundkonstrukt einer Taskfestzulegen.
+	      Dies ist die Hauptklasse für Tasks, um dort Regeln und das Grundkonstrukt einer Taskfestzulegen.
 	\item User-Klasse:\\
-	Dies ist die abstrakte Klasse für unsere Benutzer, dort wird festgelegt was einen Benutzerausmacht.
+	      Dies ist die abstrakte Klasse für unsere Benutzer, dort wird festgelegt was einen Benutzerausmacht.
 	\item Tasks-Listenobjekt:\\
-	Dies ist die Sammlung aller Tasks in der Datenbank.
+	      Dies ist die Sammlung aller Tasks in der Datenbank.
 	\item Developer-Klasse:\\
-	Spezifierung des User, der default Nutzer.
+	      Spezifierung des User, der default Nutzer.
 	\item Team-Klasse:\\
-	Objekte dieser Klasse enthalten Nutzer, um die Teamzugehörigkeit zu Speichern.
+	      Objekte dieser Klasse enthalten Nutzer, um die Teamzugehörigkeit zu Speichern.
 	\item Corporation-Klasse:\\
-	Dies ist eine Spezifierung von Team und stellt das Unternehmen dar.
+	      Dies ist eine Spezifierung von Team und stellt das Unternehmen dar.
 	\item ScrumMaster-Klasse:\\
-	Spezifierung des User, der Scrummaster.
+	      Spezifierung des User, der Scrummaster.
 	\item UserActions-Interfaces:\\
-	Dieses abstrakte Interface stellt die grundlegenden Methoden für die User zur Verfügung.
+	      Dieses abstrakte Interface stellt die grundlegenden Methoden für die User zur Verfügung.
 	\item DeveloperActions-Interfaces:\\
-	Diese Spezifikation von UserActions stellt die Methoden für Developer zur Verfügung.
+	      Diese Spezifikation von UserActions stellt die Methoden für Developer zur Verfügung.
 	\item ScrumMasterActions-Interfaces:\\
-	Diese Spezifikation von DeveloperActions stellt alle Methoden für Scrummaster zurVerfügung. Sie übernimmt also alle „klassischen“ Methoden die auch die default Nutzerhaben und fügt Methoden hinzu, die nur der ScrumMaster hat.
+	      Diese Spezifikation von DeveloperActions stellt alle Methoden für Scrummaster zurVerfügung. Sie übernimmt also alle „klassischen“ Methoden die auch die default Nutzerhaben und fügt Methoden hinzu, die nur der ScrumMaster hat.
 	\item „ ...“-Klasse:\\
-	Die „...“ Klasse haben wir angegeben im UML-Diagramm um darzustellen, dass es nochweitere Nutzer geben kann. (Die wir im Verlauf der Entwicklungsphase noch „finden“ )
+	      Die „...“ Klasse haben wir angegeben im UML-Diagramm um darzustellen, dass es nochweitere Nutzer geben kann. (Die wir im Verlauf der Entwicklungsphase noch „finden“ )
 \end{itemize}
 
 \subsubsection{SERVICE-Layer}
 
 \begin{itemize}
 	\item UserService-Klasse: \\
-	Bereitstellen der Userdaten, durch Methoden die Daten(z.B. ScrumMaster, Developer,Team) aus DB abrufen.
+	      Bereitstellen der Userdaten, durch Methoden die Daten(z.B. ScrumMaster, Developer,Team) aus DB abrufen.
 	\item Taskservice-Klasse: \\
-	Bereitstellen der Taskdaten, durch Methoden die Daten(z.B. Task) aus DB abrufen.
+	      Bereitstellen der Taskdaten, durch Methoden die Daten(z.B. Task) aus DB abrufen.
 	\item DBContext-Interface: \\
-	Bereitstellen der Methoden, um mit der Datenbank zu kommunizieren.
+	      Bereitstellen der Methoden, um mit der Datenbank zu kommunizieren.
 \end{itemize}
 
 \subsubsection{PRESENTATION-Layer}
 
 \begin{itemize}
 	\item View-Klasse:\\
-	Umwandlung der Daten für den Application Layer.
+	      Umwandlung der Daten für den Application Layer.
 	\item UserView-Klasse :\\
-	Umwandlung speziell der Userdaten, für den Application Layer.
+	      Umwandlung speziell der Userdaten, für den Application Layer.
 	\item TaskView-Klasse :\\
-	Umwandlung speziell der Taskdaten, für den Application Layer.
+	      Umwandlung speziell der Taskdaten, für den Application Layer.
 	\item Controller-Intferace:\\
-	Definiert unsere Methoden zwischen dem Service und der View.
+	      Definiert unsere Methoden zwischen dem Service und der View.
 	\item UserController-Interface:\\
-	Spezifiziert die Methoden des Interfaces Controller, um die Methoden die speziell für Usergebraucht werden.
+	      Spezifiziert die Methoden des Interfaces Controller, um die Methoden die speziell für Usergebraucht werden.
 	\item TaskController-Interace :\\
-	Spezifiziert die Methoden des Interfaces Controller, um die Methoden die speziell für dieTasks / Bearbeitung der Tasks gebraucht werden.
+	      Spezifiziert die Methoden des Interfaces Controller, um die Methoden die speziell für dieTasks / Bearbeitung der Tasks gebraucht werden.
 \end{itemize}
 
 \subsubsection{APPLICATION-Layer}
 
 \begin{itemize}
 	\item  Template-Klasse:\\
-	Diese Abstrakte Oberklasse ist für unsere Templates, die Daten dafür kommen aus unsererView(Presentation Layer) .
+	      Diese Abstrakte Oberklasse ist für unsere Templates, die Daten dafür kommen aus unsererView(Presentation Layer) .
 	\item  InputHandler-Inteface:\\
-	Diese abstrakte Oberklasse stellt Methoden bereit, die verarbeitet die aktuellen Änderungenin der Eingabe und gibt dafür die Daten an die View(Pres. Layer) weiter, welche die Datendann weiter verarbeitet.
+	      Diese abstrakte Oberklasse stellt Methoden bereit, die verarbeitet die aktuellen Änderungenin der Eingabe und gibt dafür die Daten an die View(Pres. Layer) weiter, welche die Datendann weiter verarbeitet.
 \end{itemize}
 
 \begin{figure}[H]
@@ -196,109 +196,109 @@ Wir haben uns für eine Schichtenarchitektur entschieden, da sie das Prinzip der
 \paragraph{UserActions}
 Legt Grundstein für alle Basisfunktionen für alle Benutzer im System, wie zur Authentifizierung und Kontoverwaltung.
 \begin{itemize}
-    \item \textbf{addUser(...)} -- Erstellt einen neuen Benutzer im System.
-    \item \textbf{getUser(password, username)} -- Authentifiziert einen Benutzer anhand seiner Zugangsdaten.
-    \item \textbf{resetPassword(username)} -- Setzt das Passwort eines Benutzers zurück.
-    \item \textbf{setUser(password, username)} -- Aktualisiert die Zugangsdaten eines Benutzers.
+	\item \textbf{addUser(...)} -- Erstellt einen neuen Benutzer im System.
+	\item \textbf{getUser(password, username)} -- Authentifiziert einen Benutzer anhand seiner Zugangsdaten.
+	\item \textbf{resetPassword(username)} -- Setzt das Passwort eines Benutzers zurück.
+	\item \textbf{setUser(password, username)} -- Aktualisiert die Zugangsdaten eines Benutzers.
 \end{itemize}
 
 \paragraph{DeveloperActions}
 Erweitert UserActions um Methoden zum bereitstellen der grundlegenden Funktionen, wie Backlog erstellen etc.
 \begin{itemize}
-    \item \textbf{addUserstory(userstoryTitle, userstoryDescription, username)} -- Erstellt eine neue User Story im Backlog.
-    \item \textbf{getPriority()} -- Gibt die gesetzte Priorität einer User Story oder Task zurück.
-    \item \textbf{addTask(taskTitle, taskDescription, username, backlogID, tasklistID)} -- Erstellt eine neue Task und ordnet sie einem Backlog und einer Liste zu.
-    \item \textbf{linkUserstory(userstoryID, taskID)} -- Verknüpft eine Task mit einer User Story.
-    \item \textbf{setTaskPriority(taskID, priority)} -- Setzt die Priorität einer Task.
-    \item \textbf{addBacklog(name)} -- Erstellt ein neues Backlog.
-    \item \textbf{setStatus(taskID, status)} -- Ändert den Status einer Task (z.\,B.\ In Progress, Review).
-    \item \textbf{getStatus(taskID)} -- Gibt den aktuellen Status einer Task zurück.
-    \item \textbf{getTaskBacklogID(taskTitle, backlogID)} -- Ermittelt das Backlog einer bestimmten Task.
-    \item \textbf{addTasklist(tasklistTitle)} -- Erstellt eine neue Taskliste (z.\,B.\ Sprint Backlog).
-    \item \textbf{changeTasklist(taskID, tasklistID)} -- Verschiebt eine Task in eine andere Liste.
-    \item \textbf{getUserTask()} -- Gibt alle Tasks eines bestimmten Nutzers zurück.
-    \item \textbf{getTask()} -- Gibt eine bestimmte Task zurück.
-    \item \textbf{setTaskExpense(taskID, expense)} -- Speichert die Aufwandsschätzung einer Task.
-    \item \textbf{setTaskTime(taskID)} -- Speichert die tatsächlich benötigte Bearbeitungszeit.
+	\item \textbf{addUserstory(userstoryTitle, userstoryDescription, username)} -- Erstellt eine neue User Story im Backlog.
+	\item \textbf{getPriority()} -- Gibt die gesetzte Priorität einer User Story oder Task zurück.
+	\item \textbf{addTask(taskTitle, taskDescription, username, backlogID, tasklistID)} -- Erstellt eine neue Task und ordnet sie einem Backlog und einer Liste zu.
+	\item \textbf{linkUserstory(userstoryID, taskID)} -- Verknüpft eine Task mit einer User Story.
+	\item \textbf{setTaskPriority(taskID, priority)} -- Setzt die Priorität einer Task.
+	\item \textbf{addBacklog(name)} -- Erstellt ein neues Backlog.
+	\item \textbf{setStatus(taskID, status)} -- Ändert den Status einer Task (z.\,B.\ In Progress, Review).
+	\item \textbf{getStatus(taskID)} -- Gibt den aktuellen Status einer Task zurück.
+	\item \textbf{getTaskBacklogID(taskTitle, backlogID)} -- Ermittelt das Backlog einer bestimmten Task.
+	\item \textbf{addTasklist(tasklistTitle)} -- Erstellt eine neue Taskliste (z.\,B.\ Sprint Backlog).
+	\item \textbf{changeTasklist(taskID, tasklistID)} -- Verschiebt eine Task in eine andere Liste.
+	\item \textbf{getUserTask()} -- Gibt alle Tasks eines bestimmten Nutzers zurück.
+	\item \textbf{getTask()} -- Gibt eine bestimmte Task zurück.
+	\item \textbf{setTaskExpense(taskID, expense)} -- Speichert die Aufwandsschätzung einer Task.
+	\item \textbf{setTaskTime(taskID)} -- Speichert die tatsächlich benötigte Bearbeitungszeit.
 \end{itemize}
 
 \paragraph{ProductOwnerActions}
 Stellt spezifische Methoden für den Product Owner bereit, insbesondere zur Priorisierung von User Stories.
 \begin{itemize}
-    \item \textbf{setUserstoryPriority(priority)} -- Legt die Priorität einer User Story fest.
+	\item \textbf{setUserstoryPriority(priority)} -- Legt die Priorität einer User Story fest.
 \end{itemize}
 
 \paragraph{ScrumMasterActions}
 Enthält Methoden zur Verwaltung von Rollen und Aufgabenzuweisungen, die vom dem Scrum Master nutzbar sind.
 \begin{itemize}
-    \item \textbf{setUserRole(userID)} -- Weist einem Benutzer eine Rolle zu.
-    \item \textbf{setUserTask(userID, taskID)} -- Ordnet einem Benutzer eine Task zu.
+	\item \textbf{setUserRole(userID)} -- Weist einem Benutzer eine Rolle zu.
+	\item \textbf{setUserTask(userID, taskID)} -- Ordnet einem Benutzer eine Task zu.
 \end{itemize}
 
 \paragraph{DBContext}
 Definiert die Schnittstelle für alle Datenbankoperationen.
 \begin{itemize}
-    \item \textbf{save()} -- Speichert ein Objekt in der Datenbank.
-    \item \textbf{update()} -- Aktualisiert ein bestehendes Objekt in der Datenbank.
-    \item \textbf{delete()} -- Löscht ein Objekt aus der Datenbank.
-    \item \textbf{findById()} -- Sucht ein Objekt anhand seiner ID.
-    \item \textbf{findAll()} -- Gibt alle Objekte eines Typs zurück.
-    \item \textbf{beginTransaction()} -- Startet eine Datenbanktransaktion.
-    \item \textbf{commit()} -- Bestätigt eine Transaktion dauerhaft.
-    \item \textbf{rollback()} -- Macht eine Transaktion rückgängig.
+	\item \textbf{save()} -- Speichert ein Objekt in der Datenbank.
+	\item \textbf{update()} -- Aktualisiert ein bestehendes Objekt in der Datenbank.
+	\item \textbf{delete()} -- Löscht ein Objekt aus der Datenbank.
+	\item \textbf{findById()} -- Sucht ein Objekt anhand seiner ID.
+	\item \textbf{findAll()} -- Gibt alle Objekte eines Typs zurück.
+	\item \textbf{beginTransaction()} -- Startet eine Datenbanktransaktion.
+	\item \textbf{commit()} -- Bestätigt eine Transaktion dauerhaft.
+	\item \textbf{rollback()} -- Macht eine Transaktion rückgängig.
 \end{itemize}
 
 \paragraph{Controller}
 Bildet die Schnittstelle für die Kommunikation zwischen Application Layer und Presentation Layer.
 \begin{itemize}
-    \item \textbf{handleRequest()} -- Verarbeitet eine eingehende Anfrage vom Application Layer.
-    \item \textbf{updateView()} -- Aktualisiert die Darstellung in der View.
-    \item \textbf{notifyError()} -- Informiert die View über einen Fehler.
+	\item \textbf{handleRequest()} -- Verarbeitet eine eingehende Anfrage vom Application Layer.
+	\item \textbf{updateView()} -- Aktualisiert die Darstellung in der View.
+	\item \textbf{notifyError()} -- Informiert die View über einen Fehler.
 \end{itemize}
 
 \paragraph{UserController}
 Spezialisiert den Controller für benutzerbezogene Operationen wie Registrierung, Login und Profilverwaltung.
 \begin{itemize}
-    \item \textbf{registerUser()} -- Registriert einen neuen Benutzer.
-    \item \textbf{loginUser()} -- Meldet einen Benutzer im System an.
-    \item \textbf{logoutUser()} -- Meldet einen Benutzer ab.
-    \item \textbf{updateUserProfile()} -- Aktualisiert die Profildaten eines Benutzers.
-    \item \textbf{getUserTasks()} -- Gibt alle Tasks eines Benutzers zurück.
-    \item \textbf{getUserNotifications()} -- Gibt alle Benachrichtigungen eines Benutzers zurück.
+	\item \textbf{registerUser()} -- Registriert einen neuen Benutzer.
+	\item \textbf{loginUser()} -- Meldet einen Benutzer im System an.
+	\item \textbf{logoutUser()} -- Meldet einen Benutzer ab.
+	\item \textbf{updateUserProfile()} -- Aktualisiert die Profildaten eines Benutzers.
+	\item \textbf{getUserTasks()} -- Gibt alle Tasks eines Benutzers zurück.
+	\item \textbf{getUserNotifications()} -- Gibt alle Benachrichtigungen eines Benutzers zurück.
 \end{itemize}
 
 \paragraph{TaskController}
 Spezifiziert den Controller für alle taskbezogenen Operationen wie Erstellung, Verschiebung und Filterung von Tasks.
 \begin{itemize}
-    \item \textbf{createTask()} -- Erstellt eine neue Task.
-    \item \textbf{updateTask()} -- Bearbeitet eine bestehende Task.
-    \item \textbf{moveTask()} -- Verschiebt eine Task in eine andere Liste.
-    \item \textbf{assignUser()} -- Ordnet einer Task einen Benutzer zu.
-    \item \textbf{estimateTask()} -- Speichert die Aufwandsschätzung einer Task.
-    \item \textbf{completeTask()} -- Markiert eine Task als abgeschlossen.
-    \item \textbf{searchTasks()} -- Sucht Tasks anhand bestimmter Kriterien.
-    \item \textbf{filterTasks()} -- Filtert Tasks nach bestimmten Eigenschaften.
-    \item \textbf{getTaskBoard()} -- Lädt die aktuelle Task-Board-Ansicht.
-    \item \textbf{getEstimationDashboard()} -- Zeigt die Auswertung von Schätzungen und tatsächlichem Aufwand an.
+	\item \textbf{createTask()} -- Erstellt eine neue Task.
+	\item \textbf{updateTask()} -- Bearbeitet eine bestehende Task.
+	\item \textbf{moveTask()} -- Verschiebt eine Task in eine andere Liste.
+	\item \textbf{assignUser()} -- Ordnet einer Task einen Benutzer zu.
+	\item \textbf{estimateTask()} -- Speichert die Aufwandsschätzung einer Task.
+	\item \textbf{completeTask()} -- Markiert eine Task als abgeschlossen.
+	\item \textbf{searchTasks()} -- Sucht Tasks anhand bestimmter Kriterien.
+	\item \textbf{filterTasks()} -- Filtert Tasks nach bestimmten Eigenschaften.
+	\item \textbf{getTaskBoard()} -- Lädt die aktuelle Task-Board-Ansicht.
+	\item \textbf{getEstimationDashboard()} -- Zeigt die Auswertung von Schätzungen und tatsächlichem Aufwand an.
 \end{itemize}
 
 \paragraph{InputHandler}
 Verarbeitet und validiert Benutzereingaben aus der Benutzeroberfläche und leitet sie an den passenden Controller weiter.
 \begin{itemize}
-    \item \textbf{processUserInput()} -- Verarbeitet Benutzereingaben aus der UI.
-    \item \textbf{validateInput()} -- Prüft Eingaben auf Korrektheit.
-    \item \textbf{dispatchToController()} -- Leitet die Eingabe an den passenden Controller weiter.
-    \item \textbf{handleRealtimeUpdate()} -- Reagiert auf Echtzeit-Updates anderer Nutzer.
+	\item \textbf{processUserInput()} -- Verarbeitet Benutzereingaben aus der UI.
+	\item \textbf{validateInput()} -- Prüft Eingaben auf Korrektheit.
+	\item \textbf{dispatchToController()} -- Leitet die Eingabe an den passenden Controller weiter.
+	\item \textbf{handleRealtimeUpdate()} -- Reagiert auf Echtzeit-Updates anderer Nutzer.
 \end{itemize}
 
 \paragraph{LoginHandler}
 Spezifiziert den InputHandler für den Authentifizierungsprozess einschließlich Login, Registrierung und Passwort-Reset.
 \begin{itemize}
-    \item \textbf{submitLogin()} -- Sendet Login-Daten zur Authentifizierung.
-    \item \textbf{submitRegistration()} -- Sendet Registrierungsdaten zur Erstellung eines Accounts.
-    \item \textbf{requestPasswordReset()} -- Fordert eine Passwort-Zurücksetzung an.
-    \item \textbf{confirmPasswordReset()} -- Bestätigt das neue Passwort nach Reset.
-    \item \textbf{navigateToHome()} -- Leitet nach erfolgreichem Login zur Startseite weiter.
+	\item \textbf{submitLogin()} -- Sendet Login-Daten zur Authentifizierung.
+	\item \textbf{submitRegistration()} -- Sendet Registrierungsdaten zur Erstellung eines Accounts.
+	\item \textbf{requestPasswordReset()} -- Fordert eine Passwort-Zurücksetzung an.
+	\item \textbf{confirmPasswordReset()} -- Bestätigt das neue Passwort nach Reset.
+	\item \textbf{navigateToHome()} -- Leitet nach erfolgreichem Login zur Startseite weiter.
 \end{itemize}
 
 \begin{figure}[H]
@@ -313,11 +313,11 @@ Spezifiziert den InputHandler für den Authentifizierungsprozess einschließlich
 
 \paragraph{1.\ Login-Versuch}
 \begin{itemize}
-    \item \textbf{submitLogin(username, password)} -- Nimmt Benutzereingaben entgegen und initiiert den Login-Prozess.
-    \item \textbf{loginUser()} -- Koordiniert die Authentifizierung im Presentation Layer.
-    \item \textbf{getUser(password, username)} -- Führt die Authentifizierungslogik im Service Layer aus.
-    \item \textbf{findById(userID)} -- Sucht Benutzerdaten in der Datenbank.
-    \item \textbf{navigateToHome()} -- Leitet nach erfolgreichem Login weiter.
+	\item \textbf{submitLogin(username, password)} -- Nimmt Benutzereingaben entgegen und initiiert den Login-Prozess.
+	\item \textbf{loginUser()} -- Koordiniert die Authentifizierung im Presentation Layer.
+	\item \textbf{getUser(password, username)} -- Führt die Authentifizierungslogik im Service Layer aus.
+	\item \textbf{findById(userID)} -- Sucht Benutzerdaten in der Datenbank.
+	\item \textbf{navigateToHome()} -- Leitet nach erfolgreichem Login weiter.
 \end{itemize}
 
 \begin{figure}[H]
@@ -328,11 +328,11 @@ Spezifiziert den InputHandler für den Authentifizierungsprozess einschließlich
 
 \paragraph{2.\ Username ändern}
 \begin{itemize}
-    \item \textbf{updateUserProfile()} -- Initiiert und koordiniert die Profiländerung.
-    \item \textbf{setUser(password, username)} -- Aktualisiert Zugangsdaten mit Businesslogik.
-    \item \textbf{beginTransaction()} -- Startet eine atomare Datenbanktransaktion.
-    \item \textbf{update()} -- Aktualisiert das Objekt in der Datenbank.
-    \item \textbf{commit()} -- Bestätigt die Transaktion dauerhaft.
+	\item \textbf{updateUserProfile()} -- Initiiert und koordiniert die Profiländerung.
+	\item \textbf{setUser(password, username)} -- Aktualisiert Zugangsdaten mit Businesslogik.
+	\item \textbf{beginTransaction()} -- Startet eine atomare Datenbanktransaktion.
+	\item \textbf{update()} -- Aktualisiert das Objekt in der Datenbank.
+	\item \textbf{commit()} -- Bestätigt die Transaktion dauerhaft.
 \end{itemize}
 
 \begin{figure}[H]
@@ -343,12 +343,12 @@ Spezifiziert den InputHandler für den Authentifizierungsprozess einschließlich
 
 \paragraph{3.\ Task verschieben}
 \begin{itemize}
-    \item \textbf{moveTask(taskID, targetList)} -- Nimmt die Task-Verschiebung entgegen.
-    \item \textbf{changeTasklist(taskID, tasklistID)} -- Führt die Verschiebung im Service Layer aus.
-    \item \textbf{beginTransaction()} -- Startet eine Transaktion gegen konkurrierende Änderungen.
-    \item \textbf{update()} -- Aktualisiert die Task.
-    \item \textbf{commit()} -- Speichert die Änderung dauerhaft.
-    \item \textbf{refreshBoard()} -- Aktualisiert das Board für alle Nutzer.
+	\item \textbf{moveTask(taskID, targetList)} -- Nimmt die Task-Verschiebung entgegen.
+	\item \textbf{changeTasklist(taskID, tasklistID)} -- Führt die Verschiebung im Service Layer aus.
+	\item \textbf{beginTransaction()} -- Startet eine Transaktion gegen konkurrierende Änderungen.
+	\item \textbf{update()} -- Aktualisiert die Task.
+	\item \textbf{commit()} -- Speichert die Änderung dauerhaft.
+	\item \textbf{refreshBoard()} -- Aktualisiert das Board für alle Nutzer.
 \end{itemize}
 
 \begin{figure}[H]
@@ -370,15 +370,15 @@ Spezifiziert den InputHandler für den Authentifizierungsprozess einschließlich
 Team (Klasse) besteht aus mehreren Usern (abstrakte Klasse). User besitzt die Subklassen Product Owner, Developer und Scrum Master.  Project Backlog (Klasse) besteht aus Listen und diese bestehen aus Tasks (Klasse). Eine Liste ist abstrakt und kann Entweder eine Backlog-Liste (Subklasse) sein (d.h. z.B. Sprint-Backlog-1) oder eine Status-Liste (Subklasse) (z.B. ``Fertiggestellt``, ``In Bearbeitung``). Außerdem gibt es Klassen für Profile, Accounts, User-Story und Task-Board.
 \subsubsection{Beziehungen und Bezug zu Anforderungen}
 \begin{itemize}
-\item Zwischen Nutzer  und Account: Accounts anlegen (Anforderung 1.1), einloggen (1.2), Passwort zurücksetzen (1.3)
-\item Zwischen Nutzer und User Story: User Stories anlegen (2.1)
-\item Zwischen Nutzer und Task: erstellen (3.1), Priorität ändern(3.3), Nutzer Task zuordnen(6.1), Aufwandsschätzung(8.1), suchen (9.1), filtern (9.2)
-\item Zwischen Product Owner und User Story: Priorität ändern (2.2)
-\item Zwischen Task und User Story: Verlinkung (3.2)(ausgelöst durch Methode in User)
-\item Zwischen Nutzer und Backlog-Liste: erstellen(4.1)
-\item Zwischen Task und Liste: verschoben in(4.2,4.3,4.4)(ausgelöst durch Methode in User)
-\item Zwischen Nutzer und Profil: editieren(5.4: 5.1 und 5.3 implizit)
-\item Zwischen Task und Task-Board: Zuordnung anzeigen(6.2)
+	\item Zwischen Nutzer  und Account: Accounts anlegen (Anforderung 1.1), einloggen (1.2), Passwort zurücksetzen (1.3)
+	\item Zwischen Nutzer und User Story: User Stories anlegen (2.1)
+	\item Zwischen Nutzer und Task: erstellen (3.1), Priorität ändern(3.3), Nutzer Task zuordnen(6.1), Aufwandsschätzung(8.1), suchen (9.1), filtern (9.2)
+	\item Zwischen Product Owner und User Story: Priorität ändern (2.2)
+	\item Zwischen Task und User Story: Verlinkung (3.2)(ausgelöst durch Methode in User)
+	\item Zwischen Nutzer und Backlog-Liste: erstellen(4.1)
+	\item Zwischen Task und Liste: verschoben in(4.2,4.3,4.4)(ausgelöst durch Methode in User)
+	\item Zwischen Nutzer und Profil: editieren(5.4: 5.1 und 5.3 implizit)
+	\item Zwischen Task und Task-Board: Zuordnung anzeigen(6.2)
 \end{itemize}
 \subsubsection{Speichern}
 Gespeichert werden müssen die Daten zu User, Profil, Account, Task, User-Story und Liste. Die Übergabe an die Interfaces ist in 2.2 ersichtlich.
@@ -394,7 +394,10 @@ Damit erhoffen wir uns, die Zeit, welche für die Einarbeitung in komplexe Frame
 Für die Umsetzung des Frontends haben wir uns entschieden, serverseitig gerenderte HTML-Templates einzusetzen.
 Hierfür wird eine Template-Engine benötigt, welche die Templates im Backend rendert.
 Gewählt haben wir \textit{Mustache}.
-Grundlage wir diese Entscheidung war die simple Syntax und die Unterstützung unserer gewählten Programmiersprache im Backend.
+Grundlage wir diese Entscheidung war die simple Syntax und die Unterstützung unserer gewählten Programmiersprache im Backend.\\
+Außerdem werden wir die Javascript-Bibliothek \textit{JQuery} einsetzen, um die clientseitige Veränderung der HTML-Dokumente zu vereinfachen.
+Eine solche Änderung kann nötig sein, wenn sich Daten auf dem Server ändern.
+Diese Veränderungen der Daten wollen wir mittels Polling ermitteln.
 
 \subsection{Backend}
 Eine Vorgabe für diese Projektarbeit ist es, das Backend in einer objektorientierten Sprache zu implementieren.
