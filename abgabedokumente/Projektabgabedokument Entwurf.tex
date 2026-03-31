@@ -194,6 +194,7 @@ Wir haben uns für eine Schichtenarchitektur entschieden, da sie das Prinzip der
 \subsubsection{Erklärung Methoden und Operationen}
 
 \paragraph{UserActions}
+Legt Grundstein für alle Basisfunktionen für alle Benutzer im System, wie zur Authentifizierung und Kontoverwaltung.
 \begin{itemize}
     \item \textbf{addUser(...)} -- Erstellt einen neuen Benutzer im System.
     \item \textbf{getUser(password, username)} -- Authentifiziert einen Benutzer anhand seiner Zugangsdaten.
@@ -202,6 +203,7 @@ Wir haben uns für eine Schichtenarchitektur entschieden, da sie das Prinzip der
 \end{itemize}
 
 \paragraph{DeveloperActions}
+Erweitert UserActions um Methoden zum bereitstellen der grundlegenden Funktionen, wie Backlog erstellen etc.
 \begin{itemize}
     \item \textbf{addUserstory(userstoryTitle, userstoryDescription, username)} -- Erstellt eine neue User Story im Backlog.
     \item \textbf{getPriority()} -- Gibt die gesetzte Priorität einer User Story oder Task zurück.
@@ -221,17 +223,20 @@ Wir haben uns für eine Schichtenarchitektur entschieden, da sie das Prinzip der
 \end{itemize}
 
 \paragraph{ProductOwnerActions}
+Stellt spezifische Methoden für den Product Owner bereit, insbesondere zur Priorisierung von User Stories.
 \begin{itemize}
     \item \textbf{setUserstoryPriority(priority)} -- Legt die Priorität einer User Story fest.
 \end{itemize}
 
 \paragraph{ScrumMasterActions}
+Enthält Methoden zur Verwaltung von Rollen und Aufgabenzuweisungen, die vom dem Scrum Master nutzbar sind.
 \begin{itemize}
     \item \textbf{setUserRole(userID)} -- Weist einem Benutzer eine Rolle zu.
     \item \textbf{setUserTask(userID, taskID)} -- Ordnet einem Benutzer eine Task zu.
 \end{itemize}
 
 \paragraph{DBContext}
+Definiert die Schnittstelle für alle Datenbankoperationen.
 \begin{itemize}
     \item \textbf{save()} -- Speichert ein Objekt in der Datenbank.
     \item \textbf{update()} -- Aktualisiert ein bestehendes Objekt in der Datenbank.
@@ -244,6 +249,7 @@ Wir haben uns für eine Schichtenarchitektur entschieden, da sie das Prinzip der
 \end{itemize}
 
 \paragraph{Controller}
+Bildet die Schnittstelle für die Kommunikation zwischen Application Layer und Presentation Layer.
 \begin{itemize}
     \item \textbf{handleRequest()} -- Verarbeitet eine eingehende Anfrage vom Application Layer.
     \item \textbf{updateView()} -- Aktualisiert die Darstellung in der View.
@@ -251,6 +257,7 @@ Wir haben uns für eine Schichtenarchitektur entschieden, da sie das Prinzip der
 \end{itemize}
 
 \paragraph{UserController}
+Spezialisiert den Controller für benutzerbezogene Operationen wie Registrierung, Login und Profilverwaltung.
 \begin{itemize}
     \item \textbf{registerUser()} -- Registriert einen neuen Benutzer.
     \item \textbf{loginUser()} -- Meldet einen Benutzer im System an.
@@ -261,6 +268,7 @@ Wir haben uns für eine Schichtenarchitektur entschieden, da sie das Prinzip der
 \end{itemize}
 
 \paragraph{TaskController}
+Spezifiziert den Controller für alle taskbezogenen Operationen wie Erstellung, Verschiebung und Filterung von Tasks.
 \begin{itemize}
     \item \textbf{createTask()} -- Erstellt eine neue Task.
     \item \textbf{updateTask()} -- Bearbeitet eine bestehende Task.
@@ -275,6 +283,7 @@ Wir haben uns für eine Schichtenarchitektur entschieden, da sie das Prinzip der
 \end{itemize}
 
 \paragraph{InputHandler}
+Verarbeitet und validiert Benutzereingaben aus der Benutzeroberfläche und leitet sie an den passenden Controller weiter.
 \begin{itemize}
     \item \textbf{processUserInput()} -- Verarbeitet Benutzereingaben aus der UI.
     \item \textbf{validateInput()} -- Prüft Eingaben auf Korrektheit.
@@ -283,6 +292,7 @@ Wir haben uns für eine Schichtenarchitektur entschieden, da sie das Prinzip der
 \end{itemize}
 
 \paragraph{LoginHandler}
+Spezifiziert den InputHandler für den Authentifizierungsprozess einschließlich Login, Registrierung und Passwort-Reset.
 \begin{itemize}
     \item \textbf{submitLogin()} -- Sendet Login-Daten zur Authentifizierung.
     \item \textbf{submitRegistration()} -- Sendet Registrierungsdaten zur Erstellung eines Accounts.
