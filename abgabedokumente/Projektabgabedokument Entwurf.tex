@@ -301,19 +301,26 @@ Spezifiziert den InputHandler für den Authentifizierungsprozess einschließlich
 	\item \textbf{navigateToHome()} -- Leitet nach erfolgreichem Login zur Startseite weiter.
 \end{itemize}
 
+Abbildung \ref{fig:interfaces} fasst alle oben beschriebenen Interfaces zusammen und listet ihre Methoden in einer Übersicht auf.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\textwidth]{interfaces-verfeinert}
-	\caption{Verfeinerte Interfaces}
+	\caption{Übersicht der verfeinerten Interfaces mit ihren Methoden}
+	\label{fig:interfaces}
 \end{figure}
 
-Visuelle Darstellung der Interfaces im Klassendiagramm.
+Jedes Interface ist als eigene Klasse mit seinen Methoden dargestellt. Die Abbildung dient als kompakte Referenz, um einen schnellen Überblick über den Funktionsumfang der einzelnen Interfaces zu erhalten.
 
 \newpage
 
 \subsubsection{Begründung der Sequenzdiagramm-Auswahl}
 
 \paragraph{1.\ Login-Versuch}
+Der Nutzer gibt seinen Benutzernamen und sein Passwort in das Login-Formular ein und bestätigt die Eingabe.
+Der \textit{LoginHandler} im Presentation Layer nimmt die Daten entgegen und leitet sie an den Service Layer weiter.
+Dort prüft der zuständige Service die Gültigkeit der Zugangsdaten, indem er den passenden Nutzer aus der Datenbank lädt und das übermittelte Passwort vergleicht.
+Bei erfolgreicher Authentifizierung wird der Nutzer auf die Startseite weitergeleitet; bei einem Fehler erhält er eine entsprechende Fehlermeldung.
 \begin{itemize}
 	\item \textbf{submitLogin(username, password)} -- Nimmt Benutzereingaben entgegen und initiiert den Login-Prozess.
 	\item \textbf{loginUser()} -- Koordiniert die Authentifizierung im Presentation Layer.
@@ -329,6 +336,10 @@ Visuelle Darstellung der Interfaces im Klassendiagramm.
 \end{figure}
 
 \paragraph{2.\ Username ändern}
+Ein eingeloggter Nutzer möchte seinen Benutzernamen ändern und übermittelt den neuen Namen über das Profilformular.
+Der \textit{ProfileHandler} im Presentation Layer nimmt die Änderung entgegen und gibt sie an den Service Layer.
+Dieser führt die notwendige Validierung durch und aktualisiert die Benutzerdaten in der Datenbank innerhalb einer Transaktion, um Datenkonsistenz sicherzustellen.
+Nach erfolgreichem Abschluss der Transaktion sind die Änderungen gespeichert.
 \begin{itemize}
 	\item \textbf{updateUserProfile()} -- Initiiert und koordiniert die Profiländerung.
 	\item \textbf{setUser(password, username)} -- Aktualisiert Zugangsdaten mit Businesslogik.
@@ -344,6 +355,10 @@ Visuelle Darstellung der Interfaces im Klassendiagramm.
 \end{figure}
 
 \paragraph{3.\ Task verschieben}
+Ein Nutzer verschiebt eine Task per Drag-and-Drop oder über eine entsprechende Aktion im Board in eine andere Taskliste (z.\,B. von \textit{In Bearbeitung} nach \textit{Fertiggestellt}).
+Der \textit{BoardHandler} im Presentation Layer leitet die Anfrage mit der Ziel-Taskliste an den Service Layer weiter.
+Dort wird die Änderung des Tasklisten-Zustands innerhalb einer Transaktion atomar in der Datenbank gespeichert.
+Nach dem erfolgreichen Commit wird das Board für alle angemeldeten Nutzer aktualisiert, sodass der neue Zustand der Task sofort sichtbar ist.
 \begin{itemize}
 	\item \textbf{moveTask(taskID, targetList)} -- Nimmt die Task-Verschiebung entgegen.
 	\item \textbf{changeTasklist(taskID, tasklistID)} -- Führt die Verschiebung im Service Layer aus.
