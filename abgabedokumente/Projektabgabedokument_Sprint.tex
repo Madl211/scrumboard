@@ -159,6 +159,7 @@ Diese Aufteilung unterstützt Seperation of Concerns und verwendet Repository Pa
 
 \paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
 Zugriffe erfolgen nur über Interfaces. Andere Erweiterungen sind nicht nötig, da das Anlegen eines Backlogs unkomplex ist.
+\newpage
 \begin{figure}[h]
     \centering
     \includegraphics[width=10cm]{diagram31.png}
@@ -167,6 +168,7 @@ Zugriffe erfolgen nur über Interfaces. Andere Erweiterungen sind nicht nötig, 
 
 \paragraph{Modellierung relevanter Verhaltensaspekte}
 Das erstellen einer Task wird hier anschaulich in einem Sequenzdiagramm dargestellt. Dieses entspricht ganz dem Ablauf, der in 2.1.4.1 beschrieben wurde.
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=10cm]{diagram32.png}
@@ -196,8 +198,51 @@ Der Ablauf des Anlegens eines Backlogs wird durch ein Sequenzdiagramm modelliert
 \end{figure}
 \subsubsection{Modellierung für User Story S5.1}
 \paragraph{Modellierung verfeinerter Struktur}
+Im Presentation Layer wird die Klasse \textbf{ProfileController} hinzugefügt.
+Diese beinhaltet die Logik zur Behandlung von Anfragen an die Routen \textbf{GET /profile} und \textbf{POST /profile}.\\
+Die Klasse \textbf{ProfileService} wird im Service Layer hinzugefügt.
+Diese Klasse beinhaltet die Logik zum Hinzufügen und Abfragen von Profilen.
+Außerdem werden dort die Eingaben validiert.
+Dafür werden die Klassen \textbf{EMailValidator} und \textbf{TelfonNumberValidator} benötigt, welche jeweils das entsprechende Interface implementieren.\\
+Im Data Layer wird die Klasse \textbf{ProfileRepository} hinzugefügt.
+Diese Klasse bietet eine Methode zum Speichern von Profilen in der Tabelle \textbf{profiles} an.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{s5_1_klassendiagramm.png}
+	\caption{Klassendiagramm für User Story S5.1}
+\end{figure}
+
 \paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+Für das Speichern und Abfragen von Profilen wird die Klasse \textbf{Profile} benötigt.
+Diese Klasse besitzt folgende Attribute: Name, Rolle, E-Mail, Telefonnummer, Postleitzahl, Ort, Straße, Hausnummer.\\
+Das Attribut Rolle ist vom Typ \textbf{Role}.
+\textbf{Role} ist eine Enumeration der möglichen Rollen eines Nutzers.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{s5_1_datenstrukturen.png}
+	\caption{Datenstrukturen für User Story S5.1}
+\end{figure}
+
 \paragraph{Modellierung relevanter Verhaltensaspekte}
+
+Die User Story S5.1 umfasst zwei verschiedene Abläufe.
+Zum einen kann ein Nutzer seine Profilinformationen abfragen.
+Dieser Ablauf hat einen geringe Komplexität und es existieren keine Ausnahmefälle, welche beachtet werden müssen.
+Daher wird hier auf ein Sequenzdiagramm verzichtet.\\
+Zum anderen kann ein Nutzer Profilinformationen speichern.
+In diesem Ablauf müssen die übergebenen Daten validiert und entsprechend auf Fehler reagiert werden.
+Daher ist die Erstellung eines Sequenzdiagramms sinnvoll.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=15cm]{s5_1_sequenzdiagramm.png}
+	\caption{Sequenzdiagramm für User Story S5.1}
+\end{figure}
+
+\newpage
+
 
 \newpage
 \subsection{Tracing}
