@@ -327,4 +327,7 @@ TSWLatexianTemp*
 
 # Maven
 target/
+.project
+.settings/
+.classpath
 
