@@ -13,14 +13,12 @@ public class ProfileService implements IProfileService {
 
     @Override
     public Profile getProfile() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getProfile'");
+        return profileRepository.getProfile();
     }
 
     @Override
     public boolean saveProfile(Profile profile) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveProfile'");
+        return profileRepository.saveProfile();
     }
     
 }

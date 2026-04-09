@@ -28,11 +28,11 @@ public class Profile {
         this.name = name;
     }
 
-    public String geteMail() {
+    public String getEMail() {
         return eMail;
     }
 
-    public void seteMail(String eMail) {
+    public void setEMail(String eMail) {
         this.eMail = eMail;
     }
 
