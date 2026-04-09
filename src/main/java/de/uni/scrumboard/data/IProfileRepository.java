@@ -2,7 +2,7 @@ package de.uni.scrumboard.data;
 
 public interface IProfileRepository {
 
-    Profile getProfile();
+    Profile getProfile(int accountId);
 
     boolean saveProfile();
 

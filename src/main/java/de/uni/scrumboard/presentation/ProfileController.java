@@ -18,7 +18,9 @@ public class ProfileController implements IProfileController {
 
     @Override
     public void getProfile(Context context) {
-        Profile result = profileService.getProfile();
+        int accountId = context.sessionAttribute("accountId");
+        
+        Profile result = profileService.getProfile(accountId);
         Map<String, Object> resultMap = convertProfileToMap(result);
 
         context.render(templatePath, resultMap);

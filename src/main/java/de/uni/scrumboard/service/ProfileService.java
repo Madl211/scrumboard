@@ -12,8 +12,8 @@ public class ProfileService implements IProfileService {
     }
 
     @Override
-    public Profile getProfile() {
-        return profileRepository.getProfile();
+    public Profile getProfile(int accountId) {
+        return profileRepository.getProfile(accountId);
     }
 
     @Override
