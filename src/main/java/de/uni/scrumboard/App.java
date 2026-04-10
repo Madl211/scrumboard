@@ -20,7 +20,6 @@ public class App {
     private static ProfileRepository profileRepository;
 
     public static void main(String[] args) {
-        System.out.println(System.getProperty("java.class.path"));
         bootstrapApplication();
 
         Javalin.create(config -> config.fileRenderer(new JavalinMustache()))
