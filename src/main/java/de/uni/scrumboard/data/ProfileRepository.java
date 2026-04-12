@@ -5,26 +5,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ProfileRepository implements IProfileRepository {
-
-    private Connection connection;
-
-    public ProfileRepository(Connection connection) {
-        this.connection = connection;
-    }
+public record ProfileRepository(Connection connection) implements IProfileRepository {
 
     @Override
     public Profile getProfile(int accountId) {
         try {
             PreparedStatement sqlStatement = connection.prepareStatement("SELECT * FROM profiles WHERE accountId = ?");
             sqlStatement.setInt(1, accountId);
-    
+
             ResultSet result = sqlStatement.executeQuery();
             Profile profile = mapResultToProfile(result);
 
             return profile;
-        } catch(SQLException e) {
-            throw new RuntimeException("Fehler bei der Abfrage des Profils mit der AccountID " + accountId + " aufgetreten", e);
+        } catch (SQLException e) {
+            throw new RuntimeException(
+                    "Fehler bei der Abfrage des Profils mit der AccountID " + accountId + " aufgetreten", e);
         }
     }
 
@@ -39,7 +34,7 @@ public class ProfileRepository implements IProfileRepository {
             String hausnummer = result.getString("hausnummer");
 
             return new Profile(name, eMail, telefonnummer, postleitzahl, ort, strasse, hausnummer);
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException("Fehler beim Mapping des Profils aufgetreten", e);
         }
     }
@@ -49,4 +44,4 @@ public class ProfileRepository implements IProfileRepository {
         return true;
     }
 
-}  
+}

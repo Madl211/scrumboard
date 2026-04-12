@@ -3,13 +3,7 @@ package de.uni.scrumboard.service;
 import de.uni.scrumboard.data.Profile;
 import de.uni.scrumboard.data.ProfileRepository;
 
-public class ProfileService implements IProfileService {
-
-    private ProfileRepository profileRepository;
-
-    public ProfileService(ProfileRepository profileRepository) {
-        this.profileRepository = profileRepository;
-    }
+public record ProfileService(ProfileRepository profileRepository) implements IProfileService {
 
     @Override
     public Profile getProfile(int accountId) {
@@ -20,5 +14,5 @@ public class ProfileService implements IProfileService {
     public boolean saveProfile(Profile profile) {
         return profileRepository.saveProfile();
     }
-    
+
 }

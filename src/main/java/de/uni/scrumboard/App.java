@@ -24,7 +24,7 @@ public class App {
 
         Javalin.create(config -> config.fileRenderer(new JavalinMustache()))
             .get("/profile", profileController::getProfile)
-        .start(8080);
+        .start(8000);
     }
 
     private static void bootstrapApplication() {
