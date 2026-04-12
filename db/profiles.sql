@@ -6,5 +6,6 @@ CREATE TABLE profiles (
     postleitzahl text,
     ort text,
     strasse text,
-    hausnummer text
+    hausnummer text,
+    foreign key (accountId) references accounts(accountId) on delete cascade
 )

@@ -1,5 +1,5 @@
 CREATE TABLE accounts (
-    accountId int AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+    accountId int AUTO_INCREMENT primary key,
+    email VARCHAR(255) not null unique,
+    password VARCHAR(255) not null
 )
