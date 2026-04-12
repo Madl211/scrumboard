@@ -4,6 +4,6 @@ public interface IProfileRepository {
 
     Profile getProfile(int accountId);
 
-    boolean saveProfile();
+    boolean saveProfile(Profile profile, int accountId);
 
 }

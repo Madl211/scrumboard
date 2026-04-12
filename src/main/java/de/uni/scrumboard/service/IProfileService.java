@@ -6,6 +6,6 @@ public interface IProfileService {
 
     Profile getProfile(int accountId);
 
-    boolean saveProfile(Profile profile);
+    boolean saveProfile(Profile profile, int accountId);
 
 }

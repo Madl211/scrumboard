@@ -12,12 +12,37 @@ public record ProfileController(ProfileService profileService) implements IProfi
 
     @Override
     public void getProfile(Context context) {
-        int accountId = context.sessionAttribute("accountId"); // -> Nullpointer!
+        Integer accountId = context.sessionAttribute("accountId");
+        if (accountId == null) {
+            context.redirect("/login");
+            return;
+        }
 
         Profile result = profileService.getProfile(accountId);
         Map<String, Object> resultMap = convertProfileToMap(result);
 
         context.render(templatePath, resultMap);
+    }
+
+    @Override
+    public void saveProfile(Context context) {
+        Integer accountId = context.sessionAttribute("accountId");
+        if (accountId == null) {
+            context.redirect("/login");
+            return;
+        }
+
+        Profile profile = new Profile(
+                context.formParam("name"),
+                context.formParam("eMail"),
+                context.formParam("telefonnummer"),
+                context.formParam("postleitzahl"),
+                context.formParam("ort"),
+                context.formParam("strasse"),
+                context.formParam("hausnummer"));
+
+        profileService.saveProfile(profile, accountId);
+        context.redirect("/profile");
     }
 
     private Map<String, Object> convertProfileToMap(Profile profile) {
@@ -32,12 +57,6 @@ public record ProfileController(ProfileService profileService) implements IProfi
         map.put("hausnummer", profile.hausNr());
 
         return map;
-    }
-
-    @Override
-    public void saveProfile(Context context) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveProfile'");
     }
 
 }

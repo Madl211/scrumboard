@@ -1,38 +1,37 @@
-<div style="width: 400px; height: 300px; display: flex; flex-direction: column; justify-content: space-between;">
-
-    <div style="display: flex; justify-content: space-between;">
-        <label for="name">Name:</label>
-        <input id="name" type="text" value="{{name}}">
+<div style="max-width: 520px; margin: 40px auto; font-family: Arial, sans-serif;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1>Profil</h1>
+        <a href="/logout" style="text-decoration: none; color: #444;">Abmelden</a>
     </div>
-
-    <div style="display: flex; justify-content: space-between;">
-        <label for="eMail">E-Mail:</label>
-        <input id="eMail" type="text" value="{{eMail}}">
-    </div>
-
-    <div style="display: flex; justify-content: space-between;">
-        <label for="telefonnummer">Telefonnummer:</label>
-        <input id="telefonnummer" type="text" value="{{telefonnummer}}">
-    </div>
-
-    <div style="display: flex; justify-content: space-between;">
-        <label for="ort">Ort:</label>
-        <input id="ort" type="text" value="{{ort}}">
-    </div>
-
-    <div style="display: flex; justify-content: space-between;">
-        <label for="postleitzahl">Postleitzahl:</label>
-        <input id="postleitzahl" type="text" value="{{postleitzahl}}">
-    </div>
-
-    <div style="display: flex; justify-content: space-between;">
-        <label for="strasse">Name:</label>
-        <input id="strasse" type="text" value="{{strasse}}">
-    </div>
-
-    <div style="display: flex; justify-content: space-between;">
-        <label for="hausnummer">Name:</label>
-        <input id="hausnummer" type="text" value="{{hausnummer}}">
-    </div>
-
+    <form action="/profile" method="post" style="display: flex; flex-direction: column; gap: 12px;">
+        <label style="display: flex; flex-direction: column; gap: 4px;">
+            Name
+            <input name="name" type="text" value="{{name}}" style="padding: 10px; width: 100%;" />
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 4px;">
+            E-Mail
+            <input name="eMail" type="email" value="{{eMail}}" style="padding: 10px; width: 100%;" />
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 4px;">
+            Telefonnummer
+            <input name="telefonnummer" type="text" value="{{telefonnummer}}" style="padding: 10px; width: 100%;" />
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 4px;">
+            Ort
+            <input name="ort" type="text" value="{{ort}}" style="padding: 10px; width: 100%;" />
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 4px;">
+            Postleitzahl
+            <input name="postleitzahl" type="text" value="{{postleitzahl}}" style="padding: 10px; width: 100%;" />
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 4px;">
+            Straße
+            <input name="strasse" type="text" value="{{strasse}}" style="padding: 10px; width: 100%;" />
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 4px;">
+            Hausnummer
+            <input name="hausnummer" type="text" value="{{hausnummer}}" style="padding: 10px; width: 100%;" />
+        </label>
+        <button type="submit" style="padding: 12px; margin-top: 12px;">Profil speichern</button>
+    </form>
 </div>

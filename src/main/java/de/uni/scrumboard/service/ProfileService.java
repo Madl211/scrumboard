@@ -11,8 +11,8 @@ public record ProfileService(ProfileRepository profileRepository) implements IPr
     }
 
     @Override
-    public boolean saveProfile(Profile profile) {
-        return profileRepository.saveProfile();
+    public boolean saveProfile(Profile profile, int accountId) {
+        return profileRepository.saveProfile(profile, accountId);
     }
 
 }
