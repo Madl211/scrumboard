@@ -11,6 +11,7 @@ import java.util.Properties;
 import de.uni.scrumboard.data.AccountRepository;
 import de.uni.scrumboard.data.ProfileRepository;
 import de.uni.scrumboard.presentation.AuthController;
+import de.uni.scrumboard.presentation.HomeController;
 import de.uni.scrumboard.presentation.ProfileController;
 import de.uni.scrumboard.service.AccountService;
 import de.uni.scrumboard.service.ProfileService;
@@ -21,6 +22,7 @@ public class App implements Runnable {
 
     private static ProfileController profileController;
     private static AuthController authController;
+    private static HomeController homeController;
     private static ProfileService profileService;
     private static AccountService accountService;
     private static ProfileRepository profileRepository;
@@ -30,13 +32,14 @@ public class App implements Runnable {
     public void run() {
         bootstrapApplication();
 
+        // TODO /robots.txt, /sitemap.xml
         Javalin.create(config -> config.fileRenderer(new JavalinMustache()))
                 .get("/", ctx -> {
                     Integer accountId = ctx.sessionAttribute("accountId");
                     if (accountId == null) {
                         ctx.redirect("/login");
                     } else {
-                        ctx.redirect("/profile");
+                        ctx.redirect("/home");
                     }
                 })
                 .get("/login", authController::getLogin)
@@ -46,6 +49,7 @@ public class App implements Runnable {
                 .get("/logout", authController::logout)
                 .get("/profile", profileController::getProfile)
                 .post("/profile", profileController::saveProfile)
+                .get("/home", homeController::showHome)
                 .start(8000);
     }
 
@@ -71,6 +75,7 @@ public class App implements Runnable {
 
             profileController = new ProfileController(profileService);
             authController = new AuthController(accountService, profileService);
+            homeController = new HomeController();
         } catch (IOException e) {
             System.err.println("Fehler beim Laden der Konfiguration:");
             e.printStackTrace();

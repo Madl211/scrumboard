@@ -17,7 +17,7 @@ public record AuthController(AccountService accountService, ProfileService profi
     public void getLogin(Context context) {
         Integer accountId = context.sessionAttribute("accountId");
         if (accountId != null) {
-            context.redirect("/profile");
+            context.redirect("/home");
             return;
         }
 
@@ -43,7 +43,7 @@ public record AuthController(AccountService accountService, ProfileService profi
         }
 
         context.sessionAttribute("accountId", accountId.get());
-        context.redirect("/profile");
+        context.redirect("/home");
     }
 
     @Override
