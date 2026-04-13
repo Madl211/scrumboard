@@ -10,9 +10,16 @@ public record AccountService(IAccountRepository accountRepository) implements IA
 
     @Override
     public Optional<Integer> authenticate(String email, String password) {
-        return accountRepository.findByEmail(email)
-                .filter(account -> PasswordUtil.verify(password, account.passwordHash()))
-                .map(Account::accountId);
+        Optional<Account> account;
+        if (email.contains("@")) {
+            account = accountRepository.findByEmail(email);
+        } else {
+            account = accountRepository.findByUsername(email);
+        }
+
+        return account
+            .filter(acc -> PasswordUtil.verify(password, acc.passwordHash()))
+            .map(Account::accountId);
     }
 
     @Override

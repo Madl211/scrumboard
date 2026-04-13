@@ -1,3 +1,4 @@
+<meta charset="UTF-8">
 <div style="max-width: 420px;margin: 2vh auto;font-family: Arial, sans-serif;display: flex;height: 96vh;justify-content: center;align-items: center;flex-direction: column;">
     <h1>Registrieren</h1>
     {{#errorMessage}}
@@ -15,6 +16,10 @@
         <label>
             Passwort
             <input type="password" name="password" required style="width: 100%; padding: 8px;" />
+        </label>
+        <label>
+            Passwort bestätigen
+            <input type="password" name="confirmPassword" required style="width: 100%; padding: 8px;" />
         </label>
         <button type="submit" style="padding: 10px;">Registrieren</button>
     </form>
