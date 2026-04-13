@@ -65,9 +65,20 @@ public record AuthController(AccountService accountService, ProfileService profi
         String email = context.formParam("email").trim();
         String username = context.formParam("username").trim();
         String password = context.formParam("password");
+        String confirmPassword = context.formParam("confirmPassword");
 
-        if (email.isEmpty() || username.isEmpty() || password.isEmpty()) {
+        if (email.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             renderRegister(context, email, username, "Bitte füllen Sie alle Felder aus.");
+            return;
+        }
+
+        if (!email.contains("@") || !email.contains(".")) {
+            renderRegister(context, email, username, "Bitte geben Sie eine gültige E-Mail-Adresse an.");
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            renderRegister(context, email, username, "Die Passwörter stimmen nicht überein.");
             return;
         }
 
