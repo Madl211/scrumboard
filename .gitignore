@@ -331,3 +331,6 @@ target/
 .settings/
 .classpath
 
+output/
+
+.vscode

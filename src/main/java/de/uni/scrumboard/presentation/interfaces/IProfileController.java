@@ -1,4 +1,4 @@
-package de.uni.scrumboard.presentation;
+package de.uni.scrumboard.presentation.interfaces;
 
 import io.javalin.http.Context;
 
