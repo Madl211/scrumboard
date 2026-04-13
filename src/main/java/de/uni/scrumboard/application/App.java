@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import de.uni.scrumboard.application.interfaces.IApp;
 import de.uni.scrumboard.data.AccountRepository;
 import de.uni.scrumboard.data.ProfileRepository;
 import de.uni.scrumboard.presentation.AuthController;
@@ -18,7 +19,7 @@ import de.uni.scrumboard.service.ProfileService;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinMustache;
 
-public class App implements Runnable {
+public class App implements IApp {
 
     private static ProfileController profileController;
     private static AuthController authController;
@@ -29,7 +30,7 @@ public class App implements Runnable {
     private static AccountRepository accountRepository;
 
     @Override
-    public void run() {
+    public void run(int port) {
         bootstrapApplication();
 
         // TODO /robots.txt, /sitemap.xml
@@ -50,7 +51,7 @@ public class App implements Runnable {
                 .get("/profile", profileController::getProfile)
                 .post("/profile", profileController::saveProfile)
                 .get("/home", homeController::showHome)
-                .start(8000);
+                .start(port);
     }
 
     private static void bootstrapApplication() {
