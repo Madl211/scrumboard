@@ -1,3 +1,70 @@
-<div style="max-width: 420px;margin: 2vh auto;font-family: Arial, sans-serif;display: flex;height: 96vh;justify-content: center;align-items: center;flex-direction: column;">
-    <h1>Home</h1>
+<div style="max-width: 1200px;margin: 2vh auto;font-family: Arial, sans-serif;">
+    <h1>Scrum Board Dashboard</h1>
+    
+    <div style="margin-bottom: 2rem;">
+        <a href="/create-task" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Create New Task</a>
+    </div>
+
+    <div style="display: flex; gap: 2rem;">
+        <div style="flex: 1;">
+            <h2>Users</h2>
+            <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">ID</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Username</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#accounts}}
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{accountId}}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{username}}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{email}}</td>
+                    </tr>
+                    {{/accounts}}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="flex: 1;">
+            <h2>Tasks</h2>
+            <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">ID</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Title</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Creator</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Assignees</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Due Date</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#tasks}}
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{taskId}}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{title}}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{creator.username}}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">
+                            {{#assignees}}
+                            {{username}}{{^last}}, {{/last}}
+                            {{/assignees}}
+                        </td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{due}}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">
+                            {{#actualTime}}
+                            Completed
+                            {{/actualTime}}
+                            {{^actualTime}}
+                            In Progress
+                            {{/actualTime}}
+                        </td>
+                    </tr>
+                    {{/tasks}}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

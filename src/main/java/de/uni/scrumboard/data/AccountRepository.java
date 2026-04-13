@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import de.uni.scrumboard.data.interfaces.IAccountRepository;
@@ -43,6 +45,40 @@ public record AccountRepository(Connection connection) implements IAccountReposi
         } catch (SQLException e) {
             throw new RuntimeException("Fehler beim Laden des Accounts mit dem Username" + username, e);
         }
+    }
+
+    @Override
+    public Optional<Account> findById(int accountId) {
+        try (PreparedStatement sqlStatement = connection.prepareStatement(
+                "SELECT accountId, email, passwordHash, username FROM accounts WHERE accountId = ?")) {
+            sqlStatement.setInt(1, accountId);
+
+            try (ResultSet result = sqlStatement.executeQuery()) {
+                if (result.next()) {
+                    return Optional.of(mapResultToAccount(result));
+                }
+                return Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Fehler beim Laden des Accounts mit ID " + accountId, e);
+        }
+    }
+
+    @Override
+    public List<Account> getAllAccounts() {
+        List<Account> accounts = new ArrayList<>();
+        try (PreparedStatement sqlStatement = connection.prepareStatement(
+                "SELECT accountId, email, passwordHash, username FROM accounts")) {
+
+            try (ResultSet result = sqlStatement.executeQuery()) {
+                while (result.next()) {
+                    accounts.add(mapResultToAccount(result));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Fehler beim Laden aller Accounts", e);
+        }
+        return accounts;
     }
 
     @Override

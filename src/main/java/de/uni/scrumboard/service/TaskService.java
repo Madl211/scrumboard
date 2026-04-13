@@ -1,0 +1,41 @@
+package de.uni.scrumboard.service;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import de.uni.scrumboard.data.Account;
+import de.uni.scrumboard.data.Task;
+import de.uni.scrumboard.data.interfaces.IAccountRepository;
+import de.uni.scrumboard.data.interfaces.ITaskRepository;
+import de.uni.scrumboard.service.interfaces.ITaskService;
+
+public record TaskService(ITaskRepository taskRepository, IAccountRepository accountRepository) implements ITaskService {
+
+    @Override
+    public Optional<Task> getTaskById(int taskId) {
+        return taskRepository.getTaskById(taskId);
+    }
+
+    @Override
+    public List<Task> getAllTasks() {
+        return taskRepository.getAllTasks();
+    }
+
+    @Override
+    public Task createTask(String title, String description, List<Integer> assigneeIds, int creatorId, Date startDate, Date dueDate, int estimatedTime) {
+        Account creator = accountRepository.findById(creatorId).orElseThrow(() -> new RuntimeException("Creator not found"));
+        List<Account> assignees = assigneeIds.stream()
+            .map(id -> accountRepository.findById(id).orElseThrow(() -> new RuntimeException("Assignee not found: " + id)))
+            .collect(Collectors.toList());
+        
+        Date created = new Date();
+        return taskRepository.createTask(0, title, description, assignees, creator, startDate, dueDate, created, estimatedTime, 0);
+    }
+
+    @Override
+    public boolean updateTask(Task task) {
+        return taskRepository.saveTask(task, task.taskId());
+    }
+}

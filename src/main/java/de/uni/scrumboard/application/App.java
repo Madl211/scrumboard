@@ -11,6 +11,9 @@ import java.util.Properties;
 import de.uni.scrumboard.application.interfaces.IApp;
 import de.uni.scrumboard.data.AccountRepository;
 import de.uni.scrumboard.data.ProfileRepository;
+import de.uni.scrumboard.data.TaskRepository;
+import de.uni.scrumboard.presentation.TaskController;
+import de.uni.scrumboard.service.TaskService;
 import de.uni.scrumboard.presentation.AuthController;
 import de.uni.scrumboard.presentation.HomeController;
 import de.uni.scrumboard.presentation.ProfileController;
@@ -24,10 +27,13 @@ public class App implements IApp {
     private static ProfileController profileController;
     private static AuthController authController;
     private static HomeController homeController;
+    private static TaskController taskController;
     private static ProfileService profileService;
     private static AccountService accountService;
+    private static TaskService taskService;
     private static ProfileRepository profileRepository;
     private static AccountRepository accountRepository;
+    private static TaskRepository taskRepository;
 
     @Override
     public void run(int port) {
@@ -51,6 +57,8 @@ public class App implements IApp {
                 .get("/profile", profileController::getProfile)
                 .post("/profile", profileController::saveProfile)
                 .get("/home", homeController::showHome)
+                .get("/create-task", taskController::getCreateTask)
+                .post("/create-task", taskController::postCreateTask)
                 .start(port);
     }
 
@@ -70,13 +78,16 @@ public class App implements IApp {
 
             profileRepository = new ProfileRepository(databaseConnection);
             accountRepository = new AccountRepository(databaseConnection);
+            taskRepository = new TaskRepository(databaseConnection);
 
             profileService = new ProfileService(profileRepository);
             accountService = new AccountService(accountRepository);
+            taskService = new TaskService(taskRepository, accountRepository);
 
             profileController = new ProfileController(profileService);
             authController = new AuthController(accountService, profileService);
-            homeController = new HomeController();
+            homeController = new HomeController(accountService, taskService);
+            taskController = new TaskController(taskService, accountService);
         } catch (IOException e) {
             System.err.println("Fehler beim Laden der Konfiguration:");
             e.printStackTrace();
@@ -108,6 +119,29 @@ public class App implements IApp {
                             "ort TEXT," +
                             "strasse TEXT," +
                             "hausnummer TEXT," +
+                            "FOREIGN KEY(accountId) REFERENCES accounts(accountId) ON DELETE CASCADE" +
+                            ")");
+
+            statement.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS tasks (" +
+                            "taskId INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "title TEXT NOT NULL," +
+                            "description TEXT," +
+                            "creatorId INTEGER NOT NULL," +
+                            "startDate DATE," +
+                            "dueDate DATE," +
+                            "createdDate DATE NOT NULL," +
+                            "estimatedTime INTEGER," +
+                            "actualTime INTEGER," +
+                            "FOREIGN KEY(creatorId) REFERENCES accounts(accountId)" +
+                            ")");
+
+            statement.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS task_assignees (" +
+                            "taskId INTEGER NOT NULL," +
+                            "accountId INTEGER NOT NULL," +
+                            "PRIMARY KEY(taskId, accountId)," +
+                            "FOREIGN KEY(taskId) REFERENCES tasks(taskId) ON DELETE CASCADE," +
                             "FOREIGN KEY(accountId) REFERENCES accounts(accountId) ON DELETE CASCADE" +
                             ")");
         } catch (SQLException e) {
