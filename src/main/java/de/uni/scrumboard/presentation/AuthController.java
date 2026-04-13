@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import de.uni.scrumboard.presentation.interfaces.IAuthController;
 import de.uni.scrumboard.service.AccountService;
 import de.uni.scrumboard.service.ProfileService;
 import io.javalin.http.Context;

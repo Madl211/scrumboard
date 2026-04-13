@@ -1,4 +1,4 @@
-package de.uni.scrumboard.service;
+package de.uni.scrumboard.service.interfaces;
 
 import java.util.Optional;
 

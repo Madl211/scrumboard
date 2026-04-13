@@ -1,6 +1,8 @@
-package de.uni.scrumboard.data;
+package de.uni.scrumboard.data.interfaces;
 
 import java.util.Optional;
+
+import de.uni.scrumboard.data.Account;
 
 public interface IAccountRepository {
     Optional<Account> findByEmail(String email);

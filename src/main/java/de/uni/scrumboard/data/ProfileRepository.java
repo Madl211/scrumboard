@@ -5,11 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import de.uni.scrumboard.data.interfaces.IProfileRepository;
+
 public record ProfileRepository(Connection connection) implements IProfileRepository {
 
     @Override
     public Profile getProfile(int accountId) {
-        try (PreparedStatement sqlStatement = connection.prepareStatement("SELECT * FROM profiles WHERE accountId = ?")) {
+        try (PreparedStatement sqlStatement = connection
+                .prepareStatement("SELECT * FROM profiles WHERE accountId = ?")) {
             sqlStatement.setInt(1, accountId);
 
             try (ResultSet result = sqlStatement.executeQuery()) {

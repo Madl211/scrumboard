@@ -1,4 +1,6 @@
-package de.uni.scrumboard.data;
+package de.uni.scrumboard.data.interfaces;
+
+import de.uni.scrumboard.data.Profile;
 
 public interface IProfileRepository {
 

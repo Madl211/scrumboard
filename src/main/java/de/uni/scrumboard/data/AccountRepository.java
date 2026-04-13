@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Optional;
 
+import de.uni.scrumboard.data.interfaces.IAccountRepository;
+
 public record AccountRepository(Connection connection) implements IAccountRepository {
 
     @Override
@@ -29,7 +31,7 @@ public record AccountRepository(Connection connection) implements IAccountReposi
     @Override
     public Optional<Account> findByUsername(String username) {
         try (PreparedStatement sqlStatement = connection.prepareStatement(
-            "SELECT accountId, email, passwordHash, username FROM accounts WHERE username = ?")) {
+                "SELECT accountId, email, passwordHash, username FROM accounts WHERE username = ?")) {
             sqlStatement.setString(1, username);
 
             try (ResultSet result = sqlStatement.executeQuery()) {
@@ -38,15 +40,16 @@ public record AccountRepository(Connection connection) implements IAccountReposi
                 }
                 return Optional.empty();
             }
-            } catch (SQLException e) {
-                throw new RuntimeException("Fehler beim Laden des Accounts mit dem Username" + username, e);
-            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Fehler beim Laden des Accounts mit dem Username" + username, e);
+        }
     }
 
     @Override
     public Account createAccount(String email, String passwordHash, String username) {
         try (PreparedStatement sqlStatement = connection.prepareStatement(
-                "INSERT INTO accounts(email, passwordHash, username) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+                "INSERT INTO accounts(email, passwordHash, username) VALUES (?, ?, ?)",
+                Statement.RETURN_GENERATED_KEYS)) {
             sqlStatement.setString(1, email);
             sqlStatement.setString(2, passwordHash);
             sqlStatement.setString(3, username);

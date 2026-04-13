@@ -2,6 +2,7 @@ package de.uni.scrumboard.service;
 
 import de.uni.scrumboard.data.Profile;
 import de.uni.scrumboard.data.ProfileRepository;
+import de.uni.scrumboard.service.interfaces.IProfileService;
 
 public record ProfileService(ProfileRepository profileRepository) implements IProfileService {
 

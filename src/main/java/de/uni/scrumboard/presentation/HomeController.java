@@ -1,5 +1,6 @@
 package de.uni.scrumboard.presentation;
 
+import de.uni.scrumboard.presentation.interfaces.IHomeController;
 import io.javalin.http.Context;
 
 public record HomeController() implements IHomeController {

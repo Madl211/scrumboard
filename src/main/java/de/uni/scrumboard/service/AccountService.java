@@ -3,8 +3,9 @@ package de.uni.scrumboard.service;
 import java.util.Optional;
 
 import de.uni.scrumboard.data.Account;
-import de.uni.scrumboard.data.IAccountRepository;
 import de.uni.scrumboard.data.PasswordUtil;
+import de.uni.scrumboard.data.interfaces.IAccountRepository;
+import de.uni.scrumboard.service.interfaces.IAccountService;
 
 public record AccountService(IAccountRepository accountRepository) implements IAccountService {
 
