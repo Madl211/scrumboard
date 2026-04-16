@@ -133,6 +133,7 @@ public class App implements IApp {
                             "createdDate DATE NOT NULL," +
                             "estimatedTime INTEGER," +
                             "actualTime INTEGER," +
+                            "status INTEGER," +
                             "FOREIGN KEY(creatorId) REFERENCES accounts(accountId)" +
                             ")");
 

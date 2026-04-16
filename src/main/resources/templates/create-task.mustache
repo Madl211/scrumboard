@@ -14,17 +14,35 @@
         
         <div>
             <label for="startDate" style="display: block; margin-bottom: 0.5rem;">Start Date:</label>
-            <input type="date" id="startDate" name="startDate" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+            <input type="date" id="startDate" name="startDate" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
         </div>
         
         <div>
             <label for="dueDate" style="display: block; margin-bottom: 0.5rem;">Due Date:</label>
-            <input type="date" id="dueDate" name="dueDate" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+            <input type="date" id="dueDate" name="dueDate" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
         </div>
         
         <div>
             <label for="estimatedTime" style="display: block; margin-bottom: 0.5rem;">Estimated Time (hours):</label>
-            <input type="number" id="estimatedTime" name="estimatedTime" min="0" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+            <input type="number" id="estimatedTime"  required name="estimatedTime" min="0" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+
+        <div>
+            <label for="estimatedTime" style="display: block; margin-bottom: 0.5rem;">Status:</label>
+            <div style="display: flex; flex-direction: row; justify-content: space-between; ">
+                <div>
+                    <input type="radio" id="statusTodo" name="status" value = 0>
+                    <label for="statusTodo">Todo</label> 
+                </div>
+                <div>
+                    <input type="radio" id="statusInProg" name="status" value = 1>
+                    <label for="statusInProg">In Progress</label> 
+                </div>
+                <div>
+                    <input type="radio" id="statusTodo" name="status" value = 2>
+                    <label for="statusCompleted">Completed</label> 
+                </div>
+            </div>
         </div>
         
         <div>

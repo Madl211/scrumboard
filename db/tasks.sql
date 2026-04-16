@@ -8,6 +8,7 @@ CREATE TABLE tasks (
     createdDate DATE not null,
     estimatedTime int,
     actualTime int,
+    status int,
     foreign key (creatorId) references accounts(accountId)
 );
 

@@ -1,7 +1,7 @@
 <div style="max-width: 1200px;margin: 2vh auto;font-family: Arial, sans-serif;">
-    <h1>Scrum Board Dashboard</h1>
     
-    <div style="margin-bottom: 2rem;">
+    <div style="    margin-bottom: 2rem; display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+        <h1>Scrum Board Dashboard</h1>
         <a href="/create-task" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Create New Task</a>
     </div>
 
@@ -53,14 +53,7 @@
                             {{/assignees}}
                         </td>
                         <td style="border: 1px solid #ddd; padding: 8px;">{{due}}</td>
-                        <td style="border: 1px solid #ddd; padding: 8px;">
-                            {{#actualTime}}
-                            Completed
-                            {{/actualTime}}
-                            {{^actualTime}}
-                            In Progress
-                            {{/actualTime}}
-                        </td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{status}}</td>
                     </tr>
                     {{/tasks}}
                 </tbody>

@@ -7,11 +7,13 @@ import java.util.stream.Collectors;
 
 import de.uni.scrumboard.data.Account;
 import de.uni.scrumboard.data.Task;
+import de.uni.scrumboard.data.enums.TaskStatus;
 import de.uni.scrumboard.data.interfaces.IAccountRepository;
 import de.uni.scrumboard.data.interfaces.ITaskRepository;
 import de.uni.scrumboard.service.interfaces.ITaskService;
 
-public record TaskService(ITaskRepository taskRepository, IAccountRepository accountRepository) implements ITaskService {
+public record TaskService(ITaskRepository taskRepository, IAccountRepository accountRepository)
+        implements ITaskService {
 
     @Override
     public Optional<Task> getTaskById(int taskId) {
@@ -24,14 +26,19 @@ public record TaskService(ITaskRepository taskRepository, IAccountRepository acc
     }
 
     @Override
-    public Task createTask(String title, String description, List<Integer> assigneeIds, int creatorId, Date startDate, Date dueDate, int estimatedTime) {
-        Account creator = accountRepository.findById(creatorId).orElseThrow(() -> new RuntimeException("Creator not found"));
+    public Task createTask(String title, String description, List<Integer> assigneeIds, int creatorId, Date startDate,
+            Date dueDate, int estimatedTime, TaskStatus status) {
+                
+        Account creator = accountRepository.findById(creatorId)
+                .orElseThrow(() -> new RuntimeException("Creator not found"));
         List<Account> assignees = assigneeIds.stream()
-            .map(id -> accountRepository.findById(id).orElseThrow(() -> new RuntimeException("Assignee not found: " + id)))
-            .collect(Collectors.toList());
-        
+                .map(id -> accountRepository.findById(id)
+                        .orElseThrow(() -> new RuntimeException("Assignee not found: " + id)))
+                .collect(Collectors.toList());
+
         Date created = new Date();
-        return taskRepository.createTask(0, title, description, assignees, creator, startDate, dueDate, created, estimatedTime, 0);
+        return taskRepository.createTask(0, title, description, assignees, creator, startDate, dueDate, created,
+                estimatedTime, 0, status);
     }
 
     @Override

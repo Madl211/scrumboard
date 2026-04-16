@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import de.uni.scrumboard.data.enums.TaskStatus;
 import de.uni.scrumboard.data.interfaces.ITaskRepository;
 
 public record TaskRepository(Connection connection) implements ITaskRepository {
@@ -17,7 +18,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
     @Override
     public Optional<Task> getTaskById(int taskId) {
         try (PreparedStatement sqlStatement = connection.prepareStatement(
-                "SELECT taskId, title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime FROM tasks WHERE taskId = ?")) {
+                "SELECT taskId, title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime, status FROM tasks WHERE taskId = ?")) {
             sqlStatement.setInt(1, taskId);
 
             try (ResultSet result = sqlStatement.executeQuery()) {
@@ -31,11 +32,13 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
                     Date created = result.getDate("createdDate");
                     int estimatedTime = result.getInt("estimatedTime");
                     int actualTime = result.getInt("actualTime");
+                    TaskStatus status = TaskStatus.itoStatus(result.getInt("status"));
 
                     Account creator = getAccountById(creatorId);
                     List<Account> assignees = getAssigneesForTask(taskId);
 
-                    Task task = new Task(id, title, desc, assignees, creator, start, due, created, estimatedTime, actualTime);
+                    Task task = new Task(id, title, desc, assignees, creator, start, due, created, estimatedTime,
+                            actualTime, status);
                     return Optional.of(task);
                 }
                 return Optional.empty();
@@ -48,7 +51,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
     public List<Task> getAllTasks() {
         List<Task> tasks = new ArrayList<>();
         try (PreparedStatement sqlStatement = connection.prepareStatement(
-                "SELECT taskId, title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime FROM tasks")) {
+                "SELECT taskId, title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime, status FROM tasks")) {
 
             try (ResultSet result = sqlStatement.executeQuery()) {
                 while (result.next()) {
@@ -61,11 +64,13 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
                     Date created = result.getDate("createdDate");
                     int estimatedTime = result.getInt("estimatedTime");
                     int actualTime = result.getInt("actualTime");
+                    TaskStatus status = TaskStatus.itoStatus(result.getInt(("status")));
 
                     Account creator = getAccountById(creatorId);
                     List<Account> assignees = getAssigneesForTask(id);
 
-                    Task task = new Task(id, title, desc, assignees, creator, start, due, created, estimatedTime, actualTime);
+                    Task task = new Task(id, title, desc, assignees, creator, start, due, created, estimatedTime,
+                            actualTime, status);
                     tasks.add(task);
                 }
             }
@@ -79,13 +84,13 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
     public boolean saveTask(Task task, int taskId) {
         try (PreparedStatement sqlStatement = connection.prepareStatement(
                 "INSERT INTO tasks(taskId, title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) "
-                + "ON CONFLICT(taskId) DO UPDATE SET "
-                + "title = excluded.title, "
-                + "description = excluded.description, "
-                + "startDate = excluded.startDate, "
-                + "dueDate = excluded.dueDate, "
-                + "estimatedTime = excluded.estimatedTime, "
-                + "actualTime = excluded.actualTime")) {
+                        + "ON CONFLICT(taskId) DO UPDATE SET "
+                        + "title = excluded.title, "
+                        + "description = excluded.description, "
+                        + "startDate = excluded.startDate, "
+                        + "dueDate = excluded.dueDate, "
+                        + "estimatedTime = excluded.estimatedTime, "
+                        + "actualTime = excluded.actualTime")) {
 
             sqlStatement.setInt(1, taskId);
             sqlStatement.setString(2, task.title());
@@ -110,9 +115,9 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
 
     @Override
     public Task createTask(int taskId, String title, String desc, List<Account> assignees, Account creator, Date start,
-            Date due, Date created, int estimatedTime, int actualTime) {
+            Date due, Date created, int estimatedTime, int actualTime, TaskStatus status) {
         try (PreparedStatement sqlStatement = connection.prepareStatement(
-                "INSERT INTO tasks(title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO tasks(title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime, status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 Statement.RETURN_GENERATED_KEYS)) {
             sqlStatement.setString(1, title);
             sqlStatement.setString(2, desc);
@@ -122,6 +127,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
             sqlStatement.setDate(6, created != null ? new java.sql.Date(created.getTime()) : null);
             sqlStatement.setInt(7, estimatedTime);
             sqlStatement.setInt(8, actualTime);
+            sqlStatement.setInt(9, status.val);
 
             int affectedRows = sqlStatement.executeUpdate();
             if (affectedRows == 0) {
@@ -131,7 +137,8 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
             try (ResultSet generatedKeys = sqlStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     int generatedTaskId = generatedKeys.getInt(1);
-                    Task task = new Task(generatedTaskId, title, desc, assignees, creator, start, due, created, estimatedTime, actualTime);
+                    Task task = new Task(generatedTaskId, title, desc, assignees, creator, start, due, created,
+                            estimatedTime, actualTime, status);
                     saveAssigneesForTask(generatedTaskId, assignees);
                     return task;
                 }
@@ -150,8 +157,8 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
 
             try (ResultSet result = sqlStatement.executeQuery()) {
                 if (result.next()) {
-                    return new Account(result.getInt("accountId"), result.getString("email"), 
-                                     result.getString("passwordHash"), result.getString("username"));
+                    return new Account(result.getInt("accountId"), result.getString("email"),
+                            result.getString("passwordHash"), result.getString("username"));
                 }
                 throw new RuntimeException("Account mit ID " + accountId + " nicht gefunden");
             }
@@ -164,13 +171,13 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
         List<Account> assignees = new ArrayList<>();
         try (PreparedStatement sqlStatement = connection.prepareStatement(
                 "SELECT a.accountId, a.email, a.passwordHash, a.username FROM accounts a " +
-                "JOIN task_assignees ta ON a.accountId = ta.accountId WHERE ta.taskId = ?")) {
+                        "JOIN task_assignees ta ON a.accountId = ta.accountId WHERE ta.taskId = ?")) {
             sqlStatement.setInt(1, taskId);
 
             try (ResultSet result = sqlStatement.executeQuery()) {
                 while (result.next()) {
-                    assignees.add(new Account(result.getInt("accountId"), result.getString("email"), 
-                                            result.getString("passwordHash"), result.getString("username")));
+                    assignees.add(new Account(result.getInt("accountId"), result.getString("email"),
+                            result.getString("passwordHash"), result.getString("username")));
                 }
             }
         } catch (SQLException e) {

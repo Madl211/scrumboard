@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import de.uni.scrumboard.data.Account;
 import de.uni.scrumboard.data.Task;
+import de.uni.scrumboard.data.enums.TaskStatus;
 
 public interface ITaskRepository {
     Optional<Task> getTaskById(int taskId);
@@ -16,5 +17,5 @@ public interface ITaskRepository {
 
     Task createTask(int taskId, String title, String desc, List<Account> assignees, Account creator, Date start,
             Date due,
-            Date created, int estimatedTime, int actualTime);
+            Date created, int estimatedTime, int actualTime, TaskStatus status);
 }

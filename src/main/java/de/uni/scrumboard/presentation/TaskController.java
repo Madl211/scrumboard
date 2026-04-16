@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.uni.scrumboard.data.Account;
+import de.uni.scrumboard.data.enums.TaskStatus;
 import de.uni.scrumboard.presentation.interfaces.ITaskController;
 import de.uni.scrumboard.service.interfaces.IAccountService;
 import de.uni.scrumboard.service.interfaces.ITaskService;
@@ -47,13 +48,19 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         String[] assigneeIdsStr = context.formParamMap().getOrDefault("assignees", List.of()).toArray(new String[0]);
 
         List<Integer> assigneeIds = Arrays.stream(assigneeIdsStr)
-            .map(Integer::parseInt)
-            .toList();
+                .map(Integer::parseInt)
+                .toList();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date startDate = null;
         java.util.Date dueDate = null;
         int estimatedTime = 0;
+
+        int statusInt = Integer.valueOf(context.formParam("status"));
+        if (statusInt < 0 || statusInt > 3)
+            statusInt = 0;
+
+        TaskStatus status = TaskStatus.itoStatus(statusInt);
 
         try {
             if (startDateStr != null && !startDateStr.isEmpty()) {
@@ -70,7 +77,7 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
             return;
         }
 
-        taskService.createTask(title, description, assigneeIds, accountId, startDate, dueDate, estimatedTime);
+        taskService.createTask(title, description, assigneeIds, accountId, startDate, dueDate, estimatedTime, status);
         context.redirect("/home");
     }
 }
