@@ -1,5 +1,6 @@
 package de.uni.scrumboard.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import de.uni.scrumboard.data.Account;
@@ -32,5 +33,10 @@ public record AccountService(IAccountRepository accountRepository) implements IA
         String passwordHash = PasswordUtil.hash(password);
         Account account = accountRepository.createAccount(email, passwordHash, username);
         return Optional.of(account.accountId());
+    }
+
+    @Override
+    public List<Account> getAllAccounts() {
+        return accountRepository.getAllAccounts();
     }
 }

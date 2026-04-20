@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import de.uni.scrumboard.data.Profile;
 import de.uni.scrumboard.presentation.interfaces.IProfileController;
-import de.uni.scrumboard.service.ProfileService;
+import de.uni.scrumboard.service.interfaces.IProfileService;
 import io.javalin.http.Context;
 
-public record ProfileController(ProfileService profileService) implements IProfileController {
+public record ProfileController(IProfileService profileService) implements IProfileController {
 
     private final static String templatePath = "templates/profile.mustache";
 

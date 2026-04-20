@@ -5,11 +5,12 @@ import java.util.Map;
 import java.util.Optional;
 
 import de.uni.scrumboard.presentation.interfaces.IAuthController;
-import de.uni.scrumboard.service.AccountService;
-import de.uni.scrumboard.service.ProfileService;
+import de.uni.scrumboard.service.interfaces.IAccountService;
+import de.uni.scrumboard.service.interfaces.IProfileService;
 import io.javalin.http.Context;
 
-public record AuthController(AccountService accountService, ProfileService profileService) implements IAuthController {
+public record AuthController(IAccountService accountService, IProfileService profileService)
+        implements IAuthController {
 
     private static final String loginTemplate = "templates/login.mustache";
     private static final String registerTemplate = "templates/register.mustache";
