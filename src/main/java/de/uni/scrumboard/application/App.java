@@ -10,14 +10,17 @@ import java.util.Properties;
 
 import de.uni.scrumboard.application.interfaces.IApp;
 import de.uni.scrumboard.data.AccountRepository;
+import de.uni.scrumboard.data.BacklogRepository;
 import de.uni.scrumboard.data.ProfileRepository;
 import de.uni.scrumboard.data.TaskRepository;
 import de.uni.scrumboard.presentation.TaskController;
 import de.uni.scrumboard.service.TaskService;
 import de.uni.scrumboard.presentation.AuthController;
+import de.uni.scrumboard.presentation.BacklogController;
 import de.uni.scrumboard.presentation.HomeController;
 import de.uni.scrumboard.presentation.ProfileController;
 import de.uni.scrumboard.service.AccountService;
+import de.uni.scrumboard.service.BacklogService;
 import de.uni.scrumboard.service.ProfileService;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinMustache;
@@ -28,12 +31,15 @@ public class App implements IApp {
     private static AuthController authController;
     private static HomeController homeController;
     private static TaskController taskController;
+    private static BacklogController backlogController;
     private static ProfileService profileService;
     private static AccountService accountService;
     private static TaskService taskService;
+    private static BacklogService backlogService;
     private static ProfileRepository profileRepository;
     private static AccountRepository accountRepository;
     private static TaskRepository taskRepository;
+    private static BacklogRepository backlogRepository;
 
     @Override
     public void run(int port) {
@@ -59,6 +65,8 @@ public class App implements IApp {
                 .get("/home", homeController::showHome)
                 .get("/create-task", taskController::getCreateTask)
                 .post("/create-task", taskController::postCreateTask)
+                .get("/create-backlog", backlogController::getCreateBacklog)
+                .post("/create-backlog", backlogController::postCreateBacklog)
                 .start(port);
     }
 
@@ -79,15 +87,18 @@ public class App implements IApp {
             profileRepository = new ProfileRepository(databaseConnection);
             accountRepository = new AccountRepository(databaseConnection);
             taskRepository = new TaskRepository(databaseConnection);
+            backlogRepository = new BacklogRepository(databaseConnection);
 
             profileService = new ProfileService(profileRepository);
             accountService = new AccountService(accountRepository);
             taskService = new TaskService(taskRepository, accountRepository);
+            backlogService = new BacklogService(backlogRepository);
 
             profileController = new ProfileController(profileService);
             authController = new AuthController(accountService, profileService);
             homeController = new HomeController(accountService, taskService);
             taskController = new TaskController(taskService, accountService);
+            backlogController = new BacklogController(backlogService);
         } catch (IOException e) {
             System.err.println("Fehler beim Laden der Konfiguration:");
             e.printStackTrace();
@@ -145,6 +156,12 @@ public class App implements IApp {
                             "FOREIGN KEY(taskId) REFERENCES tasks(taskId) ON DELETE CASCADE," +
                             "FOREIGN KEY(accountId) REFERENCES accounts(accountId) ON DELETE CASCADE" +
                             ")");
+
+            statement.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS backlogs (
+                        id INTEGER PRIMARY KEY,
+                        bezeichnung VARCHAR(255) UNIQUE NOT NULL
+                    );""");
         } catch (SQLException e) {
             throw new RuntimeException("Fehler beim Erzeugen der Datenbankschemata", e);
         }
