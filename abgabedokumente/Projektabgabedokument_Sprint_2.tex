@@ -42,6 +42,56 @@ Das Produktbacklog hat sich im Vergleich zum letzten Sprint nicht verändert.\\
 
 \section{Verfeinerte Architektur}
 \subsection{Task/User Stories}
+\subsubsection{Modellierung für User Story S4.1: Backlogs erstellen}
+\paragraph{Modellierung verfeinerter Struktur}
+
+Im letzten Sprint wurde bereits an der Modellierung der User Story S4.1 gearbeitet.
+Der Entwurf wurde geringfügig überarbeitet.
+Das Klassendiagramm zu sehen in Abbildung \ref{fig:klassendiagramm_s4_1} zeigt die zu implementierenden Klassen für diese User Story.\\
+Im Presentation Layer wird das Interface \textbf{IBacklogController} und die implementierende Klasse \textbf{BacklogController} hinzugefügt.
+In dieser Klasse werden die Anfragen an die Route \textbf{POST /backlog} behandelt.\\
+Im Service Layer wird das Interface \textbf{IBacklogService} und die implementierende Klasse \textbf{BacklogService} hinzugefügt.
+Dort wird die Logik zum Erstellen eines Backlog implementiert.\\
+Abschließend wird im Data Layer das Interface \textbf{IBacklogRepository} und die implementierende Klasse \textbf{BacklogRepository} hinzugefügt.
+Hier wird die Logik zum Speichern eines Backlogs implementiert.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{s4_1_klassendiagramm.png}
+	\caption{Klassendiagramm für User Story S4.1}
+	\label{fig:klassendiagramm_s4_1}
+\end{figure}
+
+
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+
+Für das Anlegen eines Backlogs wird die Datenstruktur \textbf{Backlog} benötigt.
+Die Abbildung \ref{fig:klassendiagramm_datenstrukturen_s4_1} zeigt die zu implementierende Klasse und ihre Beziehung zu der Klasse \textbf{Task}.
+Der Entwurf dieser Datenstruktur ist nicht final und wird bei der Umsetzung von weiteren User Stories angepasst.
+Für die Umsetzung dieser User Story ist dieser Entwurf jedoch hinreichend.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=10cm]{s4_1_datenstrukturen.png}
+	\caption{Klassendiagramm der Datenstrukturen für User Story S4.1}
+	\label{fig:klassendiagramm_datenstrukturen_s4_1}
+\end{figure}
+
+
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+Beim Anlegen eines Backlogs muss beachten werden, dass ein Backlog mit der gleichen Bezeichnung bereits existieren kann.
+Wie in Abbildung \ref{fig:sequenzdiagramm_s4_1} zu sehen, muss in diesem Fall die Klasse \textbf{BacklogRepository} die Situation erkennen und eine Fehlermeldung an die darüber liegenden Schichten weiterleiten.
+Die Klasse \textbf{BacklogController} muss darauf die Anzeige der Fehlermeldung einleiten.
+Andernfalls werden in der Klasse \textbf{BacklogRepository} die Daten des Backlogs in der Datenbank gespeichert.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=10cm]{s4_1_sequenzdiagramm.png}
+	\caption{Sequenzdiagramm für User Story S4.1}
+	\label{fig:sequenzdiagramm_s4_1}
+\end{figure}
+
+
 \subsection{Tracing}
 
 \section{Implementation und Tests}

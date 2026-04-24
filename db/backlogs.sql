@@ -1,0 +1,4 @@
+CREATE TABLE backlogs (
+    id INTEGER PRIMARY KEY,
+    bezeichnung VARCHAR(255) UNIQUE NOT NULL
+);
