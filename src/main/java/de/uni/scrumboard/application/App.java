@@ -162,6 +162,15 @@ public class App implements IApp {
                         id INTEGER PRIMARY KEY,
                         bezeichnung VARCHAR(255) UNIQUE NOT NULL
                     );""");
+
+            statement.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS backlog_tasks (
+                        backlogId INTEGER NOT NULL,
+                        taskId INTEGER NOT NULL,
+                        PRIMARY KEY(backlogId, taskId),
+                        FOREIGN KEY(backlogId) REFERENCES backlogs(id),
+                        FOREIGN KEY(taskId) REFERENCES tasks(taskId)
+                    );""");
         } catch (SQLException e) {
             throw new RuntimeException("Fehler beim Erzeugen der Datenbankschemata", e);
         }
