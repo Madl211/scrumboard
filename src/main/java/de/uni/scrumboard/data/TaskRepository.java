@@ -208,4 +208,51 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
             throw new RuntimeException("Fehler beim Speichern der Assignees für Task " + taskId, e);
         }
     }
+
+    @Override
+    public List<Task> searchTasks(String search){
+        List<Task> tasks = new ArrayList();
+          String sql = """
+        SELECT taskId, title, description, creatorId, startDate, dueDate,
+               createdDate, estimatedTime, actualTime, status
+        FROM tasks
+        WHERE LOWER(title) LIKE ?
+    """;
+       try (PreparedStatement sqlStatement = connection.prepareStatement(sql)) {
+
+        sqlStatement.setString(1, "%" + search.toLowerCase() + "%");
+
+        try (ResultSet result = sqlStatement.executeQuery()) {
+            while (result.next()) {
+
+                int id = result.getInt("taskId");
+                String title = result.getString("title");
+                String desc = result.getString("description");
+                int creatorId = result.getInt("creatorId");
+                Date start = result.getDate("startDate");
+                Date due = result.getDate("dueDate");
+                Date created = result.getDate("createdDate");
+                int estimatedTime = result.getInt("estimatedTime");
+                int actualTime = result.getInt("actualTime");
+                TaskStatus status = TaskStatus.itoStatus(result.getInt("status"));
+
+                Account creator = getAccountById(creatorId);
+                List<Account> assignees = getAssigneesForTask(id);
+
+                Task task = new Task(
+                        id, title, desc, assignees, creator,
+                        start, due, created,
+                        estimatedTime, actualTime, status
+                );
+
+                tasks.add(task);
+            }
+        }
+
+    } catch (SQLException e) {
+        throw new RuntimeException("Fehler bei Task-Suche", e);
+    }
+
+    return tasks;
+}
 }

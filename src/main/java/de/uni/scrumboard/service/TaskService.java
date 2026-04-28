@@ -21,8 +21,11 @@ public record TaskService(ITaskRepository taskRepository, IAccountRepository acc
     }
 
     @Override
-    public List<Task> getAllTasks() {
+    public List<Task> searchTasks(String search) {
+        if(search==null){
         return taskRepository.getAllTasks();
+        }
+        return taskRepository.searchTasks(search);
     }
 
     @Override
