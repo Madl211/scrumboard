@@ -1,0 +1,33 @@
+<div style="max-width: 600px;margin: 2vh auto;font-family: Arial, sans-serif;">
+    <h1>Create New User Story</h1>
+    
+    <form action="/create-user-story" method="post" style="display: flex; flex-direction: column; gap: 1rem;">
+        <div>
+            <label for="titel" style="display: block; margin-bottom: 0.5rem;">Titel:</label>
+            <input type="text" id="titel" name="titel" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+        
+        <div>
+            <label for="beschreibung" style="display: block; margin-bottom: 0.5rem;">Beschreibung:</label>
+            <textarea id="beschreibung" name="beschreibung" rows="4" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+        </div>
+               
+        <div>
+            <label for="backlog" style="display: block; margin-bottom: 0.5rem;">Backlog:</label>
+            <select name="backlog" id="backlog">
+                {{#backlogs}}
+                    <option value="{{id}}">{{bezeichnung}}</option>
+                {{/backlogs}}
+            </select>
+        </div>
+
+        {{#showErrorMessage}}
+            <div style="color: red;">Die Eingaben waren fehlerhaft</div>
+        {{/showErrorMessage}}
+        
+        <div style="display: flex; gap: 1rem;">
+            <button type="submit" style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Create User Story</button>
+            <a href="/home" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Cancel</a>
+        </div>
+    </form>
+</div>
