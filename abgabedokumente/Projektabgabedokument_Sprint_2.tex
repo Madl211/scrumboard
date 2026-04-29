@@ -76,7 +76,7 @@ Die Abbildung \ref{fig:klassendiagramm_datenstrukturen_s4_1} zeigt die zu implem
 Der Entwurf dieser Datenstruktur ist nicht final und wird bei der Umsetzung von weiteren User Stories angepasst.
 Für die Umsetzung dieser User Story ist dieser Entwurf jedoch hinreichend.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=10cm]{s4_1_datenstrukturen.png}
 	\caption{Klassendiagramm der Datenstrukturen für User Story S4.1}
@@ -90,11 +90,61 @@ Wie in Abbildung \ref{fig:sequenzdiagramm_s4_1} zu sehen, muss in diesem Fall di
 Die Klasse \textbf{BacklogController} muss darauf die Anzeige der Fehlermeldung einleiten.
 Andernfalls werden in der Klasse \textbf{BacklogRepository} die Daten des Backlogs in der Datenbank gespeichert.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=10cm]{s4_1_sequenzdiagramm.png}
 	\caption{Sequenzdiagramm für User Story S4.1}
 	\label{fig:sequenzdiagramm_s4_1}
+\end{figure}
+
+\subsubsection{Modellierung für User Story S2.1: User Stories erstellen}
+\paragraph{Modellierung verfeinerter Struktur}
+Im Presentation Layer wird das Interface \textbf{IUserStoryController} und die Klasse \textbf{UserStoryController} hinzugefügt.
+In dieser Klasse wird die Logik zur Behandlung von Anfragen an die Endpunkte \textbf{GET /create-story} und \textbf{POST /create-story} implementiert.
+Bei der Behandlung der GET-Anfrage muss das Formular gerendert und an den Client gesendet werden.
+Damit im Formular ein Backlog ausgewählt werden kann, zu welchem die User Story hinzugefügt wird, muss die Klasse \textbf{UserStoryController} eine Referenz auf ein Objekt der Klasse \textbf{BacklogController} besitzen.
+Bei der Behandlung der POST-Anfrage müssen die Formulardaten validiert werden und bei erfolgreicher Validierung an die Service-Schicht weitergereicht werden.\\
+In der Service-Schicht wird das Interface \textbf{IUserStoryService} und die Klasse \textbf{UserStoryService} hinzugefügt.
+In dieser Klasse wird die Geschäftslogik zum Erstellen einer User Story implementiert.\\
+Im Data Layer wird das Interface \textbf{IUserStoryRepository} und die Klasse \textbf{UserStoryRepository} hinzugefügt.
+In dieser Klasse wird das Speichern der User Story in der Datenbank implmentiert.\\
+Die Klassen und deren Beziehungen sind in Abbildung \ref{fig:klassendiagramm_s2_1} zu sehen.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{s2_1_klassendiagramm.png}
+	\caption{Klassendiagramm für User Story S2.1}
+	\label{fig:klassendiagramm_s2_1}
+\end{figure}
+
+
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+Zum Anlegen einer User Story wird die Klasse \textbf{User Story} benötigt.
+Wie in Abbildung \ref{fig:klassendiagramm_datenstrukturen_s2_1} zu sehen, befindet sich eine User Story immer in genau einem Backlog.
+Die ID des Backlogs wird daher als zusätzliches Attribut benötigt.\\
+Die Interfaces \textbf{IBacklogService} und \textbf{IBacklogRepository} müssen erweitert werden, da im Formular für die Erzeugung von User Stories eine Liste der auswählbaren Backlogs angezeigt werden muss.
+Wie in Abbildung \ref{fig:klassendiagramm_datenstrukturen_s2_1} zu sehen, wird in beiden Interfaces die Methode \textbf{getAllBacklogs()} hinzugefügt.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{s2_1_datenstrukturen.png}
+	\caption{Klassendiagramm der Datenstrukturen und verfeinertern Interfaces für User Story S2.1}
+	\label{fig:klassendiagramm_datenstrukturen_s2_1}
+\end{figure}
+
+
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+Beim Anlegen eines Backlogs muss darauf geachtet werden, dass jede User Story einem Backlog zugeordnet wird und einen Titel besitzt.
+In der Klasse \textbf{UserStoryController} muss dies bei der Validierung der Eingabedaten berücksichtigt werden.
+Falls ein Nutzer kein Backlog angibt, in welches die User Story eingeordnet werden soll, oder keine Titel angibt, muss eine entsprechende Fehlermeldung angezeigt werden.
+Ansonsten kann die User Story in der Datenbank gespeichert werden.\\
+Das Sequenzdiagramm in Abbildung \ref{fig:s2_1_sequenzdiagramm} zeigt das benötigte Verhalten.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{s2_1_sequenzdiagramm.png}
+	\caption{Sequenzdiagramm für User Story S2.1}
+	\label{fig:s2_1_sequenzdiagramm}
 \end{figure}
 
 
@@ -105,8 +155,4 @@ Andernfalls werden in der Klasse \textbf{BacklogRepository} die Daten des Backlo
 \subsection{Dokumentation der Codequalität}
 
 \end{document}
-
-
-
-
 
