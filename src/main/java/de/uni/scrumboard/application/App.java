@@ -13,15 +13,15 @@ import de.uni.scrumboard.data.AccountRepository;
 import de.uni.scrumboard.data.BacklogRepository;
 import de.uni.scrumboard.data.ProfileRepository;
 import de.uni.scrumboard.data.TaskRepository;
-import de.uni.scrumboard.presentation.TaskController;
-import de.uni.scrumboard.service.TaskService;
 import de.uni.scrumboard.presentation.AuthController;
 import de.uni.scrumboard.presentation.BacklogController;
 import de.uni.scrumboard.presentation.HomeController;
 import de.uni.scrumboard.presentation.ProfileController;
+import de.uni.scrumboard.presentation.TaskController;
 import de.uni.scrumboard.service.AccountService;
 import de.uni.scrumboard.service.BacklogService;
 import de.uni.scrumboard.service.ProfileService;
+import de.uni.scrumboard.service.TaskService;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinMustache;
 
@@ -67,6 +67,8 @@ public class App implements IApp {
                 .post("/create-task", taskController::postCreateTask)
                 .get("/create-backlog", backlogController::getCreateBacklog)
                 .post("/create-backlog", backlogController::postCreateBacklog)
+                .get("/edit-task/{taskId}", taskController::getEditTask)
+                .post("/edit-task/{taskId}", taskController::postEditTask)
                 .start(port);
     }
 

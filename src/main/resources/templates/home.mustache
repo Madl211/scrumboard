@@ -63,6 +63,7 @@
                         <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Assignees</th>
                         <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Due Date</th>
                         <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Status</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,6 +79,9 @@
                         </td>
                         <td style="border: 1px solid #ddd; padding: 8px;">{{due}}</td>
                         <td style="border: 1px solid #ddd; padding: 8px;">{{status}}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">
+                            <a href="/edit-task/{{taskId}}" style="background-color: #007bff; color: white; padding: 6px 12px; text-decoration: none; border-radius: 5px;">Edit Task</a>
+                        </td>
                     </tr>
                     {{/tasks}}
                 </tbody>

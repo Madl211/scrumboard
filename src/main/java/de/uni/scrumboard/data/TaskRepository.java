@@ -83,14 +83,15 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
     @Override
     public boolean saveTask(Task task, int taskId) {
         try (PreparedStatement sqlStatement = connection.prepareStatement(
-                "INSERT INTO tasks(taskId, title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) "
+                "INSERT INTO tasks(taskId, title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime, status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
                         + "ON CONFLICT(taskId) DO UPDATE SET "
                         + "title = excluded.title, "
                         + "description = excluded.description, "
                         + "startDate = excluded.startDate, "
                         + "dueDate = excluded.dueDate, "
                         + "estimatedTime = excluded.estimatedTime, "
-                        + "actualTime = excluded.actualTime")) {
+                        + "actualTime = excluded.actualTime, "
+                        + "status = excluded.status")) {
 
             sqlStatement.setInt(1, taskId);
             sqlStatement.setString(2, task.title());
@@ -101,6 +102,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
             sqlStatement.setDate(7, task.created() != null ? new java.sql.Date(task.created().getTime()) : null);
             sqlStatement.setInt(8, task.estimatedTime());
             sqlStatement.setInt(9, task.actualTime());
+            sqlStatement.setInt(10, task.status().val);
 
             sqlStatement.executeUpdate();
 
