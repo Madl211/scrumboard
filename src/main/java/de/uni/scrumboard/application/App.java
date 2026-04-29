@@ -13,15 +13,21 @@ import de.uni.scrumboard.data.AccountRepository;
 import de.uni.scrumboard.data.BacklogRepository;
 import de.uni.scrumboard.data.ProfileRepository;
 import de.uni.scrumboard.data.TaskRepository;
-import de.uni.scrumboard.presentation.TaskController;
-import de.uni.scrumboard.service.TaskService;
+import de.uni.scrumboard.data.UserStoryRepository;
+import de.uni.scrumboard.data.interfaces.IUserStoryRepository;
 import de.uni.scrumboard.presentation.AuthController;
 import de.uni.scrumboard.presentation.BacklogController;
 import de.uni.scrumboard.presentation.HomeController;
 import de.uni.scrumboard.presentation.ProfileController;
+import de.uni.scrumboard.presentation.TaskController;
+import de.uni.scrumboard.presentation.UserStoryController;
+import de.uni.scrumboard.presentation.interfaces.IUserStoryController;
 import de.uni.scrumboard.service.AccountService;
 import de.uni.scrumboard.service.BacklogService;
 import de.uni.scrumboard.service.ProfileService;
+import de.uni.scrumboard.service.TaskService;
+import de.uni.scrumboard.service.UserStoryService;
+import de.uni.scrumboard.service.interfaces.IUserStoryService;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinMustache;
 
@@ -32,14 +38,19 @@ public class App implements IApp {
     private static HomeController homeController;
     private static TaskController taskController;
     private static BacklogController backlogController;
+    private static IUserStoryController userStoryController;
+
     private static ProfileService profileService;
     private static AccountService accountService;
     private static TaskService taskService;
     private static BacklogService backlogService;
+    private static IUserStoryService userStoryService;
+
     private static ProfileRepository profileRepository;
     private static AccountRepository accountRepository;
     private static TaskRepository taskRepository;
     private static BacklogRepository backlogRepository;
+    private static IUserStoryRepository userStoryRepository;
 
     @Override
     public void run(int port) {
@@ -67,6 +78,10 @@ public class App implements IApp {
                 .post("/create-task", taskController::postCreateTask)
                 .get("/create-backlog", backlogController::getCreateBacklog)
                 .post("/create-backlog", backlogController::postCreateBacklog)
+                .get("/edit-task/{taskId}", taskController::getEditTask)
+                .post("/edit-task/{taskId}", taskController::postEditTask)
+                .get("/create-user-story", userStoryController::getCreateUserStory)
+                .post("/create-user-story", userStoryController::postCreateUserStory)
                 .start(port);
     }
 
@@ -88,17 +103,20 @@ public class App implements IApp {
             accountRepository = new AccountRepository(databaseConnection);
             taskRepository = new TaskRepository(databaseConnection);
             backlogRepository = new BacklogRepository(databaseConnection);
+            userStoryRepository = new UserStoryRepository(databaseConnection);
 
             profileService = new ProfileService(profileRepository);
             accountService = new AccountService(accountRepository);
             taskService = new TaskService(taskRepository, accountRepository);
             backlogService = new BacklogService(backlogRepository);
+            userStoryService = new UserStoryService(userStoryRepository);
 
             profileController = new ProfileController(profileService);
             authController = new AuthController(accountService, profileService);
             homeController = new HomeController(accountService, taskService);
             taskController = new TaskController(taskService, accountService);
             backlogController = new BacklogController(backlogService);
+            userStoryController = new UserStoryController(userStoryService, backlogService);
         } catch (IOException e) {
             System.err.println("Fehler beim Laden der Konfiguration:");
             e.printStackTrace();
@@ -170,6 +188,17 @@ public class App implements IApp {
                         PRIMARY KEY(backlogId, taskId),
                         FOREIGN KEY(backlogId) REFERENCES backlogs(id),
                         FOREIGN KEY(taskId) REFERENCES tasks(taskId)
+                    );""");
+
+            statement.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS user_stories (
+                        id INTEGER PRIMARY KEY,
+                        titel VARCHAR(255) NOT NULL,
+                        beschreibung TEXT,
+                        creatorId INTEGER NOT NULL,
+                        backlogId INTEGER NOT NULL,
+                        FOREIGN KEY(creatorId) REFERENCES accounts(accountId),
+                        FOREIGN KEY(backlogId) REFERENCES backlogs(id)
                     );""");
         } catch (SQLException e) {
             throw new RuntimeException("Fehler beim Erzeugen der Datenbankschemata", e);

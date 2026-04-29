@@ -12,7 +12,7 @@ public interface ITaskRepository {
     Optional<Task> getTaskById(int taskId);
 
     List<Task> getAllTasks();
-
+    List<Task> searchTasks(String search);
     boolean saveTask(Task task, int taskId);
 
     Task createTask(int taskId, String title, String desc, List<Account> assignees, Account creator, Date start,

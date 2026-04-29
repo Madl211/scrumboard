@@ -1,14 +1,36 @@
 <div style="max-width: 1200px;margin: 2vh auto;font-family: Arial, sans-serif;">
     
-    <div style="    margin-bottom: 2rem; display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+    <div style="margin-bottom: 2rem; display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+        
         <h1>Scrum Board Dashboard</h1>
+
         <div>
             <a href="/create-task" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Create New Task</a>
             <a href="/create-backlog" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Create New Backlog</a>
+            <a href="/create-user-story" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Create New User Story</a>
         </div>
     </div>
 
+   
+    <div style="margin-bottom: 2rem;">
+        <form method="GET" action="/home" style="display: flex; gap: 10px;">
+            <input 
+                type="text" 
+                name="search" 
+                placeholder="Search tasks..." 
+                value="{{search}}"
+                style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 5px;"
+            />
+            <button 
+                type="submit" 
+                style="background-color: #007bff; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;">
+                Search
+            </button>
+        </form>
+    </div>
+
     <div style="display: flex; gap: 2rem;">
+        
         <div style="flex: 1;">
             <h2>Users</h2>
             <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
@@ -42,6 +64,7 @@
                         <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Assignees</th>
                         <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Due Date</th>
                         <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Status</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,6 +80,9 @@
                         </td>
                         <td style="border: 1px solid #ddd; padding: 8px;">{{due}}</td>
                         <td style="border: 1px solid #ddd; padding: 8px;">{{status}}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">
+                            <a href="/edit-task/{{taskId}}" style="background-color: #007bff; color: white; padding: 6px 12px; text-decoration: none; border-radius: 5px;">Edit Task</a>
+                        </td>
                     </tr>
                     {{/tasks}}
                 </tbody>

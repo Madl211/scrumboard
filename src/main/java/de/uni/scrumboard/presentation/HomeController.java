@@ -23,11 +23,12 @@ public record HomeController(IAccountService accountService, ITaskService taskSe
         }
 
         List<Account> accounts = accountService.getAllAccounts();
-        List<Task> tasks = taskService.getAllTasks();
-
+        String search = context.queryParam("search");
+        List<Task> tasks = taskService.searchTasks(search);
         Map<String, Object> model = new HashMap<>();
         model.put("accounts", accounts);
         model.put("tasks", tasks);
         context.render(homeTemplate, model);
     }
+
 }
