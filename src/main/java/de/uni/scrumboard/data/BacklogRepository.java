@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import de.uni.scrumboard.data.interfaces.IBacklogRepository;
 
@@ -55,6 +56,35 @@ public class BacklogRepository implements IBacklogRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public Optional<Backlog> getBacklogById(int id) {
+        String sql = "SELECT id, bezeichnung FROM backlogs WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(new Backlog(rs.getInt("id"), rs.getString("bezeichnung")));
+                }
+                return Optional.empty();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public void addTaskToBacklog(int backlogId, int taskId) {
+        String sql = "INSERT OR IGNORE INTO backlog_tasks(backlogId, taskId) VALUES(?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, backlogId);
+            stmt.setInt(2, taskId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Fehler beim Zuordnen der Task zum Backlog", e);
         }
     }
 

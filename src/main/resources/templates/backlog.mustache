@@ -1,0 +1,59 @@
+<div style="max-width: 1200px; margin: 2vh auto; font-family: Arial, sans-serif;">
+
+    <div style="margin-bottom: 2rem;">
+        <h1>{{backlog.bezeichnung}}</h1>
+        <a href="/backlogs" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Zurück</a>
+    </div>
+
+    <div style="display: flex; gap: 1.5rem;">
+
+        <!-- TODO -->
+        <div style="flex: 1; border: 1px solid #ccc; padding: 16px; min-height: 400px;">
+            <h2>Todo</h2>
+            {{#todoTasks}}
+            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+                <strong>{{title}}</strong>
+                <p>{{desc}}</p>
+                <p>Erstellt von: {{creator.username}}</p>
+                <a href="/edit-task/{{taskId}}" style="background-color: #007bff; color: white; padding: 4px 10px; text-decoration: none; border-radius: 4px;">Bearbeiten</a>
+            </div>
+            {{/todoTasks}}
+            {{^todoTasks}}
+            <p>Keine Tasks</p>
+            {{/todoTasks}}
+        </div>
+
+        <!-- IN PROGRESS -->
+        <div style="flex: 1; border: 1px solid #ccc; padding: 16px; min-height: 400px;">
+            <h2>In Progress</h2>
+            {{#inProgressTasks}}
+            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+                <strong>{{title}}</strong>
+                <p>{{desc}}</p>
+                <p>Erstellt von: {{creator.username}}</p>
+                <a href="/edit-task/{{taskId}}" style="background-color: #007bff; color: white; padding: 4px 10px; text-decoration: none; border-radius: 4px;">Bearbeiten</a>
+            </div>
+            {{/inProgressTasks}}
+            {{^inProgressTasks}}
+            <p>Keine Tasks</p>
+            {{/inProgressTasks}}
+        </div>
+
+        <!-- DONE -->
+        <div style="flex: 1; border: 1px solid #ccc; padding: 16px; min-height: 400px;">
+            <h2>Done</h2>
+            {{#doneTasks}}
+            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+                <strong>{{title}}</strong>
+                <p>{{desc}}</p>
+                <p>Erstellt von: {{creator.username}}</p>
+                <a href="/edit-task/{{taskId}}" style="background-color: #007bff; color: white; padding: 4px 10px; text-decoration: none; border-radius: 4px;">Bearbeiten</a>
+            </div>
+            {{/doneTasks}}
+            {{^doneTasks}}
+            <p>Keine Tasks</p>
+            {{/doneTasks}}
+        </div>
+
+    </div>
+</div>

@@ -48,4 +48,9 @@ public record TaskService(ITaskRepository taskRepository, IAccountRepository acc
     public boolean updateTask(Task task) {
         return taskRepository.saveTask(task, task.taskId());
     }
+
+    @Override
+    public List<Task> getTasksByBacklogId(int backlogId) {
+        return taskRepository.getTasksByBacklogId(backlogId);
+    }
 }

@@ -76,6 +76,8 @@ public class App implements IApp {
                 .get("/home", homeController::showHome)
                 .get("/create-task", taskController::getCreateTask)
                 .post("/create-task", taskController::postCreateTask)
+                .get("/backlogs", backlogController::getBacklogs)
+                .get("/backlog/{id}", backlogController::getBacklog)
                 .get("/create-backlog", backlogController::getCreateBacklog)
                 .post("/create-backlog", backlogController::postCreateBacklog)
                 .get("/edit-task/{taskId}", taskController::getEditTask)
@@ -114,8 +116,8 @@ public class App implements IApp {
             profileController = new ProfileController(profileService);
             authController = new AuthController(accountService, profileService);
             homeController = new HomeController(accountService, taskService);
-            taskController = new TaskController(taskService, accountService);
-            backlogController = new BacklogController(backlogService);
+            taskController = new TaskController(taskService, accountService, backlogService);
+            backlogController = new BacklogController(backlogService, taskService);
             userStoryController = new UserStoryController(userStoryService, backlogService);
         } catch (IOException e) {
             System.err.println("Fehler beim Laden der Konfiguration:");

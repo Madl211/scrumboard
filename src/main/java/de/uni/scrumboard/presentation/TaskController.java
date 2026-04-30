@@ -9,14 +9,16 @@ import java.util.Map;
 import java.util.Optional;
 
 import de.uni.scrumboard.data.Account;
+import de.uni.scrumboard.data.Backlog;
 import de.uni.scrumboard.data.Task;
 import de.uni.scrumboard.data.enums.TaskStatus;
 import de.uni.scrumboard.presentation.interfaces.ITaskController;
 import de.uni.scrumboard.service.interfaces.IAccountService;
+import de.uni.scrumboard.service.interfaces.IBacklogService;
 import de.uni.scrumboard.service.interfaces.ITaskService;
 import io.javalin.http.Context;
 
-public record TaskController(ITaskService taskService, IAccountService accountService) implements ITaskController {
+public record TaskController(ITaskService taskService, IAccountService accountService, IBacklogService backlogService) implements ITaskController {
 
     private static final String createTaskTemplate = "templates/create-task.mustache";
 
@@ -29,8 +31,10 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         }
 
         List<Account> accounts = accountService.getAllAccounts();
+        List<Backlog> backlogs = backlogService.getBacklogs();
         Map<String, Object> model = new HashMap<>();
         model.put("accounts", accounts);
+        model.put("backlogs", backlogs);
         context.render(createTaskTemplate, model);
     }
 
@@ -79,7 +83,14 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
             return;
         }
 
-        taskService.createTask(title, description, assigneeIds, accountId, startDate, dueDate, estimatedTime, status);
+        String backlogIdStr = context.formParam("backlog");
+        Task created = taskService.createTask(title, description, assigneeIds, accountId, startDate, dueDate, estimatedTime, status);
+        if (backlogIdStr != null && !backlogIdStr.isEmpty()) {
+            try {
+                int backlogId = Integer.parseInt(backlogIdStr);
+                backlogService.addTaskToBacklog(backlogId, created.taskId());
+            } catch (NumberFormatException ignored) {}
+        }
         context.redirect("/home");
     }
 

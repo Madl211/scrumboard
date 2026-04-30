@@ -8,4 +8,8 @@ public interface IBacklogController {
 
     void postCreateBacklog(Context context);
 
+    void getBacklogs(Context context);
+
+    void getBacklog(Context context);
+
 }

@@ -257,4 +257,35 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
 
     return tasks;
 }
+
+    @Override
+    public List<Task> getTasksByBacklogId(int backlogId) {
+        List<Task> tasks = new ArrayList<>();
+        String sql = "SELECT t.taskId, t.title, t.description, t.creatorId, t.startDate, t.dueDate, " +
+                "t.createdDate, t.estimatedTime, t.actualTime, t.status " +
+                "FROM tasks t JOIN backlog_tasks bt ON t.taskId = bt.taskId WHERE bt.backlogId = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, backlogId);
+            try (ResultSet result = stmt.executeQuery()) {
+                while (result.next()) {
+                    int id = result.getInt("taskId");
+                    String title = result.getString("title");
+                    String desc = result.getString("description");
+                    int creatorId = result.getInt("creatorId");
+                    Date start = result.getDate("startDate");
+                    Date due = result.getDate("dueDate");
+                    Date created = result.getDate("createdDate");
+                    int estimatedTime = result.getInt("estimatedTime");
+                    int actualTime = result.getInt("actualTime");
+                    TaskStatus status = TaskStatus.itoStatus(result.getInt("status"));
+                    Account creator = getAccountById(creatorId);
+                    List<Account> assignees = getAssigneesForTask(id);
+                    tasks.add(new Task(id, title, desc, assignees, creator, start, due, created, estimatedTime, actualTime, status));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Fehler beim Laden der Tasks für Backlog " + backlogId, e);
+        }
+        return tasks;
+    }
 }

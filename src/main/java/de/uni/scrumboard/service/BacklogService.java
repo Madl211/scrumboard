@@ -1,6 +1,7 @@
 package de.uni.scrumboard.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import de.uni.scrumboard.data.Backlog;
 import de.uni.scrumboard.data.interfaces.IBacklogRepository;
@@ -22,6 +23,16 @@ public class BacklogService implements IBacklogService {
     @Override
     public List<Backlog> getBacklogs() {
         return backlogRepository.getBacklogs();
+    }
+
+    @Override
+    public Optional<Backlog> getBacklogById(int id) {
+        return backlogRepository.getBacklogById(id);
+    }
+
+    @Override
+    public void addTaskToBacklog(int backlogId, int taskId) {
+        backlogRepository.addTaskToBacklog(backlogId, taskId);
     }
 
 }

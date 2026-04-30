@@ -46,6 +46,15 @@
         </div>
         
         <div>
+            <label for="backlog" style="display: block; margin-bottom: 0.5rem;">Backlog:</label>
+            <select name="backlog" id="backlog" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                {{#backlogs}}
+                    <option value="{{id}}">{{bezeichnung}}</option>
+                {{/backlogs}}
+            </select>
+        </div>
+
+        <div>
             <label style="display: block; margin-bottom: 0.5rem;">Assignees:</label>
             {{#accounts}}
             <div style="margin-bottom: 0.5rem;">
