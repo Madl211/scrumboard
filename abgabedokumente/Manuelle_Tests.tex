@@ -1,0 +1,78 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{pdflscape}
+\usepackage{longtable}
+
+\geometry{a4paper, margin=1.5cm, landscape}
+
+% Farben definieren
+\definecolor{headercolor}{RGB}{69, 90, 100}
+
+\begin{document}
+
+\section*{Manuelle Tests}
+
+\renewcommand{\arraystretch}{1.8}
+\footnotesize
+\begin{longtable}{|p{3.3cm}|p{3.3cm}|p{3.3cm}|p{5.5cm}|p{3.3cm}|}
+	\hline
+	\rowcolor{headercolor}
+	\textcolor{white}{\textbf{Test ID}}                                                                                                                                & \textcolor{white}{\textbf{Ziel}} & \textcolor{white}{\textbf{Rolle}} & \textcolor{white}{\textbf{Beschreibung}} & \textcolor{white}{\textbf{Ergebnis}} \\
+	\hline
+	\endfirsthead
+
+	\multicolumn{5}{c}%
+	{{\tablename\ \thetable{} -- Fortsetzung}}                                                                                                                                                                                                                                                                                  \\
+	\hline
+	\rowcolor{headercolor}
+	\textcolor{white}{\textbf{Test ID}}                                                                                                                                & \textcolor{white}{\textbf{Ziel}} & \textcolor{white}{\textbf{Rolle}} & \textcolor{white}{\textbf{Beschreibung}} & \textcolor{white}{\textbf{Ergebnis}} \\
+	\hline
+	\endhead
+
+	\hline
+	\multicolumn{5}{r}{{Fortsetzung auf nächster Seite}}                                                                                                                                                                                                                                                                        \\
+	\endfoot
+
+	\hline
+	\caption{Tabelle der manuell durchgeführten Tests}
+	\endlastfoot
+
+	\textbf{T2.1.1}                                                                                                                                                    &
+	Testen der User Story S2.1                                                                                                                                         &
+	Nutzer                                                                                                                                                             &
+	Als angemeldeter Nutzer gelange ich mit einem Klick auf den Button \textit{Create New User Story} auf die Seite, auf welcher man User Stories anlegen kann.        &
+	Nicht bestanden
+	\\
+	\hline
+
+	\textbf{T2.1.2}                                                                                                                                                    &
+	Testen der User Story S2.1                                                                                                                                         &
+	Nutzer                                                                                                                                                             &
+	Als Nutzer kann ich auf der Seite \textit{/create-user-story} eine neue User Story anlegen.                                                                        &
+	Nicht bestanden
+	\\
+	\hline
+
+	\textbf{T4.1.1}                                                                                                                                                    &
+	Testen der User Story S4.1                                                                                                                                         &
+	Nutzer                                                                                                                                                             &
+	Als angemeldeter Nutzer kann ich auf den Button \textit{Create New Backlog} klicken. Dann öffnet sich die Seite, auf welcher man ein neues Backlog erstellen kann. &
+	Nicht bestanden
+	\\
+	\hline
+
+	\textbf{T4.1.2}                                                                                                                                                    &
+	Testen der User Story S4.1                                                                                                                                         &
+	Nutzer                                                                                                                                                             &
+	Als angemeldeter Nutzer kann ich auf der Seite \textit{/create-backlog} ein neues Backlog anlegen.                                                                 &
+	Nicht bestanden
+	\\
+	\hline
+\end{longtable}
+
+\end{document}
