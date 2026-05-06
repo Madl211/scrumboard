@@ -43,6 +43,7 @@ Das Resultat des letzten Sprints war ein Prototyp mit den genannten Features.\\
 Es wurden nicht alle geplanten User Stories umgesetzt.
 Diese wurden daher in den zweiten Sprint verschoben.
 Namentlich sind das die User Stories S1.3, S4.1, S6.1.\\
+Außerdem wurden die User Stories S9.1 sowie S9.2 in diesem Sprint umgesetzt.\\
 
 \noindent\textit{Hinweis: Das vollständige Sprintbacklog ist unter \href{run:./Sprintbacklog.pdf}{Sprintbacklog.pdf}, sowie \href{https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/uebung3/team3/projekt-team3-uebung3/-/blob/main/abgabedokumente/Sprintbacklog.pdf?ref_type=heads}{im Gitlab} zu finden.}
 
@@ -146,8 +147,46 @@ Das Sequenzdiagramm in Abbildung \ref{fig:s2_1_sequenzdiagramm} zeigt das benöt
 	\caption{Sequenzdiagramm für User Story S2.1}
 	\label{fig:s2_1_sequenzdiagramm}
 \end{figure}
-
-
+\subsubsection{Modellierung für die User Story 9.1: Task-Suche}
+\paragraph{Modellierung und verfeinerte Architektur}
+Die Struktur des Systems wird für diese User Story weitestgehend ungeändert bleiben. Die einzige Änderung ist, dass im Home Menü nicht mehr die Methode getAllTasks() aufgerufen wird, sondern stattdessen die neue Methode searchTasks(search).
+\paragraph{Modellierung vereinerter Interfaces und Datenstrukturen}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=11cm]{9.1.1.png}
+	\caption{Klassendiagramm der verfeinertern Datenstrukturen für User Story S9.1}
+	
+\end{figure}
+Wie schon im vorherigen Abschnitt erwähnt und in Abbildung 7 schließlich dargestellt, ruft der HomeController die Methode searchTask(String search) im TaskService auf. Diese ruft dann entweder getAllTasks() oder die neue Such-Methode searchTasks(search) im TaskRepository auf.
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=13cm]{9.1.2.png}
+	\caption{Sequenzdiagramm relavanter Verhaltensaspekte für User Story S9.1}
+	
+\end{figure}
+In diesem Sequenzdiagramm ist der Ablauf der Suche dargestellt. Im TaskService überprpft die Suchfunktion, ob der Suchinhalt leer ist. Falls dies so ist, wird im TaskRepository die Methode getAllTasks() aufgerufen. Andernfalls wird die Suchmethode aufgerufen
+\subsubsection{Modellierung für die User Story 9.2: Task-Filter}
+\paragraph{Modellierung und verfeinerte Architektur}
+Die Filterfunktion ist zum Großteil eine Erweiterung der bereits vorhandenen Suchfunktion. Es werden keine weiteren Änderungen an der grundlegenden Architektur vorgenommen.
+\paragraph{Modellierung vereinerter Interfaces und Datenstrukturen}
+Zur Realisierung der Filterfunktion bekommt die searchTasks Methode im TaskService ein weiteres Filter-Argument. Diese ruft dann sowohl searchTask(search), als auch filterTask(filter) im TaskRepository auf. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=13cm]{9.2.1.png}
+	\caption{Klassendiagramm der verfeinertern Datenstrukturen für User Story S9.2}
+	
+\end{figure}
+\newpage
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+Die Suchfunktion im TaskService wurde so überarbeitet, dass sie nach dem Aufruf von getAllTasks bzw. searchTask das Zwischenergebnis weiterleitet zu der neuen Methode filterTask, die eine Liste von Tasks nach gewünschten Kriterien filtert.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{9.2.2.png}
+	\caption{Sequenzdiagramm relavanter Verhaltensaspekte für User Story S9.2}
+	
+\end{figure}
+\newpage
 \subsection{Tracing}
 
 \section{Implementation und Tests}
