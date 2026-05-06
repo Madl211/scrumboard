@@ -288,4 +288,17 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
         }
         return tasks;
     }
+    @Override
+    public List<Task> filterTask(List<Task> list, int filter){
+        if(filter==0){
+            list.removeIf(task -> task.status() != TaskStatus.TODO);
+        }
+        if(filter==1){
+            list.removeIf(task -> task.status() != TaskStatus.IN_PROGRESS);
+        }
+        else if(filter==2){
+            list.removeIf(task -> task.status() != TaskStatus.COMPLETED);
+        }
+        return list;
+    }
 }
