@@ -21,13 +21,19 @@ public record TaskService(ITaskRepository taskRepository, IAccountRepository acc
     }
 
     @Override
-    public List<Task> searchTasks(String search) {
-        if(search==null){
-        return taskRepository.getAllTasks();
-        }
-        return taskRepository.searchTasks(search);
-    }
+    public List<Task> searchTasks(String search, int filter) {
+        if (filter != 0 && filter != 1 && filter != 2){
+            if(search==null){
+            return taskRepository.getAllTasks();
+            }
+            return taskRepository.searchTasks(search);
+        }  
+        else if(search==null){
+            return taskRepository.filterTask(taskRepository.getAllTasks(),filter);
+            }
+            return taskRepository.filterTask(taskRepository.searchTasks(search),filter);
 
+    }
     @Override
     public Task createTask(String title, String description, List<Integer> assigneeIds, int creatorId, Date startDate,
             Date dueDate, int estimatedTime, TaskStatus status) {

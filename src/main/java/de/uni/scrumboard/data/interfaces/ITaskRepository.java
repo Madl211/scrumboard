@@ -13,6 +13,7 @@ public interface ITaskRepository {
 
     List<Task> getAllTasks();
     List<Task> searchTasks(String search);
+    List<Task> filterTask(List<Task> list, int filter);
     boolean saveTask(Task task, int taskId);
 
     Task createTask(int taskId, String title, String desc, List<Account> assignees, Account creator, Date start,
