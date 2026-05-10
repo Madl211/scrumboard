@@ -49,6 +49,52 @@ Außerdem wurden die User Stories S3.3, S6.2 sowie S9.1 und S9.2 in diesem Sprin
 
 \section{Verfeinerte Architektur}
 \subsection{Task/User Stories}
+\subsection{Modellierung der User Stories S4.3 : Move Tasks between Backlogs}
+\paragraph{Modellierung verfeinerter Struktur}
+
+Die Grundlage für diese Userstory bilden die Backlogs (User Story S4.1) und die Anzeige der Backlogs. 
+Im Service Layer wurde der \textbf{IBacklogService} und \textbf{BacklogService} verändert, es wurden die Methoden \textbf{getBacklogIdByTaskId} und \textbf{removeTaskFromBacklog}, um Tasks und Backlogs in beide Richtungen Tracken zu können und um Task aus Backlogs entfernen zu können. Nur so können sie auch einem neuen 
+Backlog zugeordnet werden. 
+
+Im Presentation Layer wurde der \textbf{TaskController} verändert hier wurden die Methoden \textbf{postEditTask} und \textbf{getEditTask}
+verändert um die Funktionalität, dass jetzt abgefragt und übergeben werden kann
+in welchem Backlog sich eine Task befindet und die Information ob sie nun nach dem Editieren in einem anderen ist als vorher. 
+
+Im Data Layer wurden der \textbf{BacklogRepository} und \textbf{IBacklogRepository} erweitert. Erweitert um eine veränderte Version von \textbf{getBacklogIDByTaskID} und \textbf{removeTaskFromBacklog}, was nun das korrekte umspeichern einer Task 
+von einem Backlog in das andere ermöglicht. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{s4_3_klassendiagramm.jpg}
+	\caption{Klassendiagramm für User Story S4.3}
+	\label{fig:klassendiagramm_s4_3}
+\end{figure}
+
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+Für die Zugehörigkeit der Task zu einem Backlog wird bis auf weiteres, das Klassendiagram aus S4.1 übernommen. Es ist immernoch so, dass Backlog Tasks enthalten. Neu ist, dass man sie jetzt aus einem Backlog entfernen kann und einem
+neuen zuordnen kann.
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{s4_1_datenstrukturen.png}
+	\caption{Klassendiagramm der Datenstrukturen für User Story S4.3}
+	\label{fig:klassendiagramm_datenstrukturen_s4_3}
+\end{figure}
+
+
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+Hier ist es wichtig darauf zu achten, in welchem Backlog eine Task gespeichert war und ob sie auch korrekt gelöscht wurde. Erst dann darf sie einem neuen
+Backlog zugeordnet werden. Ansonsten könnte es passieren, dass eine Task in mehreren Backlogs ist, was zu erheblichen Problemen führen würde 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{s4_3_sequenzdiagramm.png}
+	\caption{Sequenzdiagramm für User Story S4.3}
+	\label{fig:sequenzdiagramm_s4_3}
+\end{figure}
+
+
 \subsubsection{Modellierung für User Story S4.1: Backlogs erstellen}
 \paragraph{Modellierung verfeinerter Struktur}
 
@@ -331,6 +377,38 @@ Die Gesamtheit aller Testfälle ist unter \href{run:./Manuelle_Tests.pdf}{Manuel
 
 
 \subsection{Tracing}
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{| p{3.5cm} | p{10cm} |}
+\hline
+\textbf{User Story} & \textbf{Branch Name / wichtige Klassen} \\
+\hline
+\textbf{S2.1} - User Stories erstellen &
+\texttt{-- / UserStoryController, IUserStoryController, BacklogService, IUserStoryService, UserStoryService, IUserStoryRepository, UserStoryRepository} \\
+\hline
+\textbf{S4.1} - Backlogs erstellen &
+\texttt{-- / IBacklogController, BacklogController, IBacklogService, BacklogService, IBacklogRepository, BacklogRepository} \\
+\hline
+\textbf{S4.2} - Tasklistenerstellung-/ Bearbeitung &
+\texttt{-- / TaskController, ITaskController, IAccountService} \\
+\hline
+\textbf{S4.3} - Move Tasks between Backlogs &
+\texttt{MoveTaksbetweenBacklogs/S4.3 / --} \\
+\hline
+\textbf{S9.1} - Task - Suche &
+\texttt{9.1, Task-Suche implementiert / --} \\
+\hline
+\textbf{S9.2} - Task - Filter &
+\texttt{-- / IHomeController, ITaskService, ITaskRepository, HomController, TaskService, TaskRepository} \\
+\hline
+
+\end{tabular}
+\caption{Tracing: User Stories zu modellierten Klassen}
+\end{table}
+
 \subsection{Laufender Prototyp}
 
 Die folgenden User Stories sind im aktuellen Prototyp implementiert:
