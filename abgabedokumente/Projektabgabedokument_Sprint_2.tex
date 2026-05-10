@@ -153,7 +153,7 @@ Die Struktur des Systems wird für diese User Story weitestgehend ungeändert bl
 \paragraph{Modellierung vereinerter Interfaces und Datenstrukturen}
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=11cm]{9.1.1.png}
+	\IfFileExists{9.1.1.png}{\includegraphics[width=11cm]{9.1.1.png}}{\fbox{Abbildung 9.1.1 -- Bild nicht gefunden}}
 	\caption{Klassendiagramm der verfeinertern Datenstrukturen für User Story S9.1}
 	
 \end{figure}
@@ -161,7 +161,7 @@ Wie schon im vorherigen Abschnitt erwähnt und in Abbildung 7 schließlich darge
 \paragraph{Modellierung relevanter Verhaltensaspekte}
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=13cm]{9.1.2.png}
+	\IfFileExists{9.1.2.png}{\includegraphics[width=13cm]{9.1.2.png}}{\fbox{Abbildung 9.1.2 -- Bild nicht gefunden}}
 	\caption{Sequenzdiagramm relavanter Verhaltensaspekte für User Story S9.1}
 	
 \end{figure}
@@ -173,7 +173,7 @@ Die Filterfunktion ist zum Großteil eine Erweiterung der bereits vorhandenen Su
 Zur Realisierung der Filterfunktion bekommt die searchTasks Methode im TaskService ein weiteres Filter-Argument. Diese ruft dann sowohl searchTask(search), als auch filterTask(filter) im TaskRepository auf. 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=13cm]{9.2.1.png}
+	\IfFileExists{9.2.1.png}{\includegraphics[width=13cm]{9.2.1.png}}{\fbox{Abbildung 9.2.1 -- Bild nicht gefunden}}
 	\caption{Klassendiagramm der verfeinertern Datenstrukturen für User Story S9.2}
 	
 \end{figure}
@@ -182,9 +182,31 @@ Zur Realisierung der Filterfunktion bekommt die searchTasks Methode im TaskServi
 Die Suchfunktion im TaskService wurde so überarbeitet, dass sie nach dem Aufruf von getAllTasks bzw. searchTask das Zwischenergebnis weiterleitet zu der neuen Methode filterTask, die eine Liste von Tasks nach gewünschten Kriterien filtert.
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.5]{9.2.2.png}
+	\IfFileExists{9.2.2.png}{\includegraphics[scale=0.5]{9.2.2.png}}{\fbox{Abbildung 9.2.2 -- Bild nicht gefunden}}
 	\caption{Sequenzdiagramm relavanter Verhaltensaspekte für User Story S9.2}
 	
+\end{figure}
+\newpage
+\subsubsection{Modellierung für die User Story 4.2: Tasklistenerstellung-/Bearbeitung}
+\paragraph{Modellierung und verfeinerte Architektur}
+Die Struktur des Systems wird für diese User Story weitestgehend ungeändert bleiben. Die getätigten Änderungen beschränken sich auf das Hinzufügen der Methoden getEditTask() und postEditTask() in der Klasse TaskController im Presentationlayer unter Verwendung der schon bestehenden Klassen und Methoden. Außerdem wurde die Frontend-Seite edit-task hinzugefügt, damit der Client die Aufgaben im Web auch bearbeiten kann.
+
+\paragraph{Modellierung vereinerter Interfaces und Datenstrukturen}
+Erweiterung der Klasse TaskController, sowie des Interfaces ITaskController um die Methoden getEditTask() und postEditTask(). Die Methode getEditTask() ist dazu da um entsprechende Informationen über eine Task zu laden und die Methode postEditTask(), hat den Nutzen die bestehenden Daten, sowie auch die Veränderten wieder an den Server zu schicken. Anschließend werden die Daten dann weiter im Servicelayer verarbeitet durch bereits bestehende Methoden. 
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=5cm]{Klasse42.png}
+	\caption{Klassendiagramm der Datenstrukturen für User Story S4.2}
+	\label{fig:s4_2_klassendiagramm}
+\end{figure}
+\newpage
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+\begin{figure}[h]
+Darstellung des Ablaufes, wenn Client eine bestehende Task im Nachhinein bearbeiten möchte, beispielsweise möchte er den Status verändern. Dazu muss er zuerst einmal angemeldet sein um alle Tasks sehen zu können. Nach erfolgreichem Anmelden werden ihm entsprechende Informationen zu Tasks durch getTaskById() gegeben. Er kann die Attribute verändern, sie anschließend an das Backend senden durch updateTask() und somit speichern. 
+	\centering
+	\includegraphics[width=9cm]{sequenz42.png}
+	\caption{Sequenzdiagramm der Datenstrukturen für User Story S4.2}
+	\label{fig:s4_2_klassendiagramm}
 \end{figure}
 \newpage
 \subsection{Tracing}
