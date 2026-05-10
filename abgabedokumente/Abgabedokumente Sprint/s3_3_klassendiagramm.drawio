@@ -1,0 +1,146 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Seite-1" id="s3_3_klassendiagramm">
+    <mxGraphModel dx="1100" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ===== ITaskController (interface) ===== -->
+        <mxCell id="s33k-itc" value="&lt;font style=&quot;font-size: 9px;&quot;&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/font&gt;&lt;div&gt;ITaskController&lt;/div&gt;" parent="1" vertex="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=42;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;">
+          <mxGeometry x="30" y="30" width="220" height="154" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-itc-sep" value="" parent="s33k-itc" vertex="1" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry x="0" y="42" width="220" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-itc-m1" value="+ getCreateTask(Context)" parent="s33k-itc" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="50" width="220" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-itc-m2" value="+ postCreateTask(Context)" parent="s33k-itc" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="76" width="220" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-itc-m3" value="+ getEditTask(Context)" parent="s33k-itc" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="102" width="220" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-itc-m4" value="+ postEditTask(Context)" parent="s33k-itc" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="128" width="220" height="26" as="geometry" />
+        </mxCell>
+
+        <!-- ===== TaskController (class) ===== -->
+        <mxCell id="s33k-tc" value="TaskController" parent="1" vertex="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;">
+          <mxGeometry x="30" y="260" width="220" height="138" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-tc-sep" value="" parent="s33k-tc" vertex="1" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry x="0" y="26" width="220" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-tc-m1" value="+ getCreateTask(Context)" parent="s33k-tc" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="34" width="220" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-tc-m2" value="+ postCreateTask(Context)" parent="s33k-tc" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="60" width="220" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-tc-m3" value="+ getEditTask(Context)" parent="s33k-tc" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="86" width="220" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-tc-m4" value="+ postEditTask(Context)" parent="s33k-tc" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="112" width="220" height="26" as="geometry" />
+        </mxCell>
+
+        <!-- ===== ITaskService (interface) ===== -->
+        <mxCell id="s33k-its" value="&lt;font style=&quot;font-size: 9px;&quot;&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/font&gt;&lt;div&gt;ITaskService&lt;/div&gt;" parent="1" vertex="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=42;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;">
+          <mxGeometry x="320" y="30" width="240" height="128" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-its-sep" value="" parent="s33k-its" vertex="1" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry x="0" y="42" width="240" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-its-m1" value="+ createTask(..., TaskStatus) : Task" parent="s33k-its" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="50" width="240" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-its-m2" value="+ getTaskById(int) : Optional" parent="s33k-its" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="76" width="240" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-its-m3" value="+ updateTask(Task) : boolean" parent="s33k-its" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="102" width="240" height="26" as="geometry" />
+        </mxCell>
+
+        <!-- ===== TaskService (class) ===== -->
+        <mxCell id="s33k-ts" value="TaskService" parent="1" vertex="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;">
+          <mxGeometry x="320" y="260" width="240" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-ts-sep" value="" parent="s33k-ts" vertex="1" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry x="0" y="26" width="240" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-ts-m1" value="+ createTask(..., TaskStatus) : Task" parent="s33k-ts" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="34" width="240" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-ts-m2" value="+ getTaskById(int) : Optional" parent="s33k-ts" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="60" width="240" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-ts-m3" value="+ updateTask(Task) : boolean" parent="s33k-ts" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="86" width="240" height="26" as="geometry" />
+        </mxCell>
+
+        <!-- ===== ITaskRepository (interface) ===== -->
+        <mxCell id="s33k-itr" value="&lt;font style=&quot;font-size: 9px;&quot;&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/font&gt;&lt;div&gt;ITaskRepository&lt;/div&gt;" parent="1" vertex="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=42;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;">
+          <mxGeometry x="620" y="30" width="180" height="128" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-itr-sep" value="" parent="s33k-itr" vertex="1" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry x="0" y="42" width="180" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-itr-m1" value="+ createTask(...) : Task" parent="s33k-itr" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="50" width="180" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-itr-m2" value="+ getTaskById(int) : Optional" parent="s33k-itr" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="76" width="180" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-itr-m3" value="+ saveTask(Task, int) : boolean" parent="s33k-itr" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="102" width="180" height="26" as="geometry" />
+        </mxCell>
+
+        <!-- ===== TaskRepository (class) ===== -->
+        <mxCell id="s33k-tr" value="TaskRepository" parent="1" vertex="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;">
+          <mxGeometry x="620" y="260" width="180" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-tr-sep" value="" parent="s33k-tr" vertex="1" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;">
+          <mxGeometry x="0" y="26" width="180" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-tr-m1" value="+ createTask(...) : Task" parent="s33k-tr" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="34" width="180" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-tr-m2" value="+ getTaskById(int) : Optional" parent="s33k-tr" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="60" width="180" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="s33k-tr-m3" value="+ saveTask(Task, int) : boolean" parent="s33k-tr" vertex="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;">
+          <mxGeometry x="0" y="86" width="180" height="26" as="geometry" />
+        </mxCell>
+
+        <!-- ===== EDGES ===== -->
+
+        <!-- TaskController implements ITaskController -->
+        <mxCell id="s33k-e1" value="" edge="1" source="s33k-tc" target="s33k-itc" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=block;endFill=0;dashed=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- TaskService implements ITaskService -->
+        <mxCell id="s33k-e2" value="" edge="1" source="s33k-ts" target="s33k-its" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=block;endFill=0;dashed=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- TaskRepository implements ITaskRepository -->
+        <mxCell id="s33k-e3" value="" edge="1" source="s33k-tr" target="s33k-itr" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=block;endFill=0;dashed=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- TaskController uses ITaskService -->
+        <mxCell id="s33k-e4" value="nutzt" edge="1" source="s33k-tc" target="s33k-its" parent="1" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- TaskService uses ITaskRepository -->
+        <mxCell id="s33k-e5" value="nutzt" edge="1" source="s33k-ts" target="s33k-itr" parent="1" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

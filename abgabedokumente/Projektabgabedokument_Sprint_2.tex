@@ -43,7 +43,7 @@ Das Resultat des letzten Sprints war ein Prototyp mit den genannten Features.\\
 Es wurden nicht alle geplanten User Stories umgesetzt.
 Diese wurden daher in den zweiten Sprint verschoben.
 Namentlich sind das die User Stories S1.3, S4.1, S6.1.\\
-Außerdem wurden die User Stories S9.1 sowie S9.2 in diesem Sprint umgesetzt.\\
+Außerdem wurden die User Stories S3.3, S6.2 sowie S9.1 und S9.2 in diesem Sprint umgesetzt.\\
 
 \noindent\textit{Hinweis: Das vollständige Sprintbacklog ist unter \href{run:./Sprintbacklog.pdf}{Sprintbacklog.pdf}, sowie \href{https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/uebung3/team3/projekt-team3-uebung3/-/blob/main/abgabedokumente/Sprintbacklog.pdf?ref_type=heads}{im Gitlab} zu finden.}
 
@@ -206,9 +206,116 @@ Darstellung des Ablaufes, wenn Client eine bestehende Task im Nachhinein bearbei
 	\centering
 	\includegraphics[width=9cm]{sequenz42.png}
 	\caption{Sequenzdiagramm der Datenstrukturen für User Story S4.2}
-	\label{fig:s4_2_klassendiagramm}
+	\label{fig:s4_2_sequenzdiagramm}
 \end{figure}
 \newpage
+\subsubsection{Modellierung für User Story S6.2: Task-Board}
+\paragraph{Modellierung verfeinerter Struktur}
+
+Für die Umsetzung der User Story S6.2 werden im Presentation Layer die Methoden \textbf{getBacklogs(Context)} und \textbf{getBacklog(Context)} in das Interface \textbf{IBacklogController} und die implementierende Klasse \textbf{BacklogController} hinzugefügt.
+Die Methode \textbf{getBacklog(Context)} behandelt Anfragen an die Route \textbf{GET /backlog/\{id\}}.
+Sie lädt über den Service Layer das Backlog anhand seiner ID und alle zugehörigen Tasks.
+Diese Tasks werden anschließend anhand ihres \textbf{TaskStatus}-Feldes in drei Listen aufgeteilt: \textbf{todoTasks} (Status TODO), \textbf{inProgressTasks} (Status IN\_PROGRESS) und \textbf{doneTasks} (Status COMPLETED).
+Das Ergebnis wird an das Template \textbf{backlog.mustache} übergeben, welches ein dreispaltiges Scrumboard rendert.\\
+Im Service Layer wird die Methode \textbf{getBacklogById(int)} im Interface \textbf{IBacklogService} sowie der Klasse \textbf{BacklogService} ergänzt.
+Zusätzlich wird die Methode \textbf{getTasksByBacklogId(int)} im Interface \textbf{ITaskService} und der Klasse \textbf{TaskService} hinzugefügt.
+Im Data Layer werden die entsprechenden Methoden \textbf{getBacklogById(int)} in \textbf{IBacklogRepository} und \textbf{BacklogRepository} sowie \textbf{getTasksByBacklogId(int)} in \textbf{ITaskRepository} und \textbf{TaskRepository} implementiert.
+Das Klassendiagramm in Abbildung \ref{fig:klassendiagramm_s6_2} zeigt die beteiligten Klassen und ihre Beziehungen.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=14cm]{s6_2_klassendiagramm.png}
+	\caption{Klassendiagramm für User Story S6.2}
+	\label{fig:klassendiagramm_s6_2}
+\end{figure}
+
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+
+Für das Scrumboard werden die bestehenden Datenstrukturen \textbf{Backlog} und \textbf{Task} verwendet.
+Ein \textbf{Backlog}-Objekt besitzt die Attribute \textbf{id} und \textbf{bezeichnung}.
+Ein Backlog ist über die Verknüpfungstabelle \textbf{backlog\_tasks} mit beliebig vielen Tasks verknüpft.
+Jede \textbf{Task} besitzt neben Attributen wie Titel, Beschreibung und Zeitangaben ein \textbf{status}-Attribut vom Typ \textbf{TaskStatus}.
+Der Enum \textbf{TaskStatus} definiert die drei möglichen Zustände \textbf{TODO} (0), \textbf{IN\_PROGRESS} (1) und \textbf{COMPLETED} (2).
+Die statische Methode \textbf{itoStatus(int)} konvertiert einen gespeicherten Integer-Wert zurück in den entsprechenden Enum-Wert.
+Die Klasse \textbf{BacklogController} filtert beim Aufruf von \textbf{getBacklog()} die Tasks eines Backlogs intern per Java-Stream nach diesem Attribut und stellt dem Template drei separate Listen bereit.
+Die Datenstrukturen sind in Abbildung \ref{fig:klassendiagramm_datenstrukturen_s6_2} dargestellt.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=12cm]{s6_2_datenstrukturen.png}
+	\caption{Klassendiagramm der Datenstrukturen für User Story S6.2}
+	\label{fig:klassendiagramm_datenstrukturen_s6_2}
+\end{figure}
+
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+
+Beim Aufruf der Route \textbf{GET /backlog/\{id\}} wird zunächst geprüft, ob der Nutzer angemeldet ist.
+Anschließend ruft der \textbf{BacklogController} über den \textbf{BacklogService} und \textbf{BacklogRepository} das Backlog per ID ab.
+Falls kein Backlog mit der angegebenen ID existiert, wird ein 404-Fehler zurückgegeben.
+Im Erfolgsfall werden über den \textbf{TaskService} und \textbf{TaskRepository} alle Tasks des Backlogs geladen (SQL-JOIN über \textbf{backlog\_tasks}).
+Der \textbf{BacklogController} filtert diese Tasks dann nach \textbf{TaskStatus} in die drei Listen auf und übergibt sie an das Template \textbf{backlog.mustache}, das das dreispaltige Board rendert.
+Das Sequenzdiagramm in Abbildung \ref{fig:sequenzdiagramm_s6_2} zeigt diesen Ablauf.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=14cm]{s6_2_sequenzdiagramm.png}
+	\caption{Sequenzdiagramm für User Story S6.2}
+	\label{fig:sequenzdiagramm_s6_2}
+\end{figure}
+
+\newpage
+\subsubsection{Modellierung für User Story S3.3: Assign Task Priorities}
+\paragraph{Modellierung verfeinerter Struktur}
+
+Für die Umsetzung der User Story S3.3 wird der \textbf{TaskController} um die Statusbehandlung beim Erstellen und Bearbeiten von Tasks erweitert.
+Die Methode \textbf{postCreateTask(Context)} liest das Formularfeld \textbf{status} als Integer aus und wandelt es mittels \textbf{TaskStatus.itoStatus(int)} in den entsprechenden \textbf{TaskStatus}-Enum um.
+Dieser wird dann an \textbf{ITaskService.createTask()} übergeben.\\
+Die Methode \textbf{getEditTask(Context)} lädt die bestehende Task und setzt die Modellattribute \textbf{statusIsTodo}, \textbf{statusIsInProgress} und \textbf{statusIsCompleted} je nach aktuellem Status der Task, damit im Bearbeitungsformular der richtige Radiobutton vorausgewählt wird.
+Die Methode \textbf{postEditTask(Context)} liest den neuen Statuswert aus dem Formular, konvertiert ihn in einen \textbf{TaskStatus} und erstellt ein aktualisiertes \textbf{Task}-Objekt mit dem neuen Status, das dann über \textbf{ITaskService.updateTask()} gespeichert wird.\\
+Im Service Layer erhält \textbf{ITaskService.createTask()} einen Parameter vom Typ \textbf{TaskStatus}.
+Im Data Layer speichert \textbf{TaskRepository} den Status-Integer-Wert (\textbf{status.val}) in der Datenbankspalte und liest ihn beim Laden mittels \textbf{TaskStatus.itoStatus()} zurück.
+Die Klassen und ihre Beziehungen sind in Abbildung \ref{fig:klassendiagramm_s3_3} dargestellt.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=14cm]{s3_3_klassendiagramm.png}
+	\caption{Klassendiagramm für User Story S3.3}
+	\label{fig:klassendiagramm_s3_3}
+\end{figure}
+
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+
+Für die Statuszuweisung wird der Enum \textbf{TaskStatus} mit den Werten \textbf{TODO} (val = 0), \textbf{IN\_PROGRESS} (val = 1) und \textbf{COMPLETED} (val = 2) eingeführt.
+Die statische Methode \textbf{itoStatus(int)} wandelt einen Integer-Wert in den zugehörigen Enum-Wert um und wirft eine \textbf{NoSuchElementException}, falls kein passender Wert existiert.
+Die Datenklasse \textbf{Task} erhält das Attribut \textbf{status: TaskStatus}.
+In der Datenbank wird das Feld als \textbf{INTEGER} gespeichert; beim Laden einer Task aus der Datenbank wird der Wert mit \textbf{TaskStatus.itoStatus()} zurückkonvertiert.
+Im Frontend stellt \textbf{create-task.mustache} drei Radiobuttons (Todo, In Progress, Completed) mit den Werten 0, 1 und 2 bereit.
+\textbf{edit-task.mustache} zeigt denselben Radiobutton-Block und markiert den aktuell gesetzten Status über die Mustache-Bedingungen \textbf{statusIsTodo}, \textbf{statusIsInProgress} und \textbf{statusIsCompleted}.
+Das Datenmodell ist in Abbildung \ref{fig:klassendiagramm_datenstrukturen_s3_3} dargestellt.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{s3_3_datenstrukturen.png}
+	\caption{Klassendiagramm der Datenstrukturen für User Story S3.3}
+	\label{fig:klassendiagramm_datenstrukturen_s3_3}
+\end{figure}
+
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+
+Das Sequenzdiagramm in Abbildung \ref{fig:sequenzdiagramm_s3_3} zeigt den primären Ablauf für das Erstellen einer Task mit Status über \textbf{POST /create-task}.
+Der \textbf{TaskController} liest den Formularparameter \textbf{status}, konvertiert ihn mit \textbf{TaskStatus.itoStatus()} und übergibt den resultierenden Enum an \textbf{TaskService.createTask()}.
+Der \textbf{TaskService} leitet den Aufruf an \textbf{TaskRepository.createTask()} weiter, welches den Status als Integer-Wert (\textbf{status.val}) in der Datenbank speichert und die neu erstellte Task mit der generierten ID zurückgibt.
+Anschließend fügt der \textbf{TaskController} die Task dem gewählten Backlog hinzu und leitet auf \textbf{/home} weiter.\\
+Beim Bearbeiten einer Task über \textbf{GET /edit-task/\{taskId\}} werden der aktuelle Task-Status aus der Datenbank geladen und die Mustache-Flags \textbf{statusIsTodo}, \textbf{statusIsInProgress} und \textbf{statusIsCompleted} gesetzt, sodass der richtige Radiobutton vorausgewählt ist.
+Das Absenden des Formulars via \textbf{POST /edit-task/\{taskId\}} liest den neuen Statuswert, erstellt ein aktualisiertes \textbf{Task}-Objekt und speichert es über \textbf{TaskService.updateTask()} und \textbf{TaskRepository.saveTask()} in der Datenbank.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=14cm]{s3_3_sequenzdiagramm.png}
+	\caption{Sequenzdiagramm für User Story S3.3}
+	\label{fig:sequenzdiagramm_s3_3}
+\end{figure}
+
 \subsection{Tracing}
 
 \section{Implementation und Tests}
@@ -225,6 +332,70 @@ Die Gesamtheit aller Testfälle ist unter \href{run:./Manuelle_Tests.pdf}{Manuel
 
 \subsection{Tracing}
 \subsection{Laufender Prototyp}
+
+Die folgenden User Stories sind im aktuellen Prototyp implementiert:
+
+\begin{itemize}
+    \item \textbf{S1.1} -- Account anlegen: Ein Nutzer kann sich über das Registrierungsformular (\texttt{/register}) einen Account erstellen. Nach dem Ausfüllen von Benutzername, E-Mail und Passwort wird der Account gespeichert und der Nutzer kann sich einloggen.
+
+    \item \textbf{S1.2} -- Einloggen: Ein Nutzer kann sich über das Login-Formular (\texttt{/login}) mit E-Mail und Passwort anmelden. Bei Erfolg wird eine Session angelegt und der Nutzer zum Dashboard weitergeleitet.
+
+    \item \textbf{S2.1} -- User Story anlegen: Ein eingeloggter Nutzer kann über \texttt{/create-user-story} eine neue User Story mit Titel, Beschreibung und zugehörigem Backlog anlegen.
+
+    \item \textbf{S3.1} -- Task erstellen: Ein eingeloggter Nutzer kann über \texttt{/create-task} eine neue Task mit Titel, Beschreibung, Start- und Fälligkeitsdatum, geschätzter Zeit, Status und Backlog-Zuordnung anlegen.
+
+    \item \textbf{S4.1} -- Backlog erstellen: Ein Nutzer kann über \texttt{/create-backlog} einen neuen Backlog mit einer Bezeichnung anlegen. Alle Backlogs sind unter \texttt{/backlogs} einsehbar.
+
+    \item \textbf{S5.1} -- Nutzerprofil: Ein eingeloggter Nutzer kann unter \texttt{/profile} sein Profil (Name, E-Mail, Telefonnummer, Postleitzahl, Ort, Straße, Hausnummer) einsehen und bearbeiten.
+
+    \item \textbf{S6.1} -- Nutzer einer Task zuordnen: Beim Erstellen oder Bearbeiten einer Task können ein oder mehrere Nutzer als Bearbeiter (Assignees) ausgewählt werden.
+
+    \item \textbf{S6.2} -- Zuordnung im Task-Board sehen: Im Dashboard (\texttt{/home}) wird für jede Task eine Spalte \textit{Assignees} angezeigt, sodass die Verantwortlichkeiten auf einen Blick ersichtlich sind.
+
+    \item \textbf{S9.1} -- Tasks suchen: Im Dashboard kann über ein Suchfeld (\texttt{?search=...}) nach Tasks gesucht werden; die Ergebnisliste wird entsprechend gefiltert.
+
+    \item \textbf{S9.2} -- Tasks filtern: Im Dashboard kann über einen Filter-Button der Status (Todo, In Progress, Completed) ausgewählt werden (\texttt{?filter=...}), um nur Tasks mit dem gewünschten Status anzuzeigen.
+\end{itemize}
+
+\subsubsection*{Installations- und Kompilieranweisung}
+
+Im Folgenden wird beschrieben, wie man den Prototypen kompilieren kann:
+
+\textbf{Voraussetzungen:}
+\begin{itemize}
+    \item Java 21 oder höher (getestet unter Windows 11 und Ubuntu 24.04)
+    \item Apache Maven 3.9 oder höher
+    \item SQLite (keine separate Installation nötig -- der JDBC-Treiber ist im Build enthalten)
+\end{itemize}
+
+\textbf{Schritt 1 -- Repository klonen:}
+\begin{verbatim}
+git clone https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/
+    uebung3/team3/projekt-team3-uebung3.git
+cd projekt-team3-uebung3
+\end{verbatim}
+
+\textbf{Schritt 2 -- Konfigurationsdatei anpassen:}
+
+Die Datei \texttt{src/main/resources/application.properties} enthält den Parameter \texttt{database.url}.
+Dieser muss auf einen gültigen Pfad zur SQLite-Datenbankdatei gesetzt werden, z.\,B.:
+\begin{verbatim}
+database.url=jdbc:sqlite:/home/user/scrumboard.db
+\end{verbatim}
+Die Datenbankdatei wird beim ersten Start automatisch angelegt.
+
+\textbf{Schritt 3 -- Projekt bauen:}
+\begin{verbatim}
+mvn package
+\end{verbatim}
+
+\textbf{Schritt 4 -- Anwendung starten:}
+\begin{verbatim}
+java -jar target/scrumboard-1.0-SNAPSHOT.jar
+\end{verbatim}
+
+Die Anwendung ist anschließend im Browser unter localhost erreichbar.
+
 \subsection{Abweichung Sprintplanung}
 
 \end{document}
