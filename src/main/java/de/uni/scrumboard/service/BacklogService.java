@@ -31,8 +31,17 @@ public class BacklogService implements IBacklogService {
     }
 
     @Override
+    public Optional<Integer> getBacklogIdByTaskId(int taskId) {
+        return backlogRepository.getBacklogIdByTaskId(taskId);
+    }
+
+    @Override
     public void addTaskToBacklog(int backlogId, int taskId) {
         backlogRepository.addTaskToBacklog(backlogId, taskId);
+    }
+
+    public void removeTaskFromBacklog(int backlogId, int taskId) {
+        backlogRepository.removeTaskFromBacklog(backlogId, taskId);
     }
 
 }

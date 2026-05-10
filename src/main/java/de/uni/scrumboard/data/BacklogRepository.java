@@ -87,5 +87,29 @@ public class BacklogRepository implements IBacklogRepository {
             throw new RuntimeException("Fehler beim Zuordnen der Task zum Backlog", e);
         }
     }
+public Optional<Integer> getBacklogIdByTaskId(int taskId) {
+    String sql = "SELECT backlogId FROM backlog_tasks WHERE taskId = ? LIMIT 1";
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setInt(1, taskId);
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return Optional.of(rs.getInt("backlogId"));
+            }
+            return Optional.empty();
+        }
+    } catch (SQLException e) {
+        throw new RuntimeException("Fehler beim Lesen der Backlog-Zuordnung", e);
+    }
+}
+    public void removeTaskFromBacklog(int backlogId, int taskId) {
+        String sql = "DELETE FROM backlog_tasks WHERE backlogId = ? AND taskId = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, backlogId);
+            stmt.setInt(2, taskId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Fehler beim Entfernen der Task aus dem Backlog", e);
+        }
+    }
 
 }

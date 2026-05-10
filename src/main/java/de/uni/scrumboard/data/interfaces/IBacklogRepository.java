@@ -14,6 +14,9 @@ public interface IBacklogRepository {
 
     Optional<Backlog> getBacklogById(int id);
 
-    void addTaskToBacklog(int backlogId, int taskId);
+    Optional<Integer> getBacklogIdByTaskId(int taskId);
+    
+    void addTaskToBacklog(int backlogId, int taskId); 
 
+    void removeTaskFromBacklog(int backlogId, int taskId);
 }
