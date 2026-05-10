@@ -14,6 +14,10 @@ public interface IBacklogService {
 
     Optional<Backlog> getBacklogById(int id);
 
+    Optional<Integer> getBacklogIdByTaskId(int taskId);
+
     void addTaskToBacklog(int backlogId, int taskId);
+
+    void removeTaskFromBacklog(int backlogId, int taskId);
 
 }
