@@ -1,0 +1,102 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\setcounter{secnumdepth}{4}
+
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\geometry{a4paper, margin=2.5cm}
+\graphicspath{{images/}}
+
+\begin{document}
+
+\begin{table}[h]
+	\centering
+	\footnotesize
+	\begin{tabular}{| p{1.5cm} | p{2.5cm} | p{2cm} | p{2cm} | p{2cm} |}
+		\hline
+		                            & Verantwortliche Teammitglieder (Organisation, Anlegen der Dokumentenversion, Moderation, Abgabe)         & Anwesende während der Meetings                                                                           & (Online-) Beiträge zum Inhalt durch                                                                      & Korrektur-gelesen durch                                                                                  \\
+		\hline
+		Dokument Sprint 3 Version 1 & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\section{Backlogs und Planung}
+
+\subsection{Produktbacklog vor und nach dem Sprint}
+
+
+\subsection{Sprint Planung}
+
+
+\section{Verfeinerte Architektur}
+
+
+\section{Implementation und Tests}
+\subsection{Updates zu den genutzen Technologien}
+An den genutzten Technologien wurden keine Änderungen vorgenommen.
+
+
+\subsection{Dokumentation der Codequalität}
+
+
+\subsection{Tracing}
+
+
+\subsection{Laufender Prototyp}
+
+
+\subsubsection*{Installations- und Kompilieranweisung}
+
+Im Folgenden wird beschrieben, wie man den Prototypen kompilieren kann:
+
+\textbf{Voraussetzungen:}
+\begin{itemize}
+	\item Java 21 oder höher (getestet unter Windows 11 und Ubuntu 24.04)
+	\item Apache Maven 3.9 oder höher
+	\item SQLite (keine separate Installation nötig -- der JDBC-Treiber ist im Build enthalten)
+\end{itemize}
+
+\textbf{Schritt 1 -- Repository klonen:}
+\begin{verbatim}
+git clone https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/
+    uebung3/team3/projekt-team3-uebung3.git
+cd projekt-team3-uebung3
+\end{verbatim}
+
+\textbf{Schritt 2 -- Konfigurationsdatei anpassen:}
+
+Die Datei \texttt{src/main/resources/application.properties} enthält den Parameter \texttt{database.url}.
+Dieser muss auf einen gültigen Pfad zur SQLite-Datenbankdatei gesetzt werden, z.\,B.:
+\begin{verbatim}
+database.url=jdbc:sqlite:/home/user/scrumboard.db
+\end{verbatim}
+Die Datenbankdatei wird beim ersten Start automatisch angelegt.
+
+\textbf{Schritt 3 -- Projekt bauen:}
+\begin{verbatim}
+mvn package
+\end{verbatim}
+
+\textbf{Schritt 4 -- Anwendung starten:}
+\begin{verbatim}
+java -jar target/scrumboard-1.0-SNAPSHOT.jar
+\end{verbatim}
+
+Die Anwendung ist anschließend im Browser unter localhost erreichbar.
+
+\subsection{Abweichung Sprintplanung}
+
+
+\end{document}
+
