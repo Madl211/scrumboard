@@ -115,7 +115,7 @@ public class App implements IApp {
 
             profileController = new ProfileController(profileService);
             authController = new AuthController(accountService, profileService);
-            homeController = new HomeController(accountService, taskService);
+            homeController = new HomeController(backlogService);
             taskController = new TaskController(taskService, accountService, backlogService);
             backlogController = new BacklogController(backlogService, taskService);
             userStoryController = new UserStoryController(userStoryService, backlogService);
