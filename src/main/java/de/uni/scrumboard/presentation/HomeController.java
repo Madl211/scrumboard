@@ -2,16 +2,13 @@ package de.uni.scrumboard.presentation;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import de.uni.scrumboard.data.Account;
-import de.uni.scrumboard.data.Task;
+import de.uni.scrumboard.data.Backlog;
 import de.uni.scrumboard.presentation.interfaces.IHomeController;
-import de.uni.scrumboard.service.interfaces.IAccountService;
-import de.uni.scrumboard.service.interfaces.ITaskService;
+import de.uni.scrumboard.service.interfaces.IBacklogService;
 import io.javalin.http.Context;
 
-public record HomeController(IAccountService accountService, ITaskService taskService) implements IHomeController {
+public record HomeController(IBacklogService backlogService) implements IHomeController {
     private static final String homeTemplate = "templates/home.mustache";
 
     @Override
@@ -22,16 +19,9 @@ public record HomeController(IAccountService accountService, ITaskService taskSe
             return;
         }
 
-        List<Account> accounts = accountService.getAllAccounts();
-        String filterParam = context.queryParam("filter");
-        int filter = (filterParam == null || filterParam.isEmpty())
-        ? -1
-        : Integer.parseInt(filterParam);
-        String search = context.queryParam("search");
-        List<Task> tasks = taskService.searchTasks(search, filter);
-        Map<String, Object> model = new HashMap<>();
-        model.put("accounts", accounts);
-        model.put("tasks", tasks);
+        List<Backlog> backlogs = backlogService.getBacklogs();
+        HashMap<String, Object> model = new HashMap<>();
+        model.put("backlogs", backlogs);
         context.render(homeTemplate, model);
     }
 
