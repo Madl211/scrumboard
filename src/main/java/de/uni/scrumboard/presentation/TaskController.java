@@ -230,5 +230,16 @@ if (newBacklogId != null && (oldBacklogId.isEmpty() || !oldBacklogId.get().equal
         // ID
 
     }
-
+    @Override
+    public void SearchTask(Context context){
+        String filterParam = context.queryParam("filter");
+        int filter = (filterParam == null || filterParam.isEmpty())
+        ? -1
+        : Integer.parseInt(filterParam);
+        String search = context.queryParam("search");
+        List<Task> tasks = taskService.searchTasks(search, filter);
+        Map<String, Object> model = new HashMap<>();
+        model.put("tasks", tasks);
+        context.render("templates/search.mustache", model);
+    }
 }

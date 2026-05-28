@@ -7,4 +7,5 @@ public interface ITaskController {
     void postCreateTask(Context context);
     void getEditTask(Context context);
     void postEditTask (Context context);
+    void SearchTask(Context context);
 }

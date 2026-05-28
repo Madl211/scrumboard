@@ -84,6 +84,7 @@ public class App implements IApp {
                 .post("/edit-task/{taskId}", taskController::postEditTask)
                 .get("/create-user-story", userStoryController::getCreateUserStory)
                 .post("/create-user-story", userStoryController::postCreateUserStory)
+                .get("/search-tasks", taskController::SearchTask)
                 .start(port);
     }
 
