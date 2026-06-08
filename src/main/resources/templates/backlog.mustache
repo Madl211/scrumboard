@@ -14,8 +14,12 @@
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
                 <strong>{{title}}</strong>
                 <p>{{desc}}</p>
-                <p>Erstellt von: {{creator.username}}</p>
-                <a href="/edit-task/{{taskId}}" style="background-color: #007bff; color: white; padding: 4px 10px; text-decoration: none; border-radius: 4px;">Bearbeiten</a>
+                <p>Assignees:
+                  {{#assignees}}
+                    {{username}}
+                  {{/assignees}}
+                </p>               
+ <a href="/edit-task/{{taskId}}" style="background-color: #007bff; color: white; padding: 4px 10px; text-decoration: none; border-radius: 4px;">Bearbeiten</a>
             </div>
             {{/todoTasks}}
             {{^todoTasks}}
@@ -30,8 +34,11 @@
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
                 <strong>{{title}}</strong>
                 <p>{{desc}}</p>
-                <p>Erstellt von: {{creator.username}}</p>
-                <a href="/edit-task/{{taskId}}" style="background-color: #007bff; color: white; padding: 4px 10px; text-decoration: none; border-radius: 4px;">Bearbeiten</a>
+            <p>Assignees:
+              {{#assignees}}
+                {{username}}
+              {{/assignees}}</p>
+              <a href="/edit-task/{{taskId}}" style="background-color: #007bff; color: white; padding: 4px 10px; text-decoration: none; border-radius: 4px;">Bearbeiten</a>
             </div>
             {{/inProgressTasks}}
             {{^inProgressTasks}}
@@ -46,8 +53,11 @@
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
                 <strong>{{title}}</strong>
                 <p>{{desc}}</p>
-                <p>Erstellt von: {{creator.username}}</p>
-                <a href="/edit-task/{{taskId}}" style="background-color: #007bff; color: white; padding: 4px 10px; text-decoration: none; border-radius: 4px;">Bearbeiten</a>
+                <p>Assignees:
+                  {{#assignees}}
+                    {{username}}
+                 {{/assignees}}
+</p>                <a href="/edit-task/{{taskId}}" style="background-color: #007bff; color: white; padding: 4px 10px; text-decoration: none; border-radius: 4px;">Bearbeiten</a>
             </div>
             {{/doneTasks}}
             {{^doneTasks}}

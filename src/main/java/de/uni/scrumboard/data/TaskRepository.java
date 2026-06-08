@@ -7,8 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
 
 import de.uni.scrumboard.data.enums.TaskStatus;
 import de.uni.scrumboard.data.interfaces.ITaskRepository;
@@ -122,8 +125,8 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
                 "INSERT INTO tasks(title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime, status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 Statement.RETURN_GENERATED_KEYS)) {
             sqlStatement.setString(1, title);
-            sqlStatement.setString(2, desc);
-            sqlStatement.setInt(3, creator.accountId());
+            sqlStatement.setString(2, desc);  
+            sqlStatement.setInt(3, creator.accountId()); 
             sqlStatement.setDate(4, start != null ? new java.sql.Date(start.getTime()) : null);
             sqlStatement.setDate(5, due != null ? new java.sql.Date(due.getTime()) : null);
             sqlStatement.setDate(6, created != null ? new java.sql.Date(created.getTime()) : null);
@@ -187,6 +190,44 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
         }
         return assignees;
     }
+
+
+    //Sinn, korrekte Anzeige bei Checkboxen. Hier werden alle Accounts angezeigt und mit der Eigenschaft ob diese Assigned sind oder nicht
+    @Override
+    public List<Map<String, Object>> getAccountsWithAssignmentForTask(int taskId) {
+    List<Map<String, Object>> accounts = new ArrayList<>();
+
+    String sql = """
+            SELECT a.accountId,
+                   a.email,
+                   a.username,
+                   CASE WHEN ta.accountId IS NULL THEN 0 ELSE 1 END AS isAssigned
+            FROM accounts a
+            LEFT JOIN task_assignees ta
+                   ON ta.accountId = a.accountId
+                  AND ta.taskId = ?
+            ORDER BY a.username
+            """;
+
+    try (PreparedStatement sqlStatement = connection.prepareStatement(sql)) {
+        sqlStatement.setInt(1, taskId);
+
+        try (ResultSet result = sqlStatement.executeQuery()) {
+            while (result.next()) {
+                Map<String, Object> account = new HashMap<>();
+                account.put("accountId", result.getInt("accountId"));
+                account.put("email", result.getString("email"));
+                account.put("username", result.getString("username"));
+                account.put("isAssigned", result.getInt("isAssigned") == 1);
+                accounts.add(account);
+            }
+        }
+    } catch (SQLException e) {
+        throw new RuntimeException("Fehler beim Laden der Account-Zuordnung fuer Task " + taskId, e);
+    }
+
+    return accounts;
+}
 
     private void saveAssigneesForTask(int taskId, List<Account> assignees) {
         // First, delete existing assignees

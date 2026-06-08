@@ -116,7 +116,7 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         Task t = task.get();
         Map<String, Object> model = new HashMap<>();
         model.put("task", t);
-        model.put("accounts", accountService.getAllAccounts());
+        model.put("accounts", taskService.getAccountsWithAssignmentForTask(taskId));
         model.put("statusIsTodo", t.status() == TaskStatus.TODO);
         model.put("statusIsInProgress", t.status() == TaskStatus.IN_PROGRESS);
         model.put("statusIsCompleted", t.status() == TaskStatus.COMPLETED);

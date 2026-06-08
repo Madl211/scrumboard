@@ -57,10 +57,10 @@
         
         
         <div>
-            <label style="display: block; margin-bottom: 0.5rem;">Assignees:</label>
+          <label style="display: block; margin-bottom: 0.5rem;">Assignees:</label>
             {{#accounts}}
             <div style="margin-bottom: 0.5rem;">
-                <input type="checkbox" id="assignee-{{accountId}}" name="assignees" value="{{accountId}}">
+                <input type="checkbox" id="assignee-{{accountId}}" name="assignees" value="{{accountId}}" {{#isAssigned}}checked{{/isAssigned}}>
                 <label for="assignee-{{accountId}}">{{username}} ({{email}})</label>
             </div>
             {{/accounts}}

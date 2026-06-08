@@ -11,6 +11,7 @@ import de.uni.scrumboard.data.enums.TaskStatus;
 import de.uni.scrumboard.data.interfaces.IAccountRepository;
 import de.uni.scrumboard.data.interfaces.ITaskRepository;
 import de.uni.scrumboard.service.interfaces.ITaskService;
+import java.util.Map;
 
 public record TaskService(ITaskRepository taskRepository, IAccountRepository accountRepository)
         implements ITaskService {
@@ -53,4 +54,9 @@ public record TaskService(ITaskRepository taskRepository, IAccountRepository acc
     public List<Task> getTasksByBacklogId(int backlogId) {
         return taskRepository.getTasksByBacklogId(backlogId);
     }
+
+    @Override
+    public List<Map<String, Object>> getAccountsWithAssignmentForTask(int taskId) {
+    return taskRepository.getAccountsWithAssignmentForTask(taskId);
+}
 }
