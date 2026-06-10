@@ -15,4 +15,6 @@ public interface ITaskService {
     boolean updateTask(Task task);
     List<Task> getTasksByBacklogId(int backlogId);
     List<Map<String, Object>> getAccountsWithAssignmentForTask(int taskId);
+    List<Task> getAllTasks();
+    List<Map<String, Object>> getTasksWithAssignmentForUserStory(int userStoryId);
 }

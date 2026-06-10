@@ -65,4 +65,14 @@ public record TaskService(ITaskRepository taskRepository, IAccountRepository acc
     public List<Map<String, Object>> getAccountsWithAssignmentForTask(int taskId) {
     return taskRepository.getAccountsWithAssignmentForTask(taskId);
 }
+
+    @Override
+    public List<Task> getAllTasks() {
+        return taskRepository.getAllTasks();
+    }
+
+    @Override
+    public List<Map<String, Object>> getTasksWithAssignmentForUserStory(int userStoryId) {
+        return taskRepository.getTasksWithAssignmentForUserStory(userStoryId);
+    }
 }

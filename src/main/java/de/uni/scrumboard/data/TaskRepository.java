@@ -229,6 +229,38 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
     return accounts;
 }
 
+    @Override
+    public List<Map<String, Object>> getTasksWithAssignmentForUserStory(int userStoryId) {
+        List<Map<String, Object>> tasks = new ArrayList<>();
+
+        String sql = """
+                SELECT t.taskId, t.title,
+                       CASE WHEN ust.taskId IS NULL THEN 0 ELSE 1 END AS isAssigned
+                FROM tasks t
+                LEFT JOIN user_story_tasks ust
+                       ON ust.taskId = t.taskId
+                      AND ust.userStoryId = ?
+                ORDER BY t.title
+                """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userStoryId);
+            try (ResultSet result = ps.executeQuery()) {
+                while (result.next()) {
+                    Map<String, Object> task = new HashMap<>();
+                    task.put("taskId", result.getInt("taskId"));
+                    task.put("title", result.getString("title"));
+                    task.put("isAssigned", result.getInt("isAssigned") == 1);
+                    tasks.add(task);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Fehler beim Laden der Task-Zuordnung fuer UserStory " + userStoryId, e);
+        }
+
+        return tasks;
+    }
+
     private void saveAssigneesForTask(int taskId, List<Account> assignees) {
         // First, delete existing assignees
         try (PreparedStatement deleteStatement = connection.prepareStatement(

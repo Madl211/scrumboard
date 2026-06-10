@@ -24,4 +24,6 @@ public interface ITaskRepository {
     List<Task> getTasksByBacklogId(int backlogId);
 
     List<Map<String, Object>> getAccountsWithAssignmentForTask(int taskId);
+
+    List<Map<String, Object>> getTasksWithAssignmentForUserStory(int userStoryId);
 }

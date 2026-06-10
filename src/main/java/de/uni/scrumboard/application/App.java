@@ -84,6 +84,8 @@ public class App implements IApp {
                 .post("/edit-task/{taskId}", taskController::postEditTask)
                 .get("/create-user-story", userStoryController::getCreateUserStory)
                 .post("/create-user-story", userStoryController::postCreateUserStory)
+                .get("/edit-user-story/{id}", userStoryController::getEditUserStory)
+                .post("/edit-user-story/{id}", userStoryController::postEditUserStory)
                 .get("/search-tasks", taskController::SearchTask)
                 .start(port);
     }
@@ -118,8 +120,8 @@ public class App implements IApp {
             authController = new AuthController(accountService, profileService);
             homeController = new HomeController(backlogService);
             taskController = new TaskController(taskService, accountService, backlogService);
-            backlogController = new BacklogController(backlogService, taskService);
-            userStoryController = new UserStoryController(userStoryService, backlogService);
+            backlogController = new BacklogController(backlogService, userStoryService);
+            userStoryController = new UserStoryController(userStoryService, backlogService, taskService);
         } catch (IOException e) {
             System.err.println("Fehler beim Laden der Konfiguration:");
             e.printStackTrace();
@@ -200,9 +202,26 @@ public class App implements IApp {
                         beschreibung TEXT,
                         creatorId INTEGER NOT NULL,
                         backlogId INTEGER NOT NULL,
+                        status INTEGER NOT NULL DEFAULT 0,
                         FOREIGN KEY(creatorId) REFERENCES accounts(accountId),
                         FOREIGN KEY(backlogId) REFERENCES backlogs(id)
                     );""");
+
+            statement.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS user_story_tasks (
+                        userStoryId INTEGER NOT NULL,
+                        taskId INTEGER NOT NULL,
+                        PRIMARY KEY(userStoryId, taskId),
+                        FOREIGN KEY(userStoryId) REFERENCES user_stories(id) ON DELETE CASCADE,
+                        FOREIGN KEY(taskId) REFERENCES tasks(taskId) ON DELETE CASCADE
+                    );""");
+
+            // Migration: add status column to existing user_stories tables
+            try {
+                statement.executeUpdate("ALTER TABLE user_stories ADD COLUMN status INTEGER NOT NULL DEFAULT 0");
+            } catch (SQLException ignored) {
+                // Column already exists
+            }
         } catch (SQLException e) {
             throw new RuntimeException("Fehler beim Erzeugen der Datenbankschemata", e);
         }

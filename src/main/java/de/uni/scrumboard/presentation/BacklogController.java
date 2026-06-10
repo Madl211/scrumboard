@@ -7,11 +7,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import de.uni.scrumboard.data.Backlog;
-import de.uni.scrumboard.data.Task;
+import de.uni.scrumboard.data.UserStory;
 import de.uni.scrumboard.data.enums.TaskStatus;
 import de.uni.scrumboard.presentation.interfaces.IBacklogController;
 import de.uni.scrumboard.service.interfaces.IBacklogService;
-import de.uni.scrumboard.service.interfaces.ITaskService;
+import de.uni.scrumboard.service.interfaces.IUserStoryService;
 import io.javalin.http.Context;
 
 public class BacklogController implements IBacklogController {
@@ -19,11 +19,11 @@ public class BacklogController implements IBacklogController {
     private final static String templatePath = "templates/create-backlog.mustache";
 
     private IBacklogService backlogService;
-    private ITaskService taskService;
+    private IUserStoryService userStoryService;
 
-    public BacklogController(IBacklogService backlogService, ITaskService taskService) {
+    public BacklogController(IBacklogService backlogService, IUserStoryService userStoryService) {
         this.backlogService = backlogService;
-        this.taskService = taskService;
+        this.userStoryService = userStoryService;
     }
 
     @Override
@@ -90,17 +90,37 @@ public class BacklogController implements IBacklogController {
             return;
         }
 
-        List<Task> tasks = taskService.getTasksByBacklogId(backlogId);
-        List<Task> todoTasks = tasks.stream().filter(t -> t.status() == TaskStatus.TODO).collect(Collectors.toList());
-        List<Task> inProgressTasks = tasks.stream().filter(t -> t.status() == TaskStatus.IN_PROGRESS).collect(Collectors.toList());
-        List<Task> doneTasks = tasks.stream().filter(t -> t.status() == TaskStatus.COMPLETED).collect(Collectors.toList());
+        List<UserStory> userStories = userStoryService.getUserStoriesByBacklogId(backlogId);
+
+        List<Map<String, Object>> todoUserStories = userStories.stream()
+                .filter(s -> s.status() == TaskStatus.TODO)
+                .map(s -> enrichUserStory(s))
+                .collect(Collectors.toList());
+        List<Map<String, Object>> inProgressUserStories = userStories.stream()
+                .filter(s -> s.status() == TaskStatus.IN_PROGRESS)
+                .map(s -> enrichUserStory(s))
+                .collect(Collectors.toList());
+        List<Map<String, Object>> doneUserStories = userStories.stream()
+                .filter(s -> s.status() == TaskStatus.COMPLETED)
+                .map(s -> enrichUserStory(s))
+                .collect(Collectors.toList());
 
         Map<String, Object> model = new HashMap<>();
         model.put("backlog", backlog.get());
-        model.put("todoTasks", todoTasks);
-        model.put("inProgressTasks", inProgressTasks);
-        model.put("doneTasks", doneTasks);
+        model.put("todoUserStories", todoUserStories);
+        model.put("inProgressUserStories", inProgressUserStories);
+        model.put("doneUserStories", doneUserStories);
         context.render("templates/backlog.mustache", model);
+    }
+
+    private Map<String, Object> enrichUserStory(UserStory us) {
+        List<Map<String, Object>> tasks = userStoryService.getTasksByUserStoryId(us.id());
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", us.id());
+        map.put("titel", us.titel());
+        map.put("beschreibung", us.beschreibung());
+        map.put("tasks", tasks);
+        return map;
     }
 
 }
