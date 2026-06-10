@@ -3,6 +3,7 @@ package de.uni.scrumboard.data.interfaces;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
 
 import de.uni.scrumboard.data.Account;
 import de.uni.scrumboard.data.Task;
@@ -21,4 +22,6 @@ public interface ITaskRepository {
             Date created, int estimatedTime, int actualTime, TaskStatus status);
 
     List<Task> getTasksByBacklogId(int backlogId);
+
+    List<Map<String, Object>> getAccountsWithAssignmentForTask(int taskId);
 }

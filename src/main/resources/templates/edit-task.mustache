@@ -57,18 +57,18 @@
         
         
         <div>
-            <label style="display: block; margin-bottom: 0.5rem;">Assignees:</label>
+          <label style="display: block; margin-bottom: 0.5rem;">Assignees:</label>
             {{#accounts}}
             <div style="margin-bottom: 0.5rem;">
-                <input type="checkbox" id="assignee-{{accountId}}" name="assignees" value="{{accountId}}">
+                <input type="checkbox" id="assignee-{{accountId}}" name="assignees" value="{{accountId}}" {{#isAssigned}}checked{{/isAssigned}}>
                 <label for="assignee-{{accountId}}">{{username}} ({{email}})</label>
             </div>
             {{/accounts}}
         </div>
         <input type="hidden" name="oldBacklogId" value="{{task.backlogId}}">
         <div style="display: flex; gap: 1rem;">
-            <button type="submit" style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Create Task</button>
-            <a href="/home" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Cancel</a>
+            <button type="submit" style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Edit Task</button>
+            <a href="{{cancelPath}}" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Cancel</a>
         </div>
     </form>
 </div>

@@ -22,20 +22,99 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         implements ITaskController {
 
     private static final String createTaskTemplate = "templates/create-task.mustache";
+    //für route zum korrekten
+    private static final String taskReturnToSessionKey = "taskReturnTo"; 
+
+    private void rememberReturnPath(Context context) {
+        String referer = context.header("Referer");
+        if (referer == null || referer.isBlank()) {
+            return;
+        }
+
+        String currentOrigin = context.scheme() + "://" + context.host();
+        String candidatePath = null;
+
+        if (referer.startsWith(currentOrigin)) {
+            candidatePath = referer.substring(currentOrigin.length());
+        } else if (referer.startsWith("/")) {
+            candidatePath = referer;
+        }
+
+        if (isSafeInternalPath(candidatePath)
+                && !candidatePath.startsWith("/create-task")
+                && !candidatePath.startsWith("/edit-task")) {
+            context.sessionAttribute(taskReturnToSessionKey, candidatePath);
+        }
+    }
+
+    private boolean isSafeInternalPath(String path) {
+        if (path == null || path.isBlank()) {
+            return false;
+        }
+        if (!path.startsWith("/")) {
+            return false;
+        }
+        if (path.startsWith("//")) {
+            return false;
+        }
+        return !path.contains("\r") && !path.contains("\n");
+    }
+
+    private boolean isBacklogPath(String path) {
+        return path != null && path.matches("^/backlog/\\d+([?#].*)?$");
+    }
+
+    private boolean isHomePath(String path) {
+        return "/home".equals(path) || (path != null && path.startsWith("/home?"));
+    }
+
+    private String backlogOrHome(String candidate, String fallbackPath) {
+        if (isBacklogPath(candidate)) {
+            return candidate;
+        }
+        if (isHomePath(candidate)) {
+            return "/home";
+        }
+        if (isBacklogPath(fallbackPath)) {
+            return fallbackPath;
+        }
+        return "/home";
+    }
+
+    private String resolveReturnPathAndClear(Context context, String fallbackPath) {
+        String returnPath = context.sessionAttribute(taskReturnToSessionKey);
+        context.sessionAttribute(taskReturnToSessionKey, null);
+
+        if (isSafeInternalPath(returnPath)) {
+            return backlogOrHome(returnPath, fallbackPath);
+        }
+        return backlogOrHome(null, fallbackPath);
+    }
+
+    private String currentReturnPathOrFallback(Context context, String fallbackPath) {
+        String returnPath = context.sessionAttribute(taskReturnToSessionKey);
+        if (isSafeInternalPath(returnPath)) {
+            return backlogOrHome(returnPath, fallbackPath);
+        }
+        return backlogOrHome(null, fallbackPath);
+    }
 
     @Override
     public void getCreateTask(Context context) {
         Integer accountId = context.sessionAttribute("accountId");
         if (accountId == null) {
-            context.redirect("/login");
+            context.redirect("/home");
             return;
         }
+
+        rememberReturnPath(context);
 
         List<Account> accounts = accountService.getAllAccounts();
         List<Backlog> backlogs = backlogService.getBacklogs();
         Map<String, Object> model = new HashMap<>();
         model.put("accounts", accounts);
         model.put("backlogs", backlogs);
+        model.put("cancelPath", currentReturnPathOrFallback(context, "/home"));
         context.render(createTaskTemplate, model);
     }
 
@@ -43,7 +122,7 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
     public void postCreateTask(Context context) {
         Integer accountId = context.sessionAttribute("accountId");
         if (accountId == null) {
-            context.redirect("/login");
+            context.redirect("/home");
             return;
         }
 
@@ -85,25 +164,30 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         }
 
         String backlogIdStr = context.formParam("backlog");
+        Integer selectedBacklogId = null;
         Task created = taskService.createTask(title, description, assigneeIds, accountId, startDate, dueDate,
                 estimatedTime, status);
         if (backlogIdStr != null && !backlogIdStr.isEmpty()) {
             try {
-                int backlogId = Integer.parseInt(backlogIdStr);
-                backlogService.addTaskToBacklog(backlogId, created.taskId());
+                selectedBacklogId = Integer.parseInt(backlogIdStr);
+                backlogService.addTaskToBacklog(selectedBacklogId, created.taskId());
             } catch (NumberFormatException ignored) {
             }
         }
-        context.redirect("/home");
+
+        String fallbackPath = selectedBacklogId != null ? "/backlog/" + selectedBacklogId : "/home";
+        context.redirect(resolveReturnPathAndClear(context, fallbackPath));
     }
 
     @Override
     public void getEditTask(Context context) {
         Integer accountId = context.sessionAttribute("accountId");
         if (accountId == null) {
-            context.redirect("/login");
+            context.redirect("/home");
             return;
         }
+
+        rememberReturnPath(context);
 
         int taskId = Integer.parseInt(context.pathParam("taskId"));
         Optional<Task> task = taskService.getTaskById(taskId);
@@ -116,11 +200,15 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         Task t = task.get();
         Map<String, Object> model = new HashMap<>();
         model.put("task", t);
-        model.put("accounts", accountService.getAllAccounts());
+        model.put("accounts", taskService.getAccountsWithAssignmentForTask(taskId));
         model.put("statusIsTodo", t.status() == TaskStatus.TODO);
         model.put("statusIsInProgress", t.status() == TaskStatus.IN_PROGRESS);
         model.put("statusIsCompleted", t.status() == TaskStatus.COMPLETED);
         model.put("backlogs", backlogs);
+        String editFallbackPath = backlogService.getBacklogIdByTaskId(taskId)
+            .map(id -> "/backlog/" + id)
+            .orElse("/home");
+        model.put("cancelPath", currentReturnPathOrFallback(context, editFallbackPath));
 
         context.render("templates/edit-task.mustache", model);
         // button zum kriegen der Daten über die Task
@@ -136,7 +224,7 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
     public void postEditTask(Context context) {
         Integer accountId = context.sessionAttribute("accountId");
         if (accountId == null) {
-            context.redirect("/login");
+            context.redirect("/home");
             return;
         }
 
@@ -196,30 +284,36 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
                 estimatedTime,
                 existing.actualTime(), status);
 
-String backlogIdStr = context.formParam("backlog");
-Integer newBacklogId = null;
+        String backlogIdStr = context.formParam("backlog");
+        Integer newBacklogId = null;
 
-try {
-    if (backlogIdStr != null && !backlogIdStr.isBlank()) {
-        newBacklogId = Integer.parseInt(backlogIdStr);
-    }
-} catch (NumberFormatException e) {
-    context.status(400).result("Invalid backlog id");
-    return;
-}
+        try {
+            if (backlogIdStr != null && !backlogIdStr.isBlank()) {
+                newBacklogId = Integer.parseInt(backlogIdStr);
+            }
+        } catch (NumberFormatException e) {
+            context.status(400).result("Invalid backlog id");
+            return;
+        }
 
-Optional<Integer> oldBacklogId = backlogService.getBacklogIdByTaskId(updated.taskId());
+        Optional<Integer> oldBacklogId = backlogService.getBacklogIdByTaskId(updated.taskId());
 
-if (oldBacklogId.isPresent() && (newBacklogId == null || !oldBacklogId.get().equals(newBacklogId))) {
-    backlogService.removeTaskFromBacklog(oldBacklogId.get(), updated.taskId());
-}
-if (newBacklogId != null && (oldBacklogId.isEmpty() || !oldBacklogId.get().equals(newBacklogId))) {
-    backlogService.addTaskToBacklog(newBacklogId, updated.taskId());
-}
+        if (oldBacklogId.isPresent() && (newBacklogId == null || !oldBacklogId.get().equals(newBacklogId))) {
+            backlogService.removeTaskFromBacklog(oldBacklogId.get(), updated.taskId());
+        }
+        if (newBacklogId != null && (oldBacklogId.isEmpty() || !oldBacklogId.get().equals(newBacklogId))) {
+            backlogService.addTaskToBacklog(newBacklogId, updated.taskId());
+        }
         
 
         taskService.updateTask(updated);
-        context.redirect("/home");
+        String fallbackPath = oldBacklogId
+            .map(id -> "/backlog/" + id)
+            .orElse("/home");
+        if (newBacklogId != null) {
+            fallbackPath = "/backlog/" + newBacklogId;
+        }
+        context.redirect(resolveReturnPathAndClear(context, fallbackPath));
 
         // button zum kriegen der Daten über die Task
         // Status updaten
