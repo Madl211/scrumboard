@@ -85,6 +85,7 @@ public class App implements IApp {
                 .get("/create-user-story", userStoryController::getCreateUserStory)
                 .post("/create-user-story", userStoryController::postCreateUserStory)
                 .get("/search-tasks", taskController::SearchTask)
+                .get("/showmessage", taskController::showMessage)
                 .start(port);
     }
 

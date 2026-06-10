@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-
 import de.uni.scrumboard.data.enums.TaskStatus;
 import de.uni.scrumboard.data.interfaces.ITaskRepository;
 
@@ -341,5 +340,19 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
             list.removeIf(task -> task.status() != TaskStatus.COMPLETED);
         }
         return list;
+    }
+    @Override
+    public List<Task> checkwhendue(List<Task> list){
+        List<Task> tasks = new ArrayList();
+        Date now = new Date();
+        Date in7Days = new Date(now.getTime()+7L*24*60*60*1000);
+        for(Task t: list){
+            Date due = t.due();
+            if(due != null && !due.before(now) && !due.after(in7Days)){
+                tasks.add(t);
+            }
+            
+        }
+        return tasks;
     }
 }
