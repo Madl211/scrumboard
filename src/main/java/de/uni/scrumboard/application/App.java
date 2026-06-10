@@ -30,6 +30,9 @@ import de.uni.scrumboard.service.UserStoryService;
 import de.uni.scrumboard.service.interfaces.IUserStoryService;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinMustache;
+import io.javalin.websocket.WsCloseContext;
+import io.javalin.websocket.WsConfig;
+import io.javalin.websocket.WsConnectContext;
 
 public class App implements IApp {
 
@@ -66,26 +69,48 @@ public class App implements IApp {
                         ctx.redirect("/home");
                     }
                 })
+
+                // HTTP HANDLEERS
                 .get("/login", authController::getLogin)
                 .post("/login", authController::postLogin)
+
                 .get("/register", authController::getRegister)
                 .post("/register", authController::postRegister)
+
                 .get("/logout", authController::logout)
+
                 .get("/profile", profileController::getProfile)
                 .post("/profile", profileController::saveProfile)
+
                 .get("/home", homeController::showHome)
+
                 .get("/create-task", taskController::getCreateTask)
                 .post("/create-task", taskController::postCreateTask)
+
                 .get("/backlogs", backlogController::getBacklogs)
                 .get("/backlog/{id}", backlogController::getBacklog)
+
                 .get("/create-backlog", backlogController::getCreateBacklog)
                 .post("/create-backlog", backlogController::postCreateBacklog)
+
                 .get("/edit-task/{taskId}", taskController::getEditTask)
                 .post("/edit-task/{taskId}", taskController::postEditTask)
+
                 .get("/create-user-story", userStoryController::getCreateUserStory)
                 .post("/create-user-story", userStoryController::postCreateUserStory)
+
                 .get("/search-tasks", taskController::SearchTask)
+
+                // WEBSOCKET
+                .ws("*", (WsConfig t) -> {
+                    t.onConnect(this::connectHandler);
+                })
+
                 .start(port);
+    }
+
+    private void connectHandler(WsConnectContext ctx) {
+        System.out.println("Hallo!");
     }
 
     private static void bootstrapApplication() {

@@ -213,7 +213,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
 
     @Override
     public List<Task> searchTasks(String search){
-        List<Task> tasks = new ArrayList();
+        List<Task> tasks = new ArrayList<>();
           String sql = """
         SELECT taskId, title, description, creatorId, startDate, dueDate,
                createdDate, estimatedTime, actualTime, status
