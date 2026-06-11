@@ -64,5 +64,10 @@ public record TaskService(ITaskRepository taskRepository, IAccountRepository acc
     @Override
     public List<Map<String, Object>> getAccountsWithAssignmentForTask(int taskId) {
     return taskRepository.getAccountsWithAssignmentForTask(taskId);
-}
+    }
+    @Override
+    public List<Task> checkwhendue(){
+        return taskRepository.checkwhendue(taskRepository.getAllTasks());
+    }
+
 }

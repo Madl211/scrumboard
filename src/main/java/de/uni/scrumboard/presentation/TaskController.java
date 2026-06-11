@@ -336,4 +336,11 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         model.put("tasks", tasks);
         context.render("templates/search.mustache", model);
     }
+    @Override
+    public void showMessage(Context context){
+        List<Task> tasks = taskService.checkwhendue();
+        Map<String, Object> model = new HashMap<>();
+        model.put("tasks", tasks);
+        context.render("templates/messages.mustache", model);
+    }
 }

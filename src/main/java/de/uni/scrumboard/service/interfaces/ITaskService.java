@@ -2,9 +2,9 @@ package de.uni.scrumboard.service.interfaces;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.Map;
-    
+import java.util.Optional;    
+
 import de.uni.scrumboard.data.Task;
 import de.uni.scrumboard.data.enums.TaskStatus;
 
@@ -15,4 +15,5 @@ public interface ITaskService {
     boolean updateTask(Task task);
     List<Task> getTasksByBacklogId(int backlogId);
     List<Map<String, Object>> getAccountsWithAssignmentForTask(int taskId);
+    List<Task> checkwhendue();
 }

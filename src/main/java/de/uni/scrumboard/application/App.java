@@ -101,6 +101,8 @@ public class App implements IApp {
 
                 .get("/search-tasks", taskController::SearchTask)
 
+                .get("/showmessage", taskController::showMessage)
+
                 // WEBSOCKET
                 .ws("*", (WsConfig t) -> {
                     t.onConnect(this::connectHandler);
