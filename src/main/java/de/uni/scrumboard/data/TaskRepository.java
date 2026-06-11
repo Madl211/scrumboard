@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -353,6 +354,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
             }
             
         }
+        tasks.sort(Comparator.comparing(Task::due));
         return tasks;
     }
 }
