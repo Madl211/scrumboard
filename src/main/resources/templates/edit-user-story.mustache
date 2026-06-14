@@ -1,0 +1,64 @@
+<div style="max-width: 600px;margin: 2vh auto;font-family: Arial, sans-serif;">
+    <h1>Edit User Story</h1>
+    
+    <form action="/edit-user-story/{{userStory.id}}" method="post" style="display: flex; flex-direction: column; gap: 1rem;">
+        <div>
+            <label for="titel" style="display: block; margin-bottom: 0.5rem;">Titel:</label>
+            <input type="text" id="titel" name="titel" value="{{userStory.titel}}" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+        
+        <div>
+            <label for="beschreibung" style="display: block; margin-bottom: 0.5rem;">Beschreibung:</label>
+            <textarea id="beschreibung" name="beschreibung" rows="4" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">{{userStory.beschreibung}}</textarea>
+        </div>
+
+        <div>
+            <label style="display: block; margin-bottom: 0.5rem;">Status:</label>
+            <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                <div>
+                    <input type="radio" id="statusTodo" name="status" value="0" {{#statusIsTodo}}checked{{/statusIsTodo}}>
+                    <label for="statusTodo">Todo</label>
+                </div>
+                <div>
+                    <input type="radio" id="statusInProg" name="status" value="1" {{#statusIsInProgress}}checked{{/statusIsInProgress}}>
+                    <label for="statusInProg">In Progress</label>
+                </div>
+                <div>
+                    <input type="radio" id="statusCompleted" name="status" value="2" {{#statusIsCompleted}}checked{{/statusIsCompleted}}>
+                    <label for="statusCompleted">Completed</label>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <label for="backlog" style="display: block; margin-bottom: 0.5rem;">Backlog:</label>
+            <select name="backlog" id="backlog" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                {{#backlogs}}
+                    <option value="{{id}}">{{bezeichnung}}</option>
+                {{/backlogs}}
+            </select>
+        </div>
+
+        {{#showErrorMessage}}
+            <div style="color: red;">Der Titel darf nicht leer sein.</div>
+        {{/showErrorMessage}}
+
+        <div>
+            <label style="display: block; margin-bottom: 0.5rem;">Tasks zuordnen:</label>
+            {{#tasks}}
+            <div style="margin-bottom: 0.5rem;">
+                <input type="checkbox" id="task-{{taskId}}" name="tasks" value="{{taskId}}" {{#isAssigned}}checked{{/isAssigned}}>
+                <label for="task-{{taskId}}">{{title}}</label>
+            </div>
+            {{/tasks}}
+            {{^tasks}}
+            <p style="color: #888;">Keine Tasks vorhanden.</p>
+            {{/tasks}}
+        </div>
+
+        <div style="display: flex; gap: 1rem;">
+            <button type="submit" style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Speichern</button>
+            <a href="{{cancelPath}}" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Abbrechen</a>
+        </div>
+    </form>
+</div>

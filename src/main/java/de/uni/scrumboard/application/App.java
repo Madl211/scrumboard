@@ -35,6 +35,9 @@ import de.uni.scrumboard.service.UserStoryService;
 import de.uni.scrumboard.service.interfaces.IUserStoryService;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinMustache;
+import io.javalin.websocket.WsCloseContext;
+import io.javalin.websocket.WsConfig;
+import io.javalin.websocket.WsConnectContext;
 
 public class App implements IApp {
 
@@ -74,11 +77,17 @@ public class App implements IApp {
                         ctx.redirect("/home");
                     }
                 })
+
+                // HTTP HANDLEERS
                 .get("/login", authController::getLogin)
                 .post("/login", authController::postLogin)
+
                 .get("/register", authController::getRegister)
                 .post("/register", authController::postRegister)
+
                 .get("/logout", authController::logout)
+                
+                // ========== DEINE PASSWORT-RESET ROUTEN (BEHALTEN) ==========
                 .get("/forgot-password", authController::getForgotPassword)
                 .post("/forgot-password", authController::postForgotPassword)
                 .get("/reset-password", authController::getResetPassword)
@@ -86,16 +95,39 @@ public class App implements IApp {
 
                 .get("/profile", profileController::getProfile)
                 .post("/profile", profileController::saveProfile)
+
                 .get("/home", homeController::showHome)
+
                 .get("/create-task", taskController::getCreateTask)
                 .post("/create-task", taskController::postCreateTask)
+
+                .get("/backlogs", backlogController::getBacklogs)
+                .get("/backlog/{id}", backlogController::getBacklog)
+
                 .get("/create-backlog", backlogController::getCreateBacklog)
                 .post("/create-backlog", backlogController::postCreateBacklog)
+
                 .get("/edit-task/{taskId}", taskController::getEditTask)
                 .post("/edit-task/{taskId}", taskController::postEditTask)
+
                 .get("/create-user-story", userStoryController::getCreateUserStory)
                 .post("/create-user-story", userStoryController::postCreateUserStory)
+                .get("/edit-user-story/{id}", userStoryController::getEditUserStory)
+                .post("/edit-user-story/{id}", userStoryController::postEditUserStory)
+                .get("/search-tasks", taskController::SearchTask)
+
+                .get("/showmessage", taskController::showMessage)
+
+                // WEBSOCKET
+                .ws("*", (WsConfig t) -> {
+                    t.onConnect(this::connectHandler);
+                })
+
                 .start(port);
+    }
+
+    private void connectHandler(WsConnectContext ctx) {
+        System.out.println("Hallo!");
     }
 
     private static void bootstrapApplication() {
@@ -128,11 +160,16 @@ public class App implements IApp {
             passwordResetService = new PasswordResetService(accountRepository, resetTokenRepository);
 
             profileController = new ProfileController(profileService);
+            
+            // ========== HIER: DEINE VERSION MIT passwordResetService BEHALTEN ==========
             authController = new AuthController(accountService, profileService, passwordResetService);
-            homeController = new HomeController(accountService, taskService);
-            taskController = new TaskController(taskService, accountService);
-            backlogController = new BacklogController(backlogService);
-            userStoryController = new UserStoryController(userStoryService, backlogService);
+            
+            // ========== HIER: DIE NEUEN VERSIONEN VON main BEHALTEN ==========
+            homeController = new HomeController(backlogService);
+            taskController = new TaskController(taskService, accountService, backlogService);
+            backlogController = new BacklogController(backlogService, userStoryService);
+            userStoryController = new UserStoryController(userStoryService, backlogService, taskService);
+            
         } catch (IOException e) {
             System.err.println("Fehler beim Laden der Konfiguration:");
             e.printStackTrace();
@@ -213,10 +250,12 @@ public class App implements IApp {
                         beschreibung TEXT,
                         creatorId INTEGER NOT NULL,
                         backlogId INTEGER NOT NULL,
+                        status INTEGER NOT NULL DEFAULT 0,
                         FOREIGN KEY(creatorId) REFERENCES accounts(accountId),
                         FOREIGN KEY(backlogId) REFERENCES backlogs(id)
                     );""");
 
+            // ========== DEINE TABELLE (BEHALTEN) ==========
             statement.executeUpdate("""
                 CREATE TABLE IF NOT EXISTS password_reset_tokens (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -232,6 +271,24 @@ public class App implements IApp {
             statement.executeUpdate("""
                 CREATE INDEX IF NOT EXISTS idx_reset_token ON password_reset_tokens(token);
             """);
+
+            // ========== DIE TABELLE VON main (BEHALTEN) ==========
+            statement.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS user_story_tasks (
+                        userStoryId INTEGER NOT NULL,
+                        taskId INTEGER NOT NULL,
+                        PRIMARY KEY(userStoryId, taskId),
+                        FOREIGN KEY(userStoryId) REFERENCES user_stories(id) ON DELETE CASCADE,
+                        FOREIGN KEY(taskId) REFERENCES tasks(taskId) ON DELETE CASCADE
+                    );""");
+
+            // Migration: add status column to existing user_stories tables
+            try {
+                statement.executeUpdate("ALTER TABLE user_stories ADD COLUMN status INTEGER NOT NULL DEFAULT 0");
+            } catch (SQLException ignored) {
+                // Column already exists
+            }
+            
         } catch (SQLException e) {
             throw new RuntimeException("Fehler beim Erzeugen der Datenbankschemata", e);
         }

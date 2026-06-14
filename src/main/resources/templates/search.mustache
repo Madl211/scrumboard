@@ -1,0 +1,210 @@
+<div style="max-width: 1200px; margin: 2vh auto; font-family: Arial, sans-serif;">
+    
+    <div style="margin-bottom: 2rem; display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+        
+        <h1>Scrum Board</h1>
+
+        <div>
+            <a href="/home" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Home</a>
+            <a href="/profile" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Profile</a>
+            <a href="/search-tasks" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Search</a>
+            <a href="/showmessage" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Urgent</a>
+        </div>
+    </div>
+
+    <!-- Search Form -->
+    <div style="margin-bottom: 2rem;">
+
+        <form method="GET" action="/search-tasks"
+              style="display: flex; gap: 10px; align-items: center;">
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search tasks..."
+                value="{{search}}"
+                style="
+                    flex: 1;
+                    padding: 8px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                "
+            />
+
+            <input
+                type="hidden"
+                name="filter"
+                id="filterInput"
+                value="{{filter}}"
+            />
+
+            <!-- Search Button -->
+            <button
+                type="submit"
+                style="
+                    background-color: #007bff;
+                    color: white;
+                    padding: 8px 15px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                ">
+                Search
+            </button>
+
+            <!-- Filter Button -->
+            <button
+                type="button"
+                onclick="openFilter()"
+                style="
+                    background-color: #ff8da1;
+                    color: white;
+                    padding: 8px 15px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                ">
+                Filter
+            </button>
+
+        </form>
+
+        <!-- Filter Modal -->
+        <div id="filterModal"
+             style="
+                display: none;
+                position: fixed;
+                top: 30%;
+                left: 40%;
+                background: white;
+                padding: 20px;
+                border: 1px solid black;
+                z-index: 1000;
+                border-radius: 8px;
+             ">
+
+            <h3>Filter wählen</h3>
+
+            <button type="button" onclick="setFilter(0)">TODO</button>
+            <button type="button" onclick="setFilter(1)">IN_PROGRESS</button>
+            <button type="button" onclick="setFilter(2)">COMPLETED</button>
+            <button type="button" onclick="setFilter(-1)">All / Clear Filter</button>
+
+            <br><br>
+
+            <button type="button" onclick="closeFilter()">Close</button>
+        </div>
+    </div>
+
+    <!-- Task Table -->
+    <div style="flex: 1;">
+
+        <h2>Tasks</h2>
+
+        <table style="
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+        ">
+
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                        ID
+                    </th>
+
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                        Title
+                    </th>
+
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                        Creator
+                    </th>
+
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                        Assignees
+                    </th>
+
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                        Due Date
+                    </th>
+
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                        Status
+                    </th>
+
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {{#tasks}}
+                <tr>
+
+                    <td style="border: 1px solid #ddd; padding: 8px;">
+                        {{taskId}}
+                    </td>
+
+                    <td style="border: 1px solid #ddd; padding: 8px;">
+                        {{title}}
+                    </td>
+
+                    <td style="border: 1px solid #ddd; padding: 8px;">
+                        {{creator.username}}
+                    </td>
+
+                    <td style="border: 1px solid #ddd; padding: 8px;">
+                        {{#assignees}}
+                            {{username}}{{^last}}, {{/last}}
+                        {{/assignees}}
+                    </td>
+
+                    <td style="border: 1px solid #ddd; padding: 8px;">
+                        {{due}}
+                    </td>
+
+                    <td style="border: 1px solid #ddd; padding: 8px;">
+                        {{status}}
+                    </td>
+
+                    <td style="border: 1px solid #ddd; padding: 8px;">
+
+                        <a href="/edit-task/{{taskId}}"
+                           style="
+                                background-color: #007bff;
+                                color: white;
+                                padding: 6px 12px;
+                                text-decoration: none;
+                                border-radius: 5px;
+                           ">
+                            Edit Task
+                        </a>
+
+                    </td>
+
+                </tr>
+                {{/tasks}}
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<script>
+function openFilter() {
+    document.getElementById("filterModal").style.display = "block";
+}
+
+function closeFilter() {
+    document.getElementById("filterModal").style.display = "none";
+}
+
+function setFilter(value) {
+    document.getElementById("filterInput").value = value;
+    closeFilter();
+}
+</script>

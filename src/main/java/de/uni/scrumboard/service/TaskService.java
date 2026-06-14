@@ -11,6 +11,7 @@ import de.uni.scrumboard.data.enums.TaskStatus;
 import de.uni.scrumboard.data.interfaces.IAccountRepository;
 import de.uni.scrumboard.data.interfaces.ITaskRepository;
 import de.uni.scrumboard.service.interfaces.ITaskService;
+import java.util.Map;
 
 public record TaskService(ITaskRepository taskRepository, IAccountRepository accountRepository)
         implements ITaskService {
@@ -21,13 +22,19 @@ public record TaskService(ITaskRepository taskRepository, IAccountRepository acc
     }
 
     @Override
-    public List<Task> searchTasks(String search) {
-        if(search==null){
-        return taskRepository.getAllTasks();
-        }
-        return taskRepository.searchTasks(search);
-    }
+    public List<Task> searchTasks(String search, int filter) {
+        if (filter != 0 && filter != 1 && filter != 2){
+            if(search==null){
+            return taskRepository.getAllTasks();
+            }
+            return taskRepository.searchTasks(search);
+        }  
+        else if(search==null){
+            return taskRepository.filterTask(taskRepository.getAllTasks(),filter);
+            }
+            return taskRepository.filterTask(taskRepository.searchTasks(search),filter);
 
+    }
     @Override
     public Task createTask(String title, String description, List<Integer> assigneeIds, int creatorId, Date startDate,
             Date dueDate, int estimatedTime, TaskStatus status) {
@@ -47,5 +54,30 @@ public record TaskService(ITaskRepository taskRepository, IAccountRepository acc
     @Override
     public boolean updateTask(Task task) {
         return taskRepository.saveTask(task, task.taskId());
+    }
+
+    @Override
+    public List<Task> getTasksByBacklogId(int backlogId) {
+        return taskRepository.getTasksByBacklogId(backlogId);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAccountsWithAssignmentForTask(int taskId) {
+    return taskRepository.getAccountsWithAssignmentForTask(taskId);
+    }
+
+    @Override
+    public List<Task> checkwhendue(){
+        return taskRepository.checkwhendue(taskRepository.getAllTasks());
+    }
+
+    @Override
+    public List<Task> getAllTasks() {
+        return taskRepository.getAllTasks();
+    }
+
+    @Override
+    public List<Map<String, Object>> getTasksWithAssignmentForUserStory(int userStoryId) {
+        return taskRepository.getTasksWithAssignmentForUserStory(userStoryId);
     }
 }

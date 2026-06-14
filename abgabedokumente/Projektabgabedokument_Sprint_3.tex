@@ -1,0 +1,164 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\setcounter{secnumdepth}{4}
+
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\geometry{a4paper, margin=2.5cm}
+\graphicspath{{images/}}
+
+\begin{document}
+
+\begin{table}[h]
+	\centering
+	\footnotesize
+	\begin{tabular}{| p{1.5cm} | p{2.5cm} | p{2cm} | p{2cm} | p{2cm} |}
+		\hline
+		                            & Verantwortliche Teammitglieder (Organisation, Anlegen der Dokumentenversion, Moderation, Abgabe)         & Anwesende während der Meetings                                                                           & (Online-) Beiträge zum Inhalt durch                                                                      & Korrektur-gelesen durch                                                                                  \\
+		\hline
+		Dokument Sprint 3 Version 1 & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\section{Backlogs und Planung}
+
+\subsection{Produktbacklog vor und nach dem Sprint}
+In diesem Sprint haben wir dem Produktbacklog Aufgaben hinzugefügt, welche dem Refactoring der grafischen Oberfläche dienen.
+Diese Abarbeitung dieser Aufgaben ist nötig, da in den vergangenen Sprints zu wenig auf eine einheitliche Gestaltung geachtet wurde.
+
+\subsection{Sprint Planung}
+Im letzten Sprint wurden folgende User Stories vollständig umgesetzt: S2.1, S4.1, S9.1, S9.2, TODO. \\
+Das Ergebnis war ein lauffähiger Prototyp, in welchem die User Stories der ersten beiden Sprints umgesetzt sind.\\
+In diesem Sprint planen wir alle restlichen User Stories umzusetzen, damit im letzten Sprint bei Bedarf ein Refactoring stattfinden kann.
+
+\noindent\textit{Hinweis: Das vollständige Sprintbacklog ist unter \href{run:./Sprintbacklog.pdf}{Sprintbacklog.pdf}, sowie \href{https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/uebung3/team3/projekt-team3-uebung3/-/blob/main/abgabedokumente/Sprintbacklog.pdf?ref_type=heads}{im Gitlab} zu finden.}
+
+\section{Verfeinerte Architektur}
+\subsection{Task/User Stories}
+\subsubsection{Modellierung fuer die User Story 10.1: Benachrichtigung}
+\paragraph{Modellierung verfeinerter Struktur}
+Die Struktur des Systems bleibt weitestgehend ungeändert. Eine neue Seite Urgent, welche Tasks anzeigt, die bald beendet werden müssen, wurde im Frontend hinzugefügt. Außerdem wurde ein Popup Fenster hinzufefügt, dass den User auf der Home Seite darauf hinweist, sich die fälligen Tasks auf der Urgent Seite anzusehen. 
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+Der TaskController erhält eine Methode, die den TaskService aufruft und das Ergebnis an die Urgent Seite übergibt, sodass dieses dargestellt werden kann. Der TaskService bekommt eine Methode, die das TaskRepository zweimal aufruft. Einmal um alle Tasks zu erhalten über die alte Methode getallTasks() und beim zweiten mal wird die checkwhendue() Methode im TaskRepository aufgerufen, die die Tasks in der Liste nach ihrer Fälligkeit untersucht. \par
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{10.1.1.png}
+	\caption{Klassendiagramm für User Story S10.1}
+	\label{fig:klassendiagramm_s10_1}
+\end{figure}
+
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+Der User bekommt eine automatische Nachricht(Popup), das ihn darauf hinweist, die Urgent Seite zu besuchen, um zu sehen, welche Tasks bald beendet werden müssen. Sobald er die Seite aufruft wird showMessage() im TaskController aufgerufen und somit checkwhendue() im TaskService.
+Der TaskService ruft nun im TaskRepository die Methode getallTasks() auf und verwendet das Zwischenergebnis als Argument für die Methode checkwhendue(List), die sich ebenfalls im TaskRepository befindet. Diese sorgt dafür, dass nur die Tasks, die innerhalb von einer Woche fällig sind, in der Liste bleiben und dass diese nach Fälligkeit sortiert sind. Das Ergebnis wird anschließend weitergeleitet, bis die Tasks dem User angezeigt werden.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{10.1.2.png}
+	\caption{Sequenzdiagramm für User Story S10.1}
+	\label{fig:sequenzdiagramm_s10_1}
+\end{figure}
+
+\subsubsection{Modellierung für User Story S3.2: Tasks mit User Stories verlinken}
+\paragraph{Modellierung verfeinerter Struktur}
+
+Im \textbf{Presentation Layer} wurden \texttt{getEditUserStory} und \texttt{postEditUserStory} im \texttt{UserStoryController} erweitert, sodass beim Bearbeiten einer User Story alle Tasks mit ihrem Zuordnungsstatus geladen werden und per Checkbox verlinkt werden können. Der \texttt{UserStoryController} nutzt dafür zusätzlich \textbf{ITaskService} mit der neuen Methode \texttt{getTasksWithAssignmentForUserStory(int)}. Der \texttt{BacklogController} wurde angepasst: statt Tasks werden nun User Stories im Board angezeigt, jeweils angereichert mit ihren verknüpften Tasks.\\
+Im \textbf{Service Layer} wurden \textbf{IUserStoryService} und \textbf{UserStoryService} um \texttt{setTasksForUserStory(int, List)} und \texttt{getTasksByUserStoryId(int)} ergänzt. \textbf{ITaskService} und \textbf{TaskService} erhielten \texttt{getTasksWithAssignmentForUserStory(int)}.\\
+Im \textbf{Data Layer} wurden dieselben Methoden in \textbf{IUserStoryRepository}, \textbf{UserStoryRepository}, \textbf{ITaskRepository} und \textbf{TaskRepository} implementiert. \texttt{setTasksForUserStory} verwaltet die Verknüpfungstabelle \texttt{user\_story\_tasks} via DELETE + INSERT.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{s3_2_klassendiagramm.png}
+	\caption{Klassendiagramm für User Story S3.2}
+	\label{fig:klassendiagramm_s3_2}
+\end{figure}
+
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+
+Neu hinzugekommen ist die Verknüpfungstabelle \textbf{user\_story\_tasks} mit den Feldern \texttt{userStoryId} und \texttt{taskId}, die die m:n-Beziehung zwischen User Stories und Tasks speichert. Die Klasse \textbf{UserStory} selbst bleibt strukturell unverändert. Analog zu Tasks besitzt sie ein \texttt{status}-Feld vom Typ \textbf{TaskStatus}, wodurch die Darstellung im Backlog-Board identisch zu der bisherigen Task-Darstellung ist.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{s3_2_datenstrukturen.png}
+	\caption{Datenstrukturdiagramm für User Story S3.2}
+	\label{fig:datenstrukturen_s3_2}
+\end{figure}
+
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+
+Beim Aufruf von \texttt{GET /edit-user-story/\{id\}} lädt der \texttt{UserStoryController} die User Story sowie alle Tasks mit \texttt{isAssigned}-Flag und rendert das Formular. Beim \texttt{POST} werden Stammdaten aktualisiert und die Task-Verlinkungen über \texttt{setTasksForUserStory} neu gesetzt. Anschließend erfolgt eine Weiterleitung zum Backlog-Board.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{s3_2_sequenzdiagramm.png}
+	\caption{Sequenzdiagramm für User Story S3.2}
+	\label{fig:sequenzdiagramm_s3_2}
+\end{figure}
+
+\section{Implementation und Tests}
+\subsection{Updates zu den genutzen Technologien}
+An den genutzten Technologien wurden keine Änderungen vorgenommen.
+
+
+\subsection{Dokumentation der Codequalität}
+
+
+\subsection{Tracing}
+
+
+\subsection{Laufender Prototyp}
+
+
+\subsubsection*{Installations- und Kompilieranweisung}
+
+Im Folgenden wird beschrieben, wie man den Prototypen kompilieren kann:
+
+\textbf{Voraussetzungen:}
+\begin{itemize}
+	\item Java 21 oder höher (getestet unter Windows 11 und Ubuntu 24.04)
+	\item Apache Maven 3.9 oder höher
+	\item SQLite (keine separate Installation nötig -- der JDBC-Treiber ist im Build enthalten)
+\end{itemize}
+
+\textbf{Schritt 1 -- Repository klonen:}
+\begin{verbatim}
+git clone https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/
+    uebung3/team3/projekt-team3-uebung3.git
+cd projekt-team3-uebung3
+\end{verbatim}
+
+\textbf{Schritt 2 -- Konfigurationsdatei anpassen:}
+
+Die Datei \texttt{src/main/resources/application.properties} enthält den Parameter \texttt{database.url}.
+Dieser muss auf einen gültigen Pfad zur SQLite-Datenbankdatei gesetzt werden, z.\,B.:
+\begin{verbatim}
+database.url=jdbc:sqlite:/home/user/scrumboard.db
+\end{verbatim}
+Die Datenbankdatei wird beim ersten Start automatisch angelegt.
+
+\textbf{Schritt 3 -- Projekt bauen:}
+\begin{verbatim}
+mvn package
+\end{verbatim}
+
+\textbf{Schritt 4 -- Anwendung starten:}
+\begin{verbatim}
+java -jar target/scrumboard-1.0-SNAPSHOT.jar
+\end{verbatim}
+
+Die Anwendung ist anschließend im Browser unter localhost erreichbar.
+
+\subsection{Abweichung Sprintplanung}
+
+
+\end{document}
+

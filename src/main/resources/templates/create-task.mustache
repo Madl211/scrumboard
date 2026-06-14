@@ -46,6 +46,15 @@
         </div>
         
         <div>
+            <label for="backlog" style="display: block; margin-bottom: 0.5rem;">Backlog:</label>
+            <select name="backlog" id="backlog" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                {{#backlogs}}
+                    <option value="{{id}}">{{bezeichnung}}</option>
+                {{/backlogs}}
+            </select>
+        </div>
+
+        <div>
             <label style="display: block; margin-bottom: 0.5rem;">Assignees:</label>
             {{#accounts}}
             <div style="margin-bottom: 0.5rem;">
@@ -57,7 +66,7 @@
         
         <div style="display: flex; gap: 1rem;">
             <button type="submit" style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Create Task</button>
-            <a href="/home" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Cancel</a>
+            <a href="{{cancelPath}}" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Cancel</a>
         </div>
     </form>
 </div>

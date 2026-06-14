@@ -1,11 +1,17 @@
 package de.uni.scrumboard.presentation;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import de.uni.scrumboard.data.Backlog;
+import de.uni.scrumboard.data.UserStory;
+import de.uni.scrumboard.data.enums.TaskStatus;
 import de.uni.scrumboard.presentation.interfaces.IBacklogController;
 import de.uni.scrumboard.service.interfaces.IBacklogService;
+import de.uni.scrumboard.service.interfaces.IUserStoryService;
 import io.javalin.http.Context;
 
 public class BacklogController implements IBacklogController {
@@ -13,9 +19,11 @@ public class BacklogController implements IBacklogController {
     private final static String templatePath = "templates/create-backlog.mustache";
 
     private IBacklogService backlogService;
+    private IUserStoryService userStoryService;
 
-    public BacklogController(IBacklogService backlogService) {
+    public BacklogController(IBacklogService backlogService, IUserStoryService userStoryService) {
         this.backlogService = backlogService;
+        this.userStoryService = userStoryService;
     }
 
     @Override
@@ -44,6 +52,75 @@ public class BacklogController implements IBacklogController {
             return;
         }
         context.redirect("/home");
+    }
+
+    @Override
+    public void getBacklogs(Context context) {
+        Integer accountId = context.sessionAttribute("accountId");
+        if (accountId == null) {
+            context.redirect("/login");
+            return;
+        }
+
+        List<Backlog> backlogs = backlogService.getBacklogs();
+        Map<String, Object> model = new HashMap<>();
+        model.put("backlogs", backlogs);
+        context.render("templates/backlogs.mustache", model);
+    }
+
+    @Override
+    public void getBacklog(Context context) {
+        Integer accountId = context.sessionAttribute("accountId");
+        if (accountId == null) {
+            context.redirect("/login");
+            return;
+        }
+
+        int backlogId;
+        try {
+            backlogId = Integer.parseInt(context.pathParam("id"));
+        } catch (NumberFormatException e) {
+            context.status(400).result("Ungültige Backlog-ID");
+            return;
+        }
+
+        Optional<Backlog> backlog = backlogService.getBacklogById(backlogId);
+        if (backlog.isEmpty()) {
+            context.status(404).result("Backlog nicht gefunden");
+            return;
+        }
+
+        List<UserStory> userStories = userStoryService.getUserStoriesByBacklogId(backlogId);
+
+        List<Map<String, Object>> todoUserStories = userStories.stream()
+                .filter(s -> s.status() == TaskStatus.TODO)
+                .map(s -> enrichUserStory(s))
+                .collect(Collectors.toList());
+        List<Map<String, Object>> inProgressUserStories = userStories.stream()
+                .filter(s -> s.status() == TaskStatus.IN_PROGRESS)
+                .map(s -> enrichUserStory(s))
+                .collect(Collectors.toList());
+        List<Map<String, Object>> doneUserStories = userStories.stream()
+                .filter(s -> s.status() == TaskStatus.COMPLETED)
+                .map(s -> enrichUserStory(s))
+                .collect(Collectors.toList());
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("backlog", backlog.get());
+        model.put("todoUserStories", todoUserStories);
+        model.put("inProgressUserStories", inProgressUserStories);
+        model.put("doneUserStories", doneUserStories);
+        context.render("templates/backlog.mustache", model);
+    }
+
+    private Map<String, Object> enrichUserStory(UserStory us) {
+        List<Map<String, Object>> tasks = userStoryService.getTasksByUserStoryId(us.id());
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", us.id());
+        map.put("titel", us.titel());
+        map.put("beschreibung", us.beschreibung());
+        map.put("tasks", tasks);
+        return map;
     }
 
 }

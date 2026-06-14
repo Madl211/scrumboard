@@ -1,0 +1,23 @@
+<div style="max-width: 900px; margin: 2vh auto; font-family: Arial, sans-serif;">
+
+    <h1>Backlogs</h1>
+    <div>
+        <a href="/create-backlog" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Neuen Backlog erstellen</a>
+        <a href="/home" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-left: 8px;">Zurück</a>
+    </div>
+
+    <br>
+
+    {{#backlogs}}
+    <div style="border: 1px solid #ccc; padding: 12px; margin-bottom: 10px;">
+        <strong>{{bezeichnung}}</strong>
+        <span style="margin-left: 12px;">ID: {{id}}</span>
+        <a href="/backlog/{{id}}" style="background-color: #007bff; color: white; padding: 6px 14px; text-decoration: none; border-radius: 5px; margin-left: 16px;">Öffnen</a>
+    </div>
+    {{/backlogs}}
+
+    {{^backlogs}}
+    <p>Noch keine Backlogs vorhanden. Erstelle einen neuen Backlog!</p>
+    {{/backlogs}}
+
+</div>
