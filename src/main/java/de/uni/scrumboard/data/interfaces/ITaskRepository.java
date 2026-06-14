@@ -25,4 +25,6 @@ public interface ITaskRepository {
 
     List<Map<String, Object>> getAccountsWithAssignmentForTask(int taskId);
     List<Task> checkwhendue(List<Task>list);
+
+    List<Map<String, Object>> getTasksWithAssignmentForUserStory(int userStoryId);
 }

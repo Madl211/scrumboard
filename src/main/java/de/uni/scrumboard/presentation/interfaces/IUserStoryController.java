@@ -8,4 +8,8 @@ public interface IUserStoryController {
 
     void postCreateUserStory(Context context);
 
+    void getEditUserStory(Context context);
+
+    void postEditUserStory(Context context);
+
 }
