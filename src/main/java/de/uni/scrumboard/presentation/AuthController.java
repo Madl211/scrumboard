@@ -9,11 +9,14 @@ import de.uni.scrumboard.service.interfaces.IAccountService;
 import de.uni.scrumboard.service.interfaces.IProfileService;
 import io.javalin.http.Context;
 
-public record AuthController(IAccountService accountService, IProfileService profileService)
+public record AuthController(IAccountService accountService, IProfileService profileService,  PasswordResetService passwordResetServic)
         implements IAuthController {
 
     private static final String loginTemplate = "templates/login.mustache";
     private static final String registerTemplate = "templates/register.mustache";
+
+    private static final String forgotPasswordTemplate = "templates/forgot-password.mustache";
+    private static final String resetPasswordTemplate = "templates/reset-password.mustache";
 
     @Override
     public void getLogin(Context context) {
@@ -102,6 +105,122 @@ public record AuthController(IAccountService accountService, IProfileService pro
         }
         context.redirect("/login");
     }
+
+        /**
+     * GET /forgot-password - Zeigt das Formular zum Anfordern eines Passwort-Resets an
+     */
+    public void getForgotPassword(Context context) {
+        // Prüfen ob User bereits eingeloggt ist
+        Integer accountId = context.sessionAttribute("accountId");
+        if (accountId != null) {
+            context.redirect("/home");
+            return;
+        }
+        
+        Map<String, Object> model = new HashMap<>();
+        context.render(forgotPasswordTemplate, model);
+    }
+
+    /**
+     * POST /forgot-password - Verarbeitet die Anfrage zum Passwort-Reset
+     */
+    public void postForgotPassword(Context context) {
+        String usernameEmail = context.formParam("usernameEmail");
+        
+        // Validierung
+        if (usernameEmail == null || usernameEmail.trim().isEmpty()) {
+            Map<String, Object> model = new HashMap<>();
+            model.put("errorMessage", "Bitte gib deine E-Mail oder deinen Benutzernamen ein.");
+            context.render(forgotPasswordTemplate, model);
+            return;
+        }
+        
+        usernameEmail = usernameEmail.trim();
+        
+        // ResetForm erstellen und Service aufrufen
+        ResetForm form = new ResetForm();
+        form.setUsernameEmail(usernameEmail);
+        
+        ResetResult result = passwordResetService.requestPasswordReset(form);
+        
+        // Ergebnis anzeigen
+        Map<String, Object> model = new HashMap<>();
+        if (result.isSuccess()) {
+            model.put("successMessage", result.getMessage());
+        } else {
+            model.put("errorMessage", result.getMessage());
+        }
+        context.render(forgotPasswordTemplate, model);
+    }
+
+    /**
+     * GET /reset-password - Zeigt das Formular zum Zurücksetzen des Passworts an
+     * (wird mit dem Token aus der Email aufgerufen)
+     */
+    public void getResetPassword(Context context) {
+        String token = context.queryParam("token");
+        
+        if (token == null || token.isEmpty()) {
+            context.redirect("/forgot-password");
+            return;
+        }
+        
+        Map<String, Object> model = new HashMap<>();
+        model.put("token", token);
+        context.render(resetPasswordTemplate, model);
+    }
+
+    /**
+     * POST /reset-password - Setzt das Passwort mit dem Token zurück
+     */
+    public void postResetPassword(Context context) {
+        String token = context.formParam("token");
+        String newPassword = context.formParam("newPassword");
+        String confirmPassword = context.formParam("confirmPassword");
+        
+        Map<String, Object> model = new HashMap<>();
+        model.put("token", token);
+        
+        // Validierungen
+        if (token == null || token.isEmpty()) {
+            model.put("errorMessage", "Ungültiger Reset-Link.");
+            context.render(resetPasswordTemplate, model);
+            return;
+        }
+        
+        if (newPassword == null || newPassword.isEmpty()) {
+            model.put("errorMessage", "Bitte gib ein neues Passwort ein.");
+            context.render(resetPasswordTemplate, model);
+            return;
+        }
+        
+        if (newPassword.length() < 6) {
+            model.put("errorMessage", "Das Passwort muss mindestens 6 Zeichen lang sein.");
+            context.render(resetPasswordTemplate, model);
+            return;
+        }
+        
+        if (!newPassword.equals(confirmPassword)) {
+            model.put("errorMessage", "Die Passwörter stimmen nicht überein.");
+            context.render(resetPasswordTemplate, model);
+            return;
+        }
+        
+        // ResetPassword Objekt erstellen und Service aufrufen
+        ResetPassword resetPassword = new ResetPassword();
+        resetPassword.setToken(token);
+        resetPassword.setNewPassword(newPassword);
+        
+        ResetResult result = passwordResetService.resetPassword(resetPassword);
+        
+        if (result.isSuccess()) {
+            model.put("successMessage", result.getMessage());
+        } else {
+            model.put("errorMessage", result.getMessage());
+        }
+        context.render(resetPasswordTemplate, model);
+    }
+
 
     private void renderLogin(Context context, String email, String errorMessage) {
         Map<String, Object> model = new HashMap<>();

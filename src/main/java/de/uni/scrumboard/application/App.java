@@ -46,6 +46,9 @@ public class App implements IApp {
     private static BacklogService backlogService;
     private static IUserStoryService userStoryService;
 
+    private static ResetTokenRepository resetTokenRepository;
+    private static PasswordResetService passwordResetService;
+
     private static ProfileRepository profileRepository;
     private static AccountRepository accountRepository;
     private static TaskRepository taskRepository;
@@ -71,6 +74,11 @@ public class App implements IApp {
                 .get("/register", authController::getRegister)
                 .post("/register", authController::postRegister)
                 .get("/logout", authController::logout)
+                .get("/forgot-password", authController::getForgotPassword)
+                .post("/forgot-password", authController::postForgotPassword)
+                .get("/reset-password", authController::getResetPassword)
+                .post("/reset-password", authController::postResetPassword)
+                .get("/profile", profileController::getProfile)
                 .get("/profile", profileController::getProfile)
                 .post("/profile", profileController::saveProfile)
                 .get("/home", homeController::showHome)
@@ -111,8 +119,11 @@ public class App implements IApp {
             backlogService = new BacklogService(backlogRepository);
             userStoryService = new UserStoryService(userStoryRepository);
 
+            resetTokenRepository = new ResetTokenRepository(databaseConnection);
+            passwordResetService = new PasswordResetService(accountRepository, resetTokenRepository, new PasswordUtil());
+
             profileController = new ProfileController(profileService);
-            authController = new AuthController(accountService, profileService);
+            authController = new AuthController(accountService, profileService, passwordResetService);
             homeController = new HomeController(accountService, taskService);
             taskController = new TaskController(taskService, accountService);
             backlogController = new BacklogController(backlogService);
@@ -200,6 +211,22 @@ public class App implements IApp {
                         FOREIGN KEY(creatorId) REFERENCES accounts(accountId),
                         FOREIGN KEY(backlogId) REFERENCES backlogs(id)
                     );""");
+
+            statement.executeUpdate("""
+                CREATE TABLE IF NOT EXISTS password_reset_tokens (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    account_id INTEGER NOT NULL,
+                    token VARCHAR(255) NOT NULL UNIQUE,
+                    expiry_date TIMESTAMP NOT NULL,
+                    used BOOLEAN DEFAULT FALSE,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY(account_id) REFERENCES accounts(accountId)
+                );
+            """);
+
+            statement.executeUpdate("""
+                CREATE INDEX IF NOT EXISTS idx_reset_token ON password_reset_tokens(token);
+            """);
         } catch (SQLException e) {
             throw new RuntimeException("Fehler beim Erzeugen der Datenbankschemata", e);
         }
