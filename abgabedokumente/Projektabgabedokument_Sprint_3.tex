@@ -68,6 +68,42 @@ Der TaskService ruft nun im TaskRepository die Methode getallTasks() auf und ver
 	\label{fig:sequenzdiagramm_s10_1}
 \end{figure}
 
+\subsubsection{Modellierung für User Story S3.2: Tasks mit User Stories verlinken}
+\paragraph{Modellierung verfeinerter Struktur}
+
+Im \textbf{Presentation Layer} wurden \texttt{getEditUserStory} und \texttt{postEditUserStory} im \texttt{UserStoryController} erweitert, sodass beim Bearbeiten einer User Story alle Tasks mit ihrem Zuordnungsstatus geladen werden und per Checkbox verlinkt werden können. Der \texttt{UserStoryController} nutzt dafür zusätzlich \textbf{ITaskService} mit der neuen Methode \texttt{getTasksWithAssignmentForUserStory(int)}. Der \texttt{BacklogController} wurde angepasst: statt Tasks werden nun User Stories im Board angezeigt, jeweils angereichert mit ihren verknüpften Tasks.\\
+Im \textbf{Service Layer} wurden \textbf{IUserStoryService} und \textbf{UserStoryService} um \texttt{setTasksForUserStory(int, List)} und \texttt{getTasksByUserStoryId(int)} ergänzt. \textbf{ITaskService} und \textbf{TaskService} erhielten \texttt{getTasksWithAssignmentForUserStory(int)}.\\
+Im \textbf{Data Layer} wurden dieselben Methoden in \textbf{IUserStoryRepository}, \textbf{UserStoryRepository}, \textbf{ITaskRepository} und \textbf{TaskRepository} implementiert. \texttt{setTasksForUserStory} verwaltet die Verknüpfungstabelle \texttt{user\_story\_tasks} via DELETE + INSERT.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{s3_2_klassendiagramm.png}
+	\caption{Klassendiagramm für User Story S3.2}
+	\label{fig:klassendiagramm_s3_2}
+\end{figure}
+
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+
+Neu hinzugekommen ist die Verknüpfungstabelle \textbf{user\_story\_tasks} mit den Feldern \texttt{userStoryId} und \texttt{taskId}, die die m:n-Beziehung zwischen User Stories und Tasks speichert. Die Klasse \textbf{UserStory} selbst bleibt strukturell unverändert. Analog zu Tasks besitzt sie ein \texttt{status}-Feld vom Typ \textbf{TaskStatus}, wodurch die Darstellung im Backlog-Board identisch zu der bisherigen Task-Darstellung ist.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{s3_2_datenstrukturen.png}
+	\caption{Datenstrukturdiagramm für User Story S3.2}
+	\label{fig:datenstrukturen_s3_2}
+\end{figure}
+
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+
+Beim Aufruf von \texttt{GET /edit-user-story/\{id\}} lädt der \texttt{UserStoryController} die User Story sowie alle Tasks mit \texttt{isAssigned}-Flag und rendert das Formular. Beim \texttt{POST} werden Stammdaten aktualisiert und die Task-Verlinkungen über \texttt{setTasksForUserStory} neu gesetzt. Anschließend erfolgt eine Weiterleitung zum Backlog-Board.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{s3_2_sequenzdiagramm.png}
+	\caption{Sequenzdiagramm für User Story S3.2}
+	\label{fig:sequenzdiagramm_s3_2}
+\end{figure}
+
 \section{Implementation und Tests}
 \subsection{Updates zu den genutzen Technologien}
 An den genutzten Technologien wurden keine Änderungen vorgenommen.
