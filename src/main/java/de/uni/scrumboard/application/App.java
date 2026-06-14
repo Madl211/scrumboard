@@ -8,6 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import de.uni.scrumboard.data.ResetTokenRepositoryImpl;
+import de.uni.scrumboard.data.ResetTokenRepository;
+import de.uni.scrumboard.data.PasswordResetToken;
+import de.uni.scrumboard.service.PasswordResetService;
+import de.uni.scrumboard.data.PasswordUtil;
 import de.uni.scrumboard.application.interfaces.IApp;
 import de.uni.scrumboard.data.AccountRepository;
 import de.uni.scrumboard.data.BacklogRepository;
@@ -78,7 +83,7 @@ public class App implements IApp {
                 .post("/forgot-password", authController::postForgotPassword)
                 .get("/reset-password", authController::getResetPassword)
                 .post("/reset-password", authController::postResetPassword)
-                .get("/profile", profileController::getProfile)
+
                 .get("/profile", profileController::getProfile)
                 .post("/profile", profileController::saveProfile)
                 .get("/home", homeController::showHome)
@@ -119,8 +124,8 @@ public class App implements IApp {
             backlogService = new BacklogService(backlogRepository);
             userStoryService = new UserStoryService(userStoryRepository);
 
-            resetTokenRepository = new ResetTokenRepository(databaseConnection);
-            passwordResetService = new PasswordResetService(accountRepository, resetTokenRepository, new PasswordUtil());
+            resetTokenRepository = new ResetTokenRepositoryImpl(databaseConnection);
+            passwordResetService = new PasswordResetService(accountRepository, resetTokenRepository);
 
             profileController = new ProfileController(profileService);
             authController = new AuthController(accountService, profileService, passwordResetService);

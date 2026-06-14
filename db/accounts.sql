@@ -7,13 +7,14 @@ CREATE TABLE accounts (
 
 
 CREATE TABLE IF NOT EXISTS password_reset_tokens (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    account_id BIGINT NOT NULL,
-    token VARCHAR(255) NOT NULL UNIQUE,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    account_id INTEGER NOT NULL,
+    token TEXT NOT NULL UNIQUE,
     expiry_date TIMESTAMP NOT NULL,
     used BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (account_id) REFERENCES accounts(id)
+    FOREIGN KEY(account_id) REFERENCES accounts(accountId)
 );
 
-CREATE INDEX idx_reset_token ON password_reset_tokens(token);
+-- Index für schnellere Suche
+CREATE INDEX IF NOT EXISTS idx_reset_token ON password_reset_tokens(token);

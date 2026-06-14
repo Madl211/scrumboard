@@ -4,12 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import de.uni.scrumboard.application.ResetForm;
+import de.uni.scrumboard.application.ResetPassword;
+import de.uni.scrumboard.application.ResetResult;
+import de.uni.scrumboard.service.PasswordResetService;
+
 import de.uni.scrumboard.presentation.interfaces.IAuthController;
 import de.uni.scrumboard.service.interfaces.IAccountService;
 import de.uni.scrumboard.service.interfaces.IProfileService;
 import io.javalin.http.Context;
 
-public record AuthController(IAccountService accountService, IProfileService profileService,  PasswordResetService passwordResetServic)
+public record AuthController(IAccountService accountService, IProfileService profileService,  PasswordResetService passwordResetService)
         implements IAuthController {
 
     private static final String loginTemplate = "templates/login.mustache";
@@ -106,11 +111,10 @@ public record AuthController(IAccountService accountService, IProfileService pro
         context.redirect("/login");
     }
 
-        /**
-     * GET /forgot-password - Zeigt das Formular zum Anfordern eines Passwort-Resets an
-     */
+    // NEUE METHODEN FÜR PASSWORT-RESET
+
+    
     public void getForgotPassword(Context context) {
-        // Prüfen ob User bereits eingeloggt ist
         Integer accountId = context.sessionAttribute("accountId");
         if (accountId != null) {
             context.redirect("/home");
@@ -118,45 +122,33 @@ public record AuthController(IAccountService accountService, IProfileService pro
         }
         
         Map<String, Object> model = new HashMap<>();
-        context.render(forgotPasswordTemplate, model);
+        context.render("templates/forgot-password.mustache", model);
     }
-
-    /**
-     * POST /forgot-password - Verarbeitet die Anfrage zum Passwort-Reset
-     */
+    
     public void postForgotPassword(Context context) {
         String usernameEmail = context.formParam("usernameEmail");
         
-        // Validierung
         if (usernameEmail == null || usernameEmail.trim().isEmpty()) {
             Map<String, Object> model = new HashMap<>();
             model.put("errorMessage", "Bitte gib deine E-Mail oder deinen Benutzernamen ein.");
-            context.render(forgotPasswordTemplate, model);
+            context.render("templates/forgot-password.mustache", model);
             return;
         }
         
-        usernameEmail = usernameEmail.trim();
-        
-        // ResetForm erstellen und Service aufrufen
         ResetForm form = new ResetForm();
-        form.setUsernameEmail(usernameEmail);
+        form.setUsernameEmail(usernameEmail.trim());
         
         ResetResult result = passwordResetService.requestPasswordReset(form);
         
-        // Ergebnis anzeigen
         Map<String, Object> model = new HashMap<>();
         if (result.isSuccess()) {
             model.put("successMessage", result.getMessage());
         } else {
             model.put("errorMessage", result.getMessage());
         }
-        context.render(forgotPasswordTemplate, model);
+        context.render("templates/forgot-password.mustache", model);
     }
-
-    /**
-     * GET /reset-password - Zeigt das Formular zum Zurücksetzen des Passworts an
-     * (wird mit dem Token aus der Email aufgerufen)
-     */
+    
     public void getResetPassword(Context context) {
         String token = context.queryParam("token");
         
@@ -167,12 +159,9 @@ public record AuthController(IAccountService accountService, IProfileService pro
         
         Map<String, Object> model = new HashMap<>();
         model.put("token", token);
-        context.render(resetPasswordTemplate, model);
+        context.render("templates/reset-password.mustache", model);
     }
-
-    /**
-     * POST /reset-password - Setzt das Passwort mit dem Token zurück
-     */
+    
     public void postResetPassword(Context context) {
         String token = context.formParam("token");
         String newPassword = context.formParam("newPassword");
@@ -182,31 +171,24 @@ public record AuthController(IAccountService accountService, IProfileService pro
         model.put("token", token);
         
         // Validierungen
-        if (token == null || token.isEmpty()) {
-            model.put("errorMessage", "Ungültiger Reset-Link.");
-            context.render(resetPasswordTemplate, model);
-            return;
-        }
-        
         if (newPassword == null || newPassword.isEmpty()) {
             model.put("errorMessage", "Bitte gib ein neues Passwort ein.");
-            context.render(resetPasswordTemplate, model);
+            context.render("templates/reset-password.mustache", model);
             return;
         }
         
         if (newPassword.length() < 6) {
             model.put("errorMessage", "Das Passwort muss mindestens 6 Zeichen lang sein.");
-            context.render(resetPasswordTemplate, model);
+            context.render("templates/reset-password.mustache", model);
             return;
         }
         
         if (!newPassword.equals(confirmPassword)) {
             model.put("errorMessage", "Die Passwörter stimmen nicht überein.");
-            context.render(resetPasswordTemplate, model);
+            context.render("templates/reset-password.mustache", model);
             return;
         }
         
-        // ResetPassword Objekt erstellen und Service aufrufen
         ResetPassword resetPassword = new ResetPassword();
         resetPassword.setToken(token);
         resetPassword.setNewPassword(newPassword);
@@ -218,7 +200,7 @@ public record AuthController(IAccountService accountService, IProfileService pro
         } else {
             model.put("errorMessage", result.getMessage());
         }
-        context.render(resetPasswordTemplate, model);
+        context.render("templates/reset-password.mustache", model);
     }
 
 
