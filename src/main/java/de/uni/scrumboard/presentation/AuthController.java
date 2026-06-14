@@ -26,10 +26,6 @@ public record AuthController(IAccountService accountService, IProfileService pro
     @Override
     public void getLogin(Context context) {
         Integer accountId = context.sessionAttribute("accountId");
-        if (accountId != null) {
-            context.redirect("/home");
-            return;
-        }
 
         Map<String, Object> model = new HashMap<>();
         model.put("email", "");
@@ -110,16 +106,9 @@ public record AuthController(IAccountService accountService, IProfileService pro
         }
         context.redirect("/login");
     }
-
-    // NEUE METHODEN FÜR PASSWORT-RESET
-
-    
+//password reset 
     public void getForgotPassword(Context context) {
         Integer accountId = context.sessionAttribute("accountId");
-        if (accountId != null) {
-            context.redirect("/home");
-            return;
-        }
         
         Map<String, Object> model = new HashMap<>();
         context.render("templates/forgot-password.mustache", model);

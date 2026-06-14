@@ -1,9 +1,26 @@
 <meta charset="UTF-8">
+
+<div style="margin-bottom: 2rem; display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+        
+        <h1>Scrum Board</h1>
+
+        <div>
+            <a href="/home" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Home</a>
+            <a href="/profile" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Profile</a>
+            <a href="/search-tasks" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Search</a>
+            <a href="/showmessage" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Urgent</a>
+        </div>
+    </div>
+
 <div style="max-width: 520px;margin: 2vh auto;font-family: Arial, sans-serif;display: flex;height: 96vh;justify-content: center;align-items: center;flex-direction: column;">
+
+
+    
     <div style="display: flex;justify-content: space-between;align-items: center;margin-bottom: 20px;width: stretch;">
         <h1>Profil</h1>
         <a href="/logout" style="text-decoration: none; color: #444;">Abmelden</a>
     </div>
+    
     <form action="/profile" method="post" style="display: flex;flex-direction: column;gap: 12px;width: stretch;">
         <label style="display: flex; flex-direction: column; gap: 4px;">
             Name
@@ -26,13 +43,20 @@
             <input name="postleitzahl" type="text" value="{{postleitzahl}}" style="padding: 10px; width: 100%;">
         </label>
         <label style="display: flex; flex-direction: column; gap: 4px;">
-            StraÃŸe
+            Straße
             <input name="strasse" type="text" value="{{strasse}}" style="padding: 10px; width: 100%;">
         </label>
         <label style="display: flex; flex-direction: column; gap: 4px;">
             Hausnummer
             <input name="hausnummer" type="text" value="{{hausnummer}}" style="padding: 10px; width: 100%;">
         </label>
+        
         <button type="submit" style="padding: 12px; margin-top: 12px;">Profil speichern</button>
     </form>
+    
+
+    <div style="margin-top: 20px; width: stretch; text-align: center;">
+        <a href="/forgot-password" style="display: block; background-color: #007bff; color: white; padding: 12px; text-decoration: none; border-radius: 4px; font-size: 14px;">
+            Passwort zurücksetzen 
+    </div>
 </div>

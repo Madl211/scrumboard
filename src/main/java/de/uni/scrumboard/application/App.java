@@ -79,6 +79,12 @@ public class App implements IApp {
                 })
 
                 // HTTP HANDLEERS
+
+                .get("/forgot-password", authController::getForgotPassword)
+                .post("/forgot-password", authController::postForgotPassword)
+                .get("/reset-password", authController::getResetPassword)
+                .post("/reset-password", authController::postResetPassword)
+
                 .get("/login", authController::getLogin)
                 .post("/login", authController::postLogin)
 
@@ -87,12 +93,6 @@ public class App implements IApp {
 
                 .get("/logout", authController::logout)
                 
-                // ========== DEINE PASSWORT-RESET ROUTEN (BEHALTEN) ==========
-                .get("/forgot-password", authController::getForgotPassword)
-                .post("/forgot-password", authController::postForgotPassword)
-                .get("/reset-password", authController::getResetPassword)
-                .post("/reset-password", authController::postResetPassword)
-
                 .get("/profile", profileController::getProfile)
                 .post("/profile", profileController::saveProfile)
 
@@ -272,7 +272,7 @@ public class App implements IApp {
                 CREATE INDEX IF NOT EXISTS idx_reset_token ON password_reset_tokens(token);
             """);
 
-            // ========== DIE TABELLE VON main (BEHALTEN) ==========
+           
             statement.executeUpdate("""
                     CREATE TABLE IF NOT EXISTS user_story_tasks (
                         userStoryId INTEGER NOT NULL,

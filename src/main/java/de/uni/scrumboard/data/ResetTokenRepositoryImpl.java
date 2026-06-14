@@ -19,7 +19,7 @@ public class ResetTokenRepositoryImpl implements ResetTokenRepository {
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setLong(1, token.getAccountId());
             stmt.setString(2, token.getToken());
-            stmt.setString(3, token.getExpiryDate().toString());
+            stmt.setString(3, token.getExpiryDate().toString().replace('T', ' '));
             stmt.setBoolean(4, token.isUsed());
             stmt.executeUpdate();
             
@@ -45,9 +45,23 @@ public class ResetTokenRepositoryImpl implements ResetTokenRepository {
                 resetToken.setId(rs.getLong("id"));
                 resetToken.setAccountId(rs.getLong("account_id"));
                 resetToken.setToken(rs.getString("token"));
-                resetToken.setExpiryDate(LocalDateTime.parse(rs.getString("expiry_date")));
+                
+                // Fix für SQLite Datumsformat
+                String expiryDateStr = rs.getString("expiry_date");
+                if (expiryDateStr != null) {
+                    expiryDateStr = expiryDateStr.replace(' ', 'T');
+                    resetToken.setExpiryDate(LocalDateTime.parse(expiryDateStr));
+                }
+                
                 resetToken.setUsed(rs.getBoolean("used"));
-                resetToken.setCreatedAt(LocalDateTime.parse(rs.getString("created_at")));
+                
+                // Fix für created_at (falls vorhanden)
+                String createdAtStr = rs.getString("created_at");
+                if (createdAtStr != null) {
+                    createdAtStr = createdAtStr.replace(' ', 'T');
+                    resetToken.setCreatedAt(LocalDateTime.parse(createdAtStr));
+                }
+                
                 return Optional.of(resetToken);
             }
         } catch (SQLException e) {
