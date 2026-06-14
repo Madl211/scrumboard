@@ -27,4 +27,7 @@ public interface ITaskRepository {
     List<Task> checkwhendue(List<Task>list);
 
     List<Map<String, Object>> getTasksWithAssignmentForUserStory(int userStoryId);
+
+    List<Task> getTasksWithoutAssignmentForUserStory(int backlogId);
+
 }

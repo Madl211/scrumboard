@@ -18,4 +18,5 @@ public interface ITaskService {
     List<Task> checkwhendue();
     List<Task> getAllTasks();
     List<Map<String, Object>> getTasksWithAssignmentForUserStory(int userStoryId);
+    List<Task> getTasksWithoutAssignmentForUserStory(int backlogId);
 }

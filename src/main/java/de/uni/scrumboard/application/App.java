@@ -146,7 +146,7 @@ public class App implements IApp {
             authController = new AuthController(accountService, profileService);
             homeController = new HomeController(backlogService);
             taskController = new TaskController(taskService, accountService, backlogService);
-            backlogController = new BacklogController(backlogService, userStoryService);
+            backlogController = new BacklogController(backlogService, userStoryService, taskService);
             userStoryController = new UserStoryController(userStoryService, backlogService, taskService);
         } catch (IOException e) {
             System.err.println("Fehler beim Laden der Konfiguration:");

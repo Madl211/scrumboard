@@ -80,4 +80,9 @@ public record TaskService(ITaskRepository taskRepository, IAccountRepository acc
     public List<Map<String, Object>> getTasksWithAssignmentForUserStory(int userStoryId) {
         return taskRepository.getTasksWithAssignmentForUserStory(userStoryId);
     }
+
+    @Override
+    public List<Task> getTasksWithoutAssignmentForUserStory(int backlogId) {
+        return taskRepository.getTasksWithoutAssignmentForUserStory(backlogId);
+    }
 }
