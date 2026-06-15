@@ -30,7 +30,6 @@ import de.uni.scrumboard.service.UserStoryService;
 import de.uni.scrumboard.service.interfaces.IUserStoryService;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinMustache;
-import io.javalin.websocket.WsCloseContext;
 import io.javalin.websocket.WsConfig;
 import io.javalin.websocket.WsConnectContext;
 
@@ -89,6 +88,7 @@ public class App implements IApp {
 
                 .get("/backlogs", backlogController::getBacklogs)
                 .get("/backlog/{id}", backlogController::getBacklog)
+                .get("/backlog/{id}/last-update", backlogController::getLastUpdate)
 
                 .get("/create-backlog", backlogController::getCreateBacklog)
                 .post("/create-backlog", backlogController::postCreateBacklog)
@@ -194,6 +194,7 @@ public class App implements IApp {
                             "estimatedTime INTEGER," +
                             "actualTime INTEGER," +
                             "status INTEGER," +
+                            "lastUpdated INTEGER NOT NULL," +
                             "FOREIGN KEY(creatorId) REFERENCES accounts(accountId)" +
                             ")");
 
@@ -229,6 +230,7 @@ public class App implements IApp {
                         creatorId INTEGER NOT NULL,
                         backlogId INTEGER NOT NULL,
                         status INTEGER NOT NULL DEFAULT 0,
+                        lastUpdated INTEGER NOT NULL,
                         FOREIGN KEY(creatorId) REFERENCES accounts(accountId),
                         FOREIGN KEY(backlogId) REFERENCES backlogs(id)
                     );""");

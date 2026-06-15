@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import de.uni.scrumboard.data.Backlog;
 import de.uni.scrumboard.data.UserStory;
 import de.uni.scrumboard.data.Task;
+import de.uni.scrumboard.data.Timestamp;
 import de.uni.scrumboard.data.enums.TaskStatus;
 import de.uni.scrumboard.presentation.interfaces.IBacklogController;
 import de.uni.scrumboard.service.interfaces.IBacklogService;
@@ -123,8 +124,7 @@ public class BacklogController implements IBacklogController {
                 .filter(t -> t.status() == TaskStatus.COMPLETED)
                 .collect(Collectors.toList());
 
-
-     
+        Timestamp timestampOfLastCheckedUpdate = backlogService.getLastUpdate(backlogId);
 
         Map<String, Object> model = new HashMap<>();
         model.put("backlog", backlog.get());
@@ -135,6 +135,7 @@ public class BacklogController implements IBacklogController {
         model.put("todoTasks", todoTasks);
         model.put("inProgressTasks", inProgressTasks);
         model.put("doneTasks", doneTasks);
+        model.put("timestampOfLastCheckedUpdate", timestampOfLastCheckedUpdate.timestamp());
         context.render("templates/backlog.mustache", model);
     }
 
@@ -146,6 +147,26 @@ public class BacklogController implements IBacklogController {
         map.put("beschreibung", us.beschreibung());
         map.put("tasks", tasks);
         return map;
+    }
+
+    @Override
+    public void getLastUpdate(Context context) {
+        Integer accountId = context.sessionAttribute("accountId");
+        if (accountId == null) {
+            context.redirect("/login");
+            return;
+        }
+
+        int backlogId;
+        try {
+            backlogId = Integer.parseInt(context.pathParam("id"));
+        } catch (NumberFormatException e) {
+            context.status(400).result("Ungültige Backlog-ID");
+            return;
+        }
+
+        Timestamp timestampOfLastUpdate = backlogService.getLastUpdate(backlogId);
+        context.json(timestampOfLastUpdate);
     }
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import de.uni.scrumboard.data.Backlog;
+import de.uni.scrumboard.data.Timestamp;
 import de.uni.scrumboard.data.interfaces.IBacklogRepository;
 import de.uni.scrumboard.service.interfaces.IBacklogService;
 
@@ -42,6 +43,11 @@ public class BacklogService implements IBacklogService {
 
     public void removeTaskFromBacklog(int backlogId, int taskId) {
         backlogRepository.removeTaskFromBacklog(backlogId, taskId);
+    }
+
+    @Override
+    public Timestamp getLastUpdate(int backlogId) {
+        return backlogRepository.getLastUpdate(backlogId);
     }
 
 }
