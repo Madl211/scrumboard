@@ -3,6 +3,7 @@ package de.uni.scrumboard.data.interfaces;
 import java.util.List;
 
 import de.uni.scrumboard.data.Backlog;
+import de.uni.scrumboard.data.Timestamp;
 
 import java.util.Optional;
 
@@ -19,4 +20,7 @@ public interface IBacklogRepository {
     void addTaskToBacklog(int backlogId, int taskId); 
 
     void removeTaskFromBacklog(int backlogId, int taskId);
+
+    Timestamp getLastUpdate(int backlogId);
+
 }

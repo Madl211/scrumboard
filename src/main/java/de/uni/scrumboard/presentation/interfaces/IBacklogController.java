@@ -12,4 +12,6 @@ public interface IBacklogController {
 
     void getBacklog(Context context);
 
+    void getLastUpdate(Context context);
+
 }

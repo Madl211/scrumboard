@@ -273,16 +273,19 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
 
         Task existing = task.get();
         Task updated = new Task(
-                existing.taskId(),
-                title,
-                description,
-                assignees,
-                existing.creator(),
-                startDate,
-                dueDate,
-                existing.created(),
-                estimatedTime,
-                existing.actualTime(), status);
+            existing.taskId(),
+            title,
+            description,
+            assignees,
+            existing.creator(),
+            startDate,
+            dueDate,
+            existing.created(),
+            estimatedTime,
+            existing.actualTime(),
+            status,
+            existing.lastUpdated()
+        );
 
         String backlogIdStr = context.formParam("backlog");
         Integer newBacklogId = null;

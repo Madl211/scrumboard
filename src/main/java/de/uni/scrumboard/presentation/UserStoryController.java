@@ -179,7 +179,7 @@ public class UserStoryController implements IUserStoryController {
             status = TaskStatus.TODO;
         }
 
-        UserStory userStory = new UserStory(-1, titel, beschreibung, accountId, backlogId, status);
+        UserStory userStory = new UserStory(-1, titel, beschreibung, accountId, backlogId, status, 0);
         validateUserStory(userStory);
         return userStory;
     }
@@ -283,7 +283,7 @@ public class UserStoryController implements IUserStoryController {
             return;
         }
 
-        UserStory updated = new UserStory(id, titel, beschreibung, existing.get().creatorId(), backlogId, status);
+        UserStory updated = new UserStory(id, titel, beschreibung, existing.get().creatorId(), backlogId, status, 0);
         userStoryService.updateUserStory(updated);
         userStoryService.setTasksForUserStory(id, parseTaskIds(context));
         context.redirect(resolveReturnPathAndClear(context, "/backlog/" + backlogId));

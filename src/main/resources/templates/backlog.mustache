@@ -163,4 +163,55 @@
             {{/doneTasks}}
         </div>
 
-    </div> </div>
+    </div>
+    <dialog id="reload-dialog">
+        <p style="text-align: center;">Something was changed.</p>
+        <p style="text-align: center;">Do you want to reload the page?</p>
+        <div style="display: flex; justify-content: space-between;">
+            <button id="no-reload-button" onclick="closeDialog()" tabindex="-1" style="background-color: #007bff; color: white; padding: 5px 15px; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">No</button>
+            <button id="reload-button" onclick="reloadPage()" tabindex="-1" style="background-color: #007bff; color: white; padding: 5px 15px; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">Yes</button>
+        </div>
+    </dialog>
+</div>
+
+<script>
+    reloadDialog = document.getElementById("reload-dialog");
+    function closeDialog() {
+        reloadDialog.close();
+    }
+
+    function reloadPage() {
+        window.location.reload();
+    }
+
+
+    var timestampOfLastCheckedUpdate = {{timestampOfLastCheckedUpdate}};
+    console.log("Initial timestamp: " + timestampOfLastCheckedUpdate)
+
+    function poll() {
+        console.log("Polling...")
+        fetch("/backlog/" + {{backlog.id}} + "/last-update")
+            .then((response) => {
+                //TODO 
+                if (response.status !== 200) {
+                    throw new Error("Fehler beim Abfragen des Zeitstempels des letzten Updates");
+                }
+                return response.json();
+            })
+            .then((response) => {
+                if (response.timestamp > timestampOfLastCheckedUpdate) {
+                    timestampOfLastCheckedUpdate = response.timestamp;
+
+                    const reloadDialog = document.getElementById("reload-dialog");
+                    reloadDialog.showModal();
+                } else {
+                    console.log("No Update: Timestamp -> " + response.timestamp);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    setInterval(poll, 2000);
+</script>

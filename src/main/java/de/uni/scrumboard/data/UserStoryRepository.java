@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,13 +25,14 @@ public class UserStoryRepository implements IUserStoryRepository {
 
     @Override
     public int createUserStory(UserStory userStory) {
-        String sql = "INSERT INTO user_stories(titel, beschreibung, creatorId, backlogId, status) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO user_stories(titel, beschreibung, creatorId, backlogId, status, lastUpdated) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, userStory.titel());
             ps.setString(2, userStory.beschreibung());
             ps.setInt(3, userStory.creatorId());
             ps.setInt(4, userStory.backlogId());
             ps.setInt(5, userStory.status().val);
+            ps.setLong(6, Instant.now().getEpochSecond());
             ps.executeUpdate();
             try (ResultSet keys = ps.getGeneratedKeys()) {
                 if (keys.next()) return keys.getInt(1);
@@ -44,7 +46,7 @@ public class UserStoryRepository implements IUserStoryRepository {
     @Override
     public List<UserStory> getUserStoriesByBacklogId(int backlogId) {
         List<UserStory> userStories = new ArrayList<>();
-        String query = "SELECT id, titel, beschreibung, creatorId, backlogId, status FROM user_stories WHERE backlogId = ?";
+        String query = "SELECT id, titel, beschreibung, creatorId, backlogId, status, lastUpdated FROM user_stories WHERE backlogId = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, backlogId);
             try (ResultSet result = ps.executeQuery()) {
@@ -54,7 +56,8 @@ public class UserStoryRepository implements IUserStoryRepository {
                     String beschreibung = result.getString("beschreibung");
                     int creatorId = result.getInt("creatorId");
                     TaskStatus status = TaskStatus.itoStatus(result.getInt("status"));
-                    userStories.add(new UserStory(id, titel, beschreibung, creatorId, backlogId, status));
+                    long lastUpdated = result.getLong("lastUpdated");
+                    userStories.add(new UserStory(id, titel, beschreibung, creatorId, backlogId, status, lastUpdated));
                 }
             }
         } catch (SQLException e) {
@@ -65,7 +68,7 @@ public class UserStoryRepository implements IUserStoryRepository {
 
     @Override
     public Optional<UserStory> getUserStoryById(int id) {
-        String query = "SELECT id, titel, beschreibung, creatorId, backlogId, status FROM user_stories WHERE id = ?";
+        String query = "SELECT id, titel, beschreibung, creatorId, backlogId, status, lastUpdated FROM user_stories WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, id);
             try (ResultSet result = ps.executeQuery()) {
@@ -75,7 +78,8 @@ public class UserStoryRepository implements IUserStoryRepository {
                     int creatorId = result.getInt("creatorId");
                     int backlogId = result.getInt("backlogId");
                     TaskStatus status = TaskStatus.itoStatus(result.getInt("status"));
-                    return Optional.of(new UserStory(id, titel, beschreibung, creatorId, backlogId, status));
+                    long lastUpdated = result.getLong("lastUpdated");
+                    return Optional.of(new UserStory(id, titel, beschreibung, creatorId, backlogId, status, lastUpdated));
                 }
             }
         } catch (SQLException e) {
@@ -86,13 +90,14 @@ public class UserStoryRepository implements IUserStoryRepository {
 
     @Override
     public void updateUserStory(UserStory userStory) {
-        String sql = "UPDATE user_stories SET titel = ?, beschreibung = ?, backlogId = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE user_stories SET titel = ?, beschreibung = ?, backlogId = ?, status = ?, lastUpdated = ? WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, userStory.titel());
             ps.setString(2, userStory.beschreibung());
             ps.setInt(3, userStory.backlogId());
             ps.setInt(4, userStory.status().val);
-            ps.setInt(5, userStory.id());
+            ps.setLong(5, Instant.now().getEpochSecond());
+            ps.setInt(6, userStory.id());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
