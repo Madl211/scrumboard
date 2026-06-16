@@ -108,6 +108,21 @@ public record AccountRepository(Connection connection) implements IAccountReposi
         }
     }
 
+    @Override
+    public void updateAccount(Account account) {
+        try (PreparedStatement sqlStatement = connection.prepareStatement(
+                "UPDATE accounts SET email = ?, passwordHash = ?, username = ? WHERE accountId = ?")) {
+            sqlStatement.setString(1, account.email());
+            sqlStatement.setString(2, account.passwordHash());
+            sqlStatement.setString(3, account.username());
+            sqlStatement.setInt(4, account.accountId());
+            
+            sqlStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Fehler beim Aktualisieren des Accounts mit ID " + account.accountId(), e);
+        }
+    }
+
     private Account mapResultToAccount(ResultSet result) throws SQLException {
         int accountId = result.getInt("accountId");
         String email = result.getString("email");

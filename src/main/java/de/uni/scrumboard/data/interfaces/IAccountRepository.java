@@ -13,4 +13,6 @@ public interface IAccountRepository {
     List<Account> getAllAccounts();
 
     Account createAccount(String email, String passwordHash, String username);
+
+    void updateAccount(Account account);
 }

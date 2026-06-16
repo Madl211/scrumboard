@@ -8,6 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import de.uni.scrumboard.data.ResetTokenRepositoryImpl;
+import de.uni.scrumboard.data.ResetTokenRepository;
+import de.uni.scrumboard.data.PasswordResetToken;
+import de.uni.scrumboard.service.PasswordResetService;
+import de.uni.scrumboard.data.PasswordUtil;
 import de.uni.scrumboard.application.interfaces.IApp;
 import de.uni.scrumboard.data.AccountRepository;
 import de.uni.scrumboard.data.BacklogRepository;
@@ -48,6 +53,9 @@ public class App implements IApp {
     private static BacklogService backlogService;
     private static IUserStoryService userStoryService;
 
+    private static ResetTokenRepository resetTokenRepository;
+    private static PasswordResetService passwordResetService;
+
     private static ProfileRepository profileRepository;
     private static AccountRepository accountRepository;
     private static TaskRepository taskRepository;
@@ -70,6 +78,12 @@ public class App implements IApp {
                 })
 
                 // HTTP HANDLEERS
+
+                .get("/forgot-password", authController::getForgotPassword)
+                .post("/forgot-password", authController::postForgotPassword)
+                .get("/reset-password", authController::getResetPassword)
+                .post("/reset-password", authController::postResetPassword)
+
                 .get("/login", authController::getLogin)
                 .post("/login", authController::postLogin)
 
@@ -77,7 +91,7 @@ public class App implements IApp {
                 .post("/register", authController::postRegister)
 
                 .get("/logout", authController::logout)
-
+                
                 .get("/profile", profileController::getProfile)
                 .post("/profile", profileController::saveProfile)
 
@@ -142,12 +156,20 @@ public class App implements IApp {
             backlogService = new BacklogService(backlogRepository);
             userStoryService = new UserStoryService(userStoryRepository);
 
+            resetTokenRepository = new ResetTokenRepositoryImpl(databaseConnection);
+            passwordResetService = new PasswordResetService(accountRepository, resetTokenRepository);
+
             profileController = new ProfileController(profileService);
-            authController = new AuthController(accountService, profileService);
+            
+            // ========== HIER: DEINE VERSION MIT passwordResetService BEHALTEN ==========
+            authController = new AuthController(accountService, profileService, passwordResetService);
+            
+            // ========== HIER: DIE NEUEN VERSIONEN VON main BEHALTEN ==========
             homeController = new HomeController(backlogService);
             taskController = new TaskController(taskService, accountService, backlogService);
             backlogController = new BacklogController(backlogService, userStoryService, taskService);
             userStoryController = new UserStoryController(userStoryService, backlogService, taskService);
+            
         } catch (IOException e) {
             System.err.println("Fehler beim Laden der Konfiguration:");
             e.printStackTrace();
@@ -235,6 +257,24 @@ public class App implements IApp {
                         FOREIGN KEY(backlogId) REFERENCES backlogs(id)
                     );""");
 
+            // ========== DEINE TABELLE (BEHALTEN) ==========
+            statement.executeUpdate("""
+                CREATE TABLE IF NOT EXISTS password_reset_tokens (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    account_id INTEGER NOT NULL,
+                    token VARCHAR(255) NOT NULL UNIQUE,
+                    expiry_date TIMESTAMP NOT NULL,
+                    used BOOLEAN DEFAULT FALSE,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY(account_id) REFERENCES accounts(accountId)
+                );
+            """);
+
+            statement.executeUpdate("""
+                CREATE INDEX IF NOT EXISTS idx_reset_token ON password_reset_tokens(token);
+            """);
+
+           
             statement.executeUpdate("""
                     CREATE TABLE IF NOT EXISTS user_story_tasks (
                         userStoryId INTEGER NOT NULL,
@@ -250,6 +290,7 @@ public class App implements IApp {
             } catch (SQLException ignored) {
                 // Column already exists
             }
+            
         } catch (SQLException e) {
             throw new RuntimeException("Fehler beim Erzeugen der Datenbankschemata", e);
         }
