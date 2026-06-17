@@ -89,6 +89,16 @@
             </div>
             {{/accounts}}
         </div>
+
+        <div style="width: 100%; padding: 10px;">
+            <div id="estimateBar" {{#underEstimate}} style="width: 100%; background-color: #a0a0a0; height: 20px; margin: 5px; border-radius: 2px;" {{/underEstimate}}  {{^underEstimate}} style="width: {{percentage}}%; background-color: #a0a0a0; height: 20px; margin: 5px; border-radius: 2px;" {{/underEstimate}}>
+                Estimate
+            </div>
+            <div id="realBar" {{#underEstimate}} style="width: {{percentage}}%; background-color: #a0a0a0; height: 20px; margin: 5px; border-radius: 2px;" {{/underEstimate}}  {{^underEstimate}} style="width: 100%; background-color: #a0a0a0; height: 20px; margin: 5px; border-radius: 2px;" {{/underEstimate}}>
+                Actual Time
+            </div>
+        </div>
+
         <input type="hidden" name="oldBacklogId" value="{{task.backlogId}}">
         <div style="display: flex; gap: 1rem;">
             <button type="submit" style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Edit Task</button>

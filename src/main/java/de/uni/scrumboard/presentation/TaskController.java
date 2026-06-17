@@ -212,6 +212,8 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
             .map(id -> "/backlog/" + id)
             .orElse("/home");
         model.put("cancelPath", currentReturnPathOrFallback(context, editFallbackPath));
+        model.put("underEstimate", t.estimatedTime() > t.actualTime());
+        model.put("percentage", (t.estimatedTime() > t.actualTime()) ? (int) ((t.actualTime() / (float) t.estimatedTime()) * 100) : (int) ((t.estimatedTime() / (float) t.actualTime()) * 100));
 
         context.render("templates/edit-task.mustache", model);
         // button zum kriegen der Daten über die Task
