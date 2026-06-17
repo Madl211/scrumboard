@@ -220,10 +220,11 @@ public class App implements IApp {
                             "estimatedTime INTEGER," +
                             "actualTime INTEGER," +
                             "status INTEGER," +
+                            "priorities INTEGER," +
                             "lastUpdated INTEGER NOT NULL," +
                             "FOREIGN KEY(creatorId) REFERENCES accounts(accountId)" +
                             ")");
-
+            
             statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS task_assignees (" +
                             "taskId INTEGER NOT NULL," +
@@ -262,7 +263,7 @@ public class App implements IApp {
                         FOREIGN KEY(backlogId) REFERENCES backlogs(id)
                     );""");
 
-            // ========== DEINE TABELLE (BEHALTEN) ==========
+        
             statement.executeUpdate("""
                 CREATE TABLE IF NOT EXISTS password_reset_tokens (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -297,11 +298,9 @@ public class App implements IApp {
                         FOREIGN KEY(taskId) REFERENCES tasks(taskId) ON DELETE CASCADE
                     );""");
 
-            // Migration: add status column to existing user_stories tables
             try {
                 statement.executeUpdate("ALTER TABLE user_stories ADD COLUMN status INTEGER NOT NULL DEFAULT 0");
             } catch (SQLException ignored) {
-                // Column already exists
             }
             
         } catch (SQLException e) {

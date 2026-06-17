@@ -9,6 +9,7 @@ CREATE TABLE tasks (
     estimatedTime int,
     actualTime int,
     status int,
+    priorities INTEGER,
     lastUpdated INTEGER NOT NULL,
     foreign key (creatorId) references accounts(accountId)
 );

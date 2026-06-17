@@ -205,6 +205,9 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         model.put("statusIsInProgress", t.status() == TaskStatus.IN_PROGRESS);
         model.put("statusIsCompleted", t.status() == TaskStatus.COMPLETED);
         model.put("backlogs", backlogs);
+        model.put("priorityLow", t.priorities() == 0);
+        model.put("priorityMedium", t.priorities() == 1);
+        model.put("priorityHigh", t.priorities() == 2);
         String editFallbackPath = backlogService.getBacklogIdByTaskId(taskId)
             .map(id -> "/backlog/" + id)
             .orElse("/home");
@@ -271,6 +274,16 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
             return;
         }
 
+        String priorityString = context.formParam("priorities");
+        int priorities = 0;
+        try {
+            priorities = Integer.parseInt(priorityString);
+            if (priorities < 0 || priorities > 2) priorities = 0;
+            } catch (NumberFormatException e) {
+                priorities = 0;
+            }
+
+
         Task existing = task.get();
         Task updated = new Task(
             existing.taskId(),
@@ -284,6 +297,7 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
             estimatedTime,
             existing.actualTime(),
             status,
+            priorities,
             existing.lastUpdated()
         );
 
