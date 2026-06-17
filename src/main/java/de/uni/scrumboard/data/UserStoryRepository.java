@@ -144,6 +144,8 @@ String query = "SELECT id, titel, beschreibung, creatorId, backlogId, status, pr
                     String statusLabel;
                     switch (status) {
                         case IN_PROGRESS -> statusLabel = "In Progress";
+                        case REVIEW      -> statusLabel = "Review";
+                        case TEST        -> statusLabel = "Test";
                         case COMPLETED   -> statusLabel = "Done";
                         default          -> statusLabel = "Todo";
                     }

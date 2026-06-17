@@ -143,7 +143,7 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         int estimatedTime = 0;
 
         int statusInt = Integer.valueOf(context.formParam("status"));
-        if (statusInt < 0 || statusInt > 3)
+        if (statusInt < 0 || statusInt > 4)
             statusInt = 0;
 
         TaskStatus status = TaskStatus.itoStatus(statusInt);
@@ -204,6 +204,8 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         model.put("statusIsTodo", t.status() == TaskStatus.TODO);
         model.put("statusIsInProgress", t.status() == TaskStatus.IN_PROGRESS);
         model.put("statusIsCompleted", t.status() == TaskStatus.COMPLETED);
+        model.put("statusIsReview", t.status() == TaskStatus.REVIEW);
+        model.put("statusIsTest", t.status() == TaskStatus.TEST);
         model.put("backlogs", backlogs);
         model.put("priorityLow", t.priorities() == 0);
         model.put("priorityMedium", t.priorities() == 1);
@@ -262,7 +264,7 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         int realTime = 0;
 
         int statusInt = Integer.valueOf(context.formParam("status"));
-        if (statusInt < 0 || statusInt > 3)
+        if (statusInt < 0 || statusInt > 4)
             statusInt = 0;
 
         TaskStatus status = TaskStatus.itoStatus(statusInt);

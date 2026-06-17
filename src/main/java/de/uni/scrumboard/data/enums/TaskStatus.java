@@ -4,11 +4,11 @@ import java.util.NoSuchElementException;
 
 public enum TaskStatus {
 
-    // KEINE AHNUNG OB DAS IN JAVA NÖTIG IST
-
     TODO(0),
     IN_PROGRESS(1),
-    COMPLETED(2);
+    COMPLETED(2),
+    REVIEW(3),
+    TEST(4);
 
     public final int val;
 
