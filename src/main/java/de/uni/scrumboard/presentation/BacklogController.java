@@ -110,6 +110,14 @@ public class BacklogController implements IBacklogController {
                 .filter(s -> s.status() == TaskStatus.COMPLETED)
                 .map(s -> enrichUserStory(s))
                 .collect(Collectors.toList());
+        List<Map<String, Object>> reviewUserStories = userStories.stream()
+                .filter(s -> s.status() == TaskStatus.REVIEW)
+                .map(s -> enrichUserStory(s))
+                .collect(Collectors.toList());
+        List<Map<String, Object>> testUserStories = userStories.stream()
+                .filter(s -> s.status() == TaskStatus.TEST)
+                .map(s -> enrichUserStory(s))
+                .collect(Collectors.toList());
 
 
         List<Task> tasks = taskService.getTasksWithoutAssignmentForUserStory(backlogId);
@@ -123,6 +131,12 @@ public class BacklogController implements IBacklogController {
         List<Task> doneTasks = tasks.stream()
                 .filter(t -> t.status() == TaskStatus.COMPLETED)
                 .collect(Collectors.toList());
+        List<Task> reviewTasks = tasks.stream()
+                .filter(t -> t.status() == TaskStatus.REVIEW)
+                .collect(Collectors.toList());
+        List<Task> testTasks = tasks.stream()
+                .filter(t -> t.status() == TaskStatus.TEST)
+                .collect(Collectors.toList());
 
         Timestamp timestampOfLastCheckedUpdate = backlogService.getLastUpdate(backlogId);
 
@@ -131,6 +145,11 @@ public class BacklogController implements IBacklogController {
         model.put("todoUserStories", todoUserStories);
         model.put("inProgressUserStories", inProgressUserStories);
         model.put("doneUserStories", doneUserStories);
+
+        model.put("reviewUserStories", reviewUserStories);
+        model.put("testUserStories", testUserStories);
+        model.put("reviewTasks", reviewTasks);
+        model.put("testTasks", testTasks);
 
         model.put("todoTasks", todoTasks);
         model.put("inProgressTasks", inProgressTasks);

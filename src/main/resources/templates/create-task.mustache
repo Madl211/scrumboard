@@ -28,24 +28,6 @@
         </div>
 
         <div>
-            <label for="estimatedTime" style="display: block; margin-bottom: 0.5rem;">Status:</label>
-            <div style="display: flex; flex-direction: row; justify-content: space-between; ">
-                <div>
-                    <input type="radio" id="statusTodo" name="status" value = 0>
-                    <label for="statusTodo">Todo</label> 
-                </div>
-                <div>
-                    <input type="radio" id="statusInProg" name="status" value = 1>
-                    <label for="statusInProg">In Progress</label> 
-                </div>
-                <div>
-                    <input type="radio" id="statusTodo" name="status" value = 2>
-                    <label for="statusCompleted">Completed</label> 
-                </div>
-            </div>
-        </div>
-        
-        <div>
             <label for="backlog" style="display: block; margin-bottom: 0.5rem;">Backlog:</label>
             <select name="backlog" id="backlog" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                 {{#backlogs}}
@@ -55,13 +37,29 @@
         </div>
 
         <div>
-            <label style="display: block; margin-bottom: 0.5rem;">Assignees:</label>
-            {{#accounts}}
-            <div style="margin-bottom: 0.5rem;">
-                <input type="checkbox" id="assignee-{{accountId}}" name="assignees" value="{{accountId}}">
-                <label for="assignee-{{accountId}}">{{username}} ({{email}})</label>
+            <label style="display: block; margin-bottom: 0.5rem;">Status:</label>
+            <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                <div>
+                    <input type="radio" id="statusTodo" name="status" value="0" checked>
+                    <label for="statusTodo">Todo</label>
+                </div>
+                <div>
+                    <input type="radio" id="statusInProg" name="status" value="1">
+                    <label for="statusInProg">In Progress</label>
+                </div>
+                <div>
+                    <input type="radio" id="statusReview" name="status" value="3">
+                    <label for="statusReview">Review</label>
+                </div>
+                <div>
+                    <input type="radio" id="statusTest" name="status" value="4">
+                    <label for="statusTest">Test</label>
+                </div>
+                <div>
+                    <input type="radio" id="statusCompleted" name="status" value="2">
+                    <label for="statusCompleted">Done</label>
+                </div>
             </div>
-            {{/accounts}}
         </div>
         
         <div style="display: flex; gap: 1rem;">

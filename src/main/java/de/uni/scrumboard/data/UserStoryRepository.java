@@ -143,6 +143,8 @@ public class UserStoryRepository implements IUserStoryRepository {
                     String statusLabel;
                     switch (status) {
                         case IN_PROGRESS -> statusLabel = "In Progress";
+                        case REVIEW      -> statusLabel = "Review";
+                        case TEST        -> statusLabel = "Test";
                         case COMPLETED   -> statusLabel = "Done";
                         default          -> statusLabel = "Todo";
                     }
