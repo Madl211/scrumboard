@@ -28,6 +28,11 @@
         </div>
 
         <div>
+            <label for="realTime" style="display: block; margin-bottom: 0.5rem;">Time spent on this Task (hours):</label>
+            <input type="number" id="realTime" required name="realTime" min="0" value="{{task.actualTime}}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;",default="0">
+        </div>
+
+        <div>
             <label for="estimatedTime" style="display: block; margin-bottom: 0.5rem;">Status:</label>
             <div style="display: flex; flex-direction: row; justify-content: space-between; ">
                 <div>

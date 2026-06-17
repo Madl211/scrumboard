@@ -60,12 +60,14 @@ public class App implements IApp {
     private static BacklogRepository backlogRepository;
     private static IUserStoryRepository userStoryRepository;
 
+    private Javalin server;
+
     @Override
     public void run(int port) {
         bootstrapApplication();
 
         // TODO /robots.txt, /sitemap.xml
-        Javalin.create(config -> config.fileRenderer(new JavalinMustache()))
+        server = Javalin.create(config -> config.fileRenderer(new JavalinMustache()))
                 .get("/", ctx -> {
                     Integer accountId = ctx.sessionAttribute("accountId");
                     if (accountId == null) {
@@ -126,6 +128,11 @@ public class App implements IApp {
                 // })
 
                 .start(port);
+    }
+
+    public void stop() {
+        // TODO Cleanup bei Shutdown?
+        server.stop();
     }
 
     // private void connectHandler(WsConnectContext ctx) {
@@ -296,6 +303,11 @@ public class App implements IApp {
 
             try {
                 statement.executeUpdate("ALTER TABLE user_stories ADD COLUMN status INTEGER NOT NULL DEFAULT 0");
+            } catch (SQLException ignored) {
+            }
+
+            try {
+                statement.executeUpdate("ALTER TABLE tasks ADD COLUMN realTime INTEGER NOT NULL DEFAULT 0");
             } catch (SQLException ignored) {
             }
             
