@@ -14,4 +14,11 @@ public interface IBacklogController {
 
     void getLastUpdate(Context context);
 
+    void getBacklogAssignees(Context context);
+
+    void getAddBacklogAssignee(Context context);
+
+    void postAddBacklogAssignee(Context context);
+
+    void postRemoveBacklogAssignee(Context context);
 }

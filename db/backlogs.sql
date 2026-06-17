@@ -10,3 +10,13 @@ CREATE TABLE backlog_tasks (
     FOREIGN KEY(backlogId) REFERENCES backlogs(id),
     FOREIGN KEY(taskId) REFERENCES tasks(taskId)
 );
+
+
+CREATE TABLE backlog_assignees (
+     backlogId INTEGER NOT NULL,
+     assigneeid INTEGER NOT NULL,
+     roles VARCHAR(255) NOT NULL, 
+     FOREIGN KEY (assigneeid) references accounts(accountId),
+     FOREIGN KEY(backlogId) REFERENCES backlogs(id)
+
+)

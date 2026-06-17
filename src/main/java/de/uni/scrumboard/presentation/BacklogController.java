@@ -1,21 +1,23 @@
 package de.uni.scrumboard.presentation;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import de.uni.scrumboard.data.Account;
 import de.uni.scrumboard.data.Backlog;
-import de.uni.scrumboard.data.UserStory;
+import de.uni.scrumboard.data.BacklogAssignee;
 import de.uni.scrumboard.data.Task;
 import de.uni.scrumboard.data.Timestamp;
+import de.uni.scrumboard.data.UserStory;
 import de.uni.scrumboard.data.enums.TaskStatus;
 import de.uni.scrumboard.presentation.interfaces.IBacklogController;
 import de.uni.scrumboard.service.interfaces.IBacklogService;
-import de.uni.scrumboard.service.interfaces.IUserStoryService;
 import de.uni.scrumboard.service.interfaces.ITaskService;
-
+import de.uni.scrumboard.service.interfaces.IUserStoryService;
 import io.javalin.http.Context;
 
 public class BacklogController implements IBacklogController {
@@ -168,5 +170,151 @@ public class BacklogController implements IBacklogController {
         Timestamp timestampOfLastUpdate = backlogService.getLastUpdate(backlogId);
         context.json(timestampOfLastUpdate);
     }
+    
+     @Override
+    public void getBacklogAssignees(Context context) {
+        Integer accountId = context.sessionAttribute("accountId");
+        if (accountId == null) {
+            context.redirect("/login");
+            return;
+        }
+
+        int backlogId;
+        try {
+            backlogId = Integer.parseInt(context.pathParam("id"));
+        } catch (NumberFormatException e) {
+            context.status(400).result("Ungültige Backlog-ID");
+            return;
+        }
+
+        Optional<Backlog> backlog = backlogService.getBacklogById(backlogId);
+        if (backlog.isEmpty()) {
+            context.status(404).result("Backlog nicht gefunden");
+            return;
+        }
+
+        List<BacklogAssignee> backlogAssignees = backlogService.getBacklogAssignees(backlogId);
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("backlog", backlog.get());
+        model.put("backlogAssignees", backlogAssignees);  
+        model.put("timestampOfLastCheckedUpdate", Instant.now().getEpochSecond());
+
+        context.render("templates/contributer.mustache", model);  
+    }
+    
+
+    @Override
+    public void getAddBacklogAssignee(Context context) {
+        Integer accountId = context.sessionAttribute("accountId");
+        if (accountId == null) {
+            context.redirect("/login");
+            return;
+        }
+
+        int backlogId;
+        try {
+            backlogId = Integer.parseInt(context.pathParam("id"));
+        } catch (NumberFormatException e) {
+            context.status(400).result("Ungültige Backlog-ID");
+            return;
+        }
+
+        Optional<Backlog> backlog = backlogService.getBacklogById(backlogId);
+        if (backlog.isEmpty()) {
+            context.status(404).result("Backlog nicht gefunden");
+            return;
+        }
+
+      
+        List<Account> availableUsers = backlogService.getAvailableUsersForBacklog(backlogId);
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("backlog", backlog.get());
+        model.put("availableUsers", availableUsers);
+
+        context.render("templates/add-assignees.mustache", model);
+    }
+
+
+    @Override
+    public void postAddBacklogAssignee(Context context) {
+        Integer accountId = context.sessionAttribute("accountId");
+        if (accountId == null) {
+            context.redirect("/login");
+            return;
+        }
+
+        int backlogId;
+        try {
+            backlogId = Integer.parseInt(context.pathParam("id"));
+        } catch (NumberFormatException e) {
+            context.status(400).result("Ungültige Backlog-ID");
+            return;
+        }
+
+        
+        String assigneeIdString = context.formParam("assigneeid");
+        String role = context.formParam("role");
+
+        if (assigneeIdString == null || assigneeIdString.isBlank()) {
+            context.status(400).result("Bitte wählen Sie einen Benutzer aus");
+            return;
+        }
+
+        int assigneeId;
+        try {
+            assigneeId = Integer.parseInt(assigneeIdString);
+        } catch (NumberFormatException e) {
+            context.status(400).result("Ungültige Benutzer-ID");
+            return;
+        }
+
+        if (role == null || role.isBlank()) {
+            role = "Developer";
+                    }
+
+        boolean success = backlogService.addAssigneeToBacklog(backlogId, assigneeId, role);
+        if (!success) {
+            context.status(400).result("Fehler beim Hinzufügen des Assignees");
+            return;
+        }
+
+        context.redirect("/backlog/" + backlogId + "/assignees");
+    }
+
+    @Override
+    public void postRemoveBacklogAssignee(Context context) {
+    Integer accountId = context.sessionAttribute("accountId");
+    if (accountId == null) {
+        context.redirect("/login");
+        return;
+    }
+
+    int backlogId;
+    int assigneeId;
+    try {
+        backlogId = Integer.parseInt(context.pathParam("id"));
+        assigneeId = Integer.parseInt(context.pathParam("assigneeId"));
+    } catch (NumberFormatException e) {
+        context.status(400).result("Ungültige ID");
+        return;
+    }
+
+    boolean success = backlogService.removeAssigneeFromBacklog(backlogId, assigneeId);
+    if (!success) {
+        context.status(400).result("Fehler beim Entfernen des Assignees");
+        return;
+    }
+
+    context.redirect("/backlog/" + backlogId + "/assignees");
+}
 
 }
+
+
+
+
+
+
+

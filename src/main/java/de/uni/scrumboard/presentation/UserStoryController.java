@@ -18,7 +18,6 @@ import io.javalin.http.Context;
 public class UserStoryController implements IUserStoryController {
 
     private static final String templatePath = "templates/create-user-story.mustache";
-    //für route zurück zum korrekten Backlog
     private static final String userStoryReturnToSessionKey = "userStoryReturnTo";
 
     private IUserStoryService userStoryService;
@@ -166,6 +165,9 @@ public class UserStoryController implements IUserStoryController {
         String beschreibung = context.formParam("beschreibung");
         String backlogIdString = context.formParam("backlog");
         String statusString = context.formParam("status");
+        String priorityString = context.formParam("priorities");
+
+        int priorities;
         int backlogId;
         TaskStatus status;
         try {
@@ -179,7 +181,17 @@ public class UserStoryController implements IUserStoryController {
             status = TaskStatus.TODO;
         }
 
-        UserStory userStory = new UserStory(-1, titel, beschreibung, accountId, backlogId, status, 0);
+        try {
+        priorities = Integer.parseInt(priorityString);
+        if (priorities < 0 || priorities > 2) {
+            priorities = 0;  
+        }
+        } catch (NumberFormatException e) {
+        priorities = 0;  
+        }
+
+
+        UserStory userStory = new UserStory(-1, titel, beschreibung, accountId, backlogId, status, priorities, 0);
         validateUserStory(userStory);
         return userStory;
     }
@@ -214,8 +226,91 @@ public class UserStoryController implements IUserStoryController {
             return;
         }
 
+        int productOwnerId = userStoryService.getProductOwnerByUserStoryId(id);
+        boolean isProductOwner = (accountId == productOwnerId);
+        
+
         UserStory us = userStory.get();
         List<Backlog> backlogs = backlogService.getBacklogs();
+        Map<String, Object> model = new HashMap<>();
+
+        int priorities = us.priorities();
+
+        model.put("userStory", us);
+        model.put("backlogs", backlogs);
+        model.put("tasks", taskService.getTasksWithAssignmentForUserStory(id));
+        model.put("statusIsTodo", us.status() == TaskStatus.TODO);
+        model.put("statusIsInProgress", us.status() == TaskStatus.IN_PROGRESS);
+        model.put("statusIsCompleted", us.status() == TaskStatus.COMPLETED);
+        model.put("priorities", priorities);
+        model.put("isProductOwner", isProductOwner);         
+        model.put("priorityLow", priorities == 0);
+        model.put("priorityMedium", priorities == 1);
+        model.put("priorityHigh", priorities == 2);
+        model.put("cancelPath", currentReturnPathOrFallback(context, "/backlog/" + us.backlogId()));
+
+        context.render("templates/edit-user-story.mustache", model);
+    }
+
+    @Override
+public void postEditUserStory(Context context) {
+    Integer accountId = context.sessionAttribute("accountId");
+    if (accountId == null) {
+        context.redirect("/home");
+        return;
+    }
+
+    int id;
+    try {
+        id = Integer.parseInt(context.pathParam("id"));
+    } catch (NumberFormatException e) {
+        context.status(400).result("Ungültige User-Story-ID");
+        return;
+    }
+
+    Optional<UserStory> existing = userStoryService.getUserStoryById(id);
+    if (existing.isEmpty()) {
+        context.status(404).result("User Story nicht gefunden");
+        return;
+    }
+
+    String titel = context.formParam("titel");
+    String beschreibung = context.formParam("beschreibung");
+    String backlogIdString = context.formParam("backlog");
+    String statusString = context.formParam("status");
+    String priorityString = context.formParam("priorities");
+    
+    int productOwnerId = userStoryService.getProductOwnerByUserStoryId(id);
+    boolean isProductOwner = (accountId == productOwnerId);
+    
+    int backlogId;
+    TaskStatus status;
+    int priorities = existing.get().priorities();
+
+    try {
+        backlogId = Integer.parseInt(backlogIdString);
+    } catch (NumberFormatException e) {
+        backlogId = existing.get().backlogId();
+    }
+    
+    try {
+        status = TaskStatus.itoStatus(Integer.parseInt(statusString));
+    } catch (Exception e) {
+        status = existing.get().status();
+    }
+
+    if (isProductOwner && priorityString != null && !priorityString.isBlank()) {
+        try {
+            int newPriority = Integer.parseInt(priorityString);
+            if (newPriority >= 0 && newPriority <= 2) {
+                priorities = newPriority;
+            }
+        } catch (NumberFormatException e) {
+        }
+    }
+    if (titel == null || titel.isBlank()) {
+        List<Backlog> backlogs = backlogService.getBacklogs();
+        UserStory us = existing.get();
         Map<String, Object> model = new HashMap<>();
         model.put("userStory", us);
         model.put("backlogs", backlogs);
@@ -224,69 +319,19 @@ public class UserStoryController implements IUserStoryController {
         model.put("statusIsInProgress", us.status() == TaskStatus.IN_PROGRESS);
         model.put("statusIsCompleted", us.status() == TaskStatus.COMPLETED);
         model.put("cancelPath", currentReturnPathOrFallback(context, "/backlog/" + us.backlogId()));
+        model.put("showErrorMessage", true);
+        model.put("priorities", priorities);
+        model.put("isProductOwner", isProductOwner);
+        model.put("priorityLow", priorities == 0);
+        model.put("priorityMedium", priorities == 1);
+        model.put("priorityHigh", priorities == 2);
         context.render("templates/edit-user-story.mustache", model);
+        return;
     }
-
-    @Override
-    public void postEditUserStory(Context context) {
-        Integer accountId = context.sessionAttribute("accountId");
-        if (accountId == null) {
-            context.redirect("/home");
-            return;
-        }
-
-        int id;
-        try {
-            id = Integer.parseInt(context.pathParam("id"));
-        } catch (NumberFormatException e) {
-            context.status(400).result("Ungültige User-Story-ID");
-            return;
-        }
-
-        Optional<UserStory> existing = userStoryService.getUserStoryById(id);
-        if (existing.isEmpty()) {
-            context.status(404).result("User Story nicht gefunden");
-            return;
-        }
-
-        String titel = context.formParam("titel");
-        String beschreibung = context.formParam("beschreibung");
-        String backlogIdString = context.formParam("backlog");
-        String statusString = context.formParam("status");
-
-        int backlogId;
-        TaskStatus status;
-        try {
-            backlogId = Integer.parseInt(backlogIdString);
-        } catch (NumberFormatException e) {
-            backlogId = existing.get().backlogId();
-        }
-        try {
-            status = TaskStatus.itoStatus(Integer.parseInt(statusString));
-        } catch (Exception e) {
-            status = existing.get().status();
-        }
-
-        if (titel == null || titel.isBlank()) {
-            List<Backlog> backlogs = backlogService.getBacklogs();
-            UserStory us = existing.get();
-            Map<String, Object> model = new HashMap<>();
-            model.put("userStory", us);
-            model.put("backlogs", backlogs);
-            model.put("tasks", taskService.getTasksWithAssignmentForUserStory(id));
-            model.put("statusIsTodo", us.status() == TaskStatus.TODO);
-            model.put("statusIsInProgress", us.status() == TaskStatus.IN_PROGRESS);
-            model.put("statusIsCompleted", us.status() == TaskStatus.COMPLETED);
-            model.put("cancelPath", currentReturnPathOrFallback(context, "/backlog/" + us.backlogId()));
-            model.put("showErrorMessage", true);
-            context.render("templates/edit-user-story.mustache", model);
-            return;
-        }
-
-        UserStory updated = new UserStory(id, titel, beschreibung, existing.get().creatorId(), backlogId, status, 0);
-        userStoryService.updateUserStory(updated);
-        userStoryService.setTasksForUserStory(id, parseTaskIds(context));
-        context.redirect(resolveReturnPathAndClear(context, "/backlog/" + backlogId));
-    }
+    UserStory updated = new UserStory(id, titel, beschreibung, existing.get().creatorId(), backlogId, status, priorities, 0);
+    userStoryService.updateUserStory(updated);
+    userStoryService.setTasksForUserStory(id, parseTaskIds(context));
+    context.redirect(resolveReturnPathAndClear(context, "/backlog/" + backlogId));
+}
 
 }

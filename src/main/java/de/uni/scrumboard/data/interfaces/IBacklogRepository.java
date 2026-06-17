@@ -1,11 +1,12 @@
 package de.uni.scrumboard.data.interfaces;
 
 import java.util.List;
-
-import de.uni.scrumboard.data.Backlog;
-import de.uni.scrumboard.data.Timestamp;
-
 import java.util.Optional;
+
+import de.uni.scrumboard.data.Account;
+import de.uni.scrumboard.data.Backlog;
+import de.uni.scrumboard.data.BacklogAssignee;
+import de.uni.scrumboard.data.Timestamp;
 
 public interface IBacklogRepository {
 
@@ -23,4 +24,17 @@ public interface IBacklogRepository {
 
     Timestamp getLastUpdate(int backlogId);
 
+    List<BacklogAssignee> getAssigneesByBacklogId(int backlogId);
+    
+    boolean addAssigneeToBacklog(int backlogId, int assigneeId, String role);
+
+    boolean updateAssigneeRole(int backlogId, int assigneeId, String newRole);
+
+    boolean isUserAssignedToBacklog(int backlogId, int assigneeId);
+
+    int getProductOwnerIdByBacklogId(int backlogId);
+
+    List<Account> getAvailableUsersForBacklog(int backlogId);
+
+    boolean removeAssigneeFromBacklog(int backlogId, int assigneeId);
 }

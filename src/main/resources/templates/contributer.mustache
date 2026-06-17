@@ -1,0 +1,101 @@
+<div style="max-width: 1200px; margin: 2vh auto; font-family: Arial, sans-serif;">
+    
+    <div style="margin-bottom: 2rem; display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+        <h1>Scrum Board</h1>
+        <div>
+            <a href="/home" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Home</a>
+            <a href="/profile" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Profile</a>
+            <a href="/search-tasks" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Search</a>
+        </div>
+    </div>
+
+    <div style="margin-bottom: 2rem; display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+        <div>
+            <h2>{{backlog.bezeichnung}} – Assignees</h2>
+            <a href="/backlog/{{backlog.id}}" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;"> Zurück zum Backlog</a>
+        </div>
+        <div>
+            <a href="/backlog/{{backlog.id}}/assignees/add" style="background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;"> Assignee hinzufügen</a>
+        </div>
+    </div>
+
+    {{#backlogAssignees}}
+    <table style="width: 100%; border-collapse: collapse; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <thead>
+            <tr style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6;">
+                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #495057;">Benutzer</th>
+                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #495057;">E-Mail</th>
+                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #495057;">Rolle</th>
+                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #495057;">Aktion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#backlogAssignees}}
+            <tr style="border-bottom: 1px solid #dee2e6;">
+                <td style="padding: 12px 16px;">
+                    <strong>{{username}}</strong>
+                </td>
+                <td style="padding: 12px 16px; color: #495057;">{{email}}</td>
+                <td style="padding: 12px 16px;">
+                    <span style="background-color: 
+                        {{#isProductOwner}}#dc3545{{/isProductOwner}}
+                        {{#isScrumMaster}}#28a745{{/isScrumMaster}}
+                        {{#isDeveloper}}#17a2b8{{/isDeveloper}}
+                        {{^isProductOwner}}{{^isScrumMaster}}{{^isDeveloper}}#6c757d{{/isDeveloper}}{{/isScrumMaster}}{{/isProductOwner}}
+                        ; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; display: inline-block;">
+                        {{role}}
+                    </span>
+                </td>
+                <td style="padding: 12px 16px;">
+                    <a href="/backlog/{{backlog.id}}/assignees/remove/{{assigneeId}}" 
+                       style="color: #dc3545; text-decoration: none;"
+                       onclick="return confirm('Möchten Sie {{username}} wirklich aus dem Backlog entfernen?');">
+                        ✕ Entfernen
+                    </a>
+                </td>
+            </tr>
+            {{/backlogAssignees}}
+        </tbody>
+    </table>
+    {{/backlogAssignees}}
+   
+</div>
+
+<script>
+    const reloadDialog = document.getElementById("reload-dialog");
+    
+    function closeDialog() {
+        reloadDialog.close();
+    }
+
+    function reloadPage() {
+        window.location.reload();
+    }
+
+    const timestampOfLastCheckedUpdate = {{timestampOfLastCheckedUpdate}};
+    console.log("Initial timestamp: " + timestampOfLastCheckedUpdate);
+
+    function poll() {
+        console.log("Polling...");
+        fetch("/backlog/{{backlog.id}}/last-update")
+            .then((response) => {
+                if (response.status !== 200) {
+                    throw new Error("Fehler beim Abfragen des Zeitstempels des letzten Updates");
+                }
+                return response.json();
+            })
+            .then((response) => {
+                if (response.timestamp > timestampOfLastCheckedUpdate) {
+                    timestampOfLastCheckedUpdate = response.timestamp;
+                    reloadDialog.showModal();
+                } else {
+                    console.log("No Update: Timestamp -> " + response.timestamp);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    setInterval(poll, 2000);
+</script>
