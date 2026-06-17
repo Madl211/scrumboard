@@ -1,5 +1,5 @@
-<div style="max-width: 1200px; margin: 2vh auto; font-family: Arial, sans-serif;">
-    
+<div style="max-width: 1600px; margin: 2vh auto; font-family: Arial, sans-serif;">
+
     <div style="margin-bottom: 2rem; display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
         <h1>Scrum Board</h1>
         <div>
@@ -21,11 +21,11 @@
         </div>
     </div>
 
-    <div style="display: flex; gap: 1.5rem; align-items: flex-start;">
+    <div style="display: flex; gap: 1rem; align-items: flex-start;">
 
-        <div style="flex: 1; border: 1px solid #ccc; padding: 16px; min-height: 400px; background-color: #f9f9f9;">
+        <div style="flex: 1; min-width: 200px; border: 1px solid #ccc; padding: 16px; min-height: 400px; background-color: #f9f9f9;">
             <h2>Todo</h2>
-            
+
             <h3>User Stories</h3>
             {{#todoUserStories}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
@@ -70,9 +70,9 @@
             {{/todoTasks}}
         </div>
 
-        <div style="flex: 1; border: 1px solid #ccc; padding: 16px; min-height: 400px; background-color: #f9f9f9;">
+        <div style="flex: 1; min-width: 200px; border: 1px solid #ccc; padding: 16px; min-height: 400px; background-color: #f9f9f9;">
             <h2>In Progress</h2>
-            
+
             <h3>User Stories</h3>
             {{#inProgressUserStories}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
@@ -117,9 +117,103 @@
             {{/inProgressTasks}}
         </div>
 
-        <div style="flex: 1; border: 1px solid #ccc; padding: 16px; min-height: 400px; background-color: #f9f9f9;">
+        <div style="flex: 1; min-width: 200px; border: 1px solid #ccc; padding: 16px; min-height: 400px; background-color: #f9f9f9;">
+            <h2>Review</h2>
+
+            <h3>User Stories</h3>
+            {{#reviewUserStories}}
+            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
+                <strong>{{titel}}</strong>
+                <p>{{beschreibung}}</p>
+                <details style="margin-top: 8px;">
+                    <summary style="cursor: pointer; color: #555;">Tasks</summary>
+                    <div style="margin-top: 6px;">
+                        {{#tasks}}
+                        <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #eee;">
+                            <span>{{title}} ({{statusLabel}})</span>
+                            <a href="/edit-task/{{taskId}}">Bearbeiten</a>
+                        </div>
+                        {{/tasks}}
+                        {{^tasks}}
+                        <p style="color: #888;">Keine Tasks zugeordnet.</p>
+                        {{/tasks}}
+                    </div>
+                </details>
+                <div style="margin-top: 8px;">
+                    <a href="/edit-user-story/{{id}}">Bearbeiten</a>
+                </div>
+            </div>
+            {{/reviewUserStories}}
+            {{^reviewUserStories}}
+            <p>Keine User Stories vorhanden</p>
+            {{/reviewUserStories}}
+
+            <hr style="margin: 20px 0;">
+
+            <h3>Einzelne Tasks</h3>
+            {{#reviewTasks}}
+            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
+                <strong>{{title}}</strong>
+                <p>{{desc}}</p>
+                <p>Assignees: {{#assignees}}{{username}} {{/assignees}}</p>
+                <a href="/edit-task/{{taskId}}">Edit</a>
+            </div>
+            {{/reviewTasks}}
+            {{^reviewTasks}}
+            <p>Keine Tasks vorhanden</p>
+            {{/reviewTasks}}
+        </div>
+
+        <div style="flex: 1; min-width: 200px; border: 1px solid #ccc; padding: 16px; min-height: 400px; background-color: #f9f9f9;">
+            <h2>Test</h2>
+
+            <h3>User Stories</h3>
+            {{#testUserStories}}
+            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
+                <strong>{{titel}}</strong>
+                <p>{{beschreibung}}</p>
+                <details style="margin-top: 8px;">
+                    <summary style="cursor: pointer; color: #555;">Tasks</summary>
+                    <div style="margin-top: 6px;">
+                        {{#tasks}}
+                        <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #eee;">
+                            <span>{{title}} ({{statusLabel}})</span>
+                            <a href="/edit-task/{{taskId}}">Bearbeiten</a>
+                        </div>
+                        {{/tasks}}
+                        {{^tasks}}
+                        <p style="color: #888;">Keine Tasks zugeordnet.</p>
+                        {{/tasks}}
+                    </div>
+                </details>
+                <div style="margin-top: 8px;">
+                    <a href="/edit-user-story/{{id}}">Bearbeiten</a>
+                </div>
+            </div>
+            {{/testUserStories}}
+            {{^testUserStories}}
+            <p>Keine User Stories vorhanden</p>
+            {{/testUserStories}}
+
+            <hr style="margin: 20px 0;">
+
+            <h3>Einzelne Tasks</h3>
+            {{#testTasks}}
+            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
+                <strong>{{title}}</strong>
+                <p>{{desc}}</p>
+                <p>Assignees: {{#assignees}}{{username}} {{/assignees}}</p>
+                <a href="/edit-task/{{taskId}}">Edit</a>
+            </div>
+            {{/testTasks}}
+            {{^testTasks}}
+            <p>Keine Tasks vorhanden</p>
+            {{/testTasks}}
+        </div>
+
+        <div style="flex: 1; min-width: 200px; border: 1px solid #ccc; padding: 16px; min-height: 400px; background-color: #f9f9f9;">
             <h2>Done</h2>
-            
+
             <h3>User Stories</h3>
             {{#doneUserStories}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
