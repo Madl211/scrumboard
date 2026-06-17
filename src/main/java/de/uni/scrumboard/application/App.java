@@ -33,8 +33,8 @@ import de.uni.scrumboard.service.UserStoryService;
 import de.uni.scrumboard.service.interfaces.IUserStoryService;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinMustache;
-import io.javalin.websocket.WsConfig;
-import io.javalin.websocket.WsConnectContext;
+// import io.javalin.websocket.WsConfig;
+// import io.javalin.websocket.WsConnectContext;
 
 public class App implements IApp {
 
@@ -74,8 +74,6 @@ public class App implements IApp {
                         ctx.redirect("/home");
                     }
                 })
-
-                // HTTP HANDLEERS
 
                 .get("/forgot-password", authController::getForgotPassword)
                 .post("/forgot-password", authController::postForgotPassword)
@@ -123,16 +121,16 @@ public class App implements IApp {
                 .get("/showmessage", taskController::showMessage)
 
                 // WEBSOCKET
-                .ws("*", (WsConfig t) -> {
-                    t.onConnect(this::connectHandler);
-                })
+                // .ws("*", (WsConfig t) -> {
+                //     t.onConnect(this::connectHandler);
+                // })
 
                 .start(port);
     }
 
-    private void connectHandler(WsConnectContext ctx) {
-        System.out.println("Hallo!");
-    }
+    // private void connectHandler(WsConnectContext ctx) {
+    //     System.out.println("Hallo!");
+    // }
 
     private static void bootstrapApplication() {
         Properties applicationProperties = new Properties();
@@ -165,10 +163,8 @@ public class App implements IApp {
 
             profileController = new ProfileController(profileService);
             
-            // ========== HIER: DEINE VERSION MIT passwordResetService BEHALTEN ==========
             authController = new AuthController(accountService, profileService, passwordResetService);
             
-            // ========== HIER: DIE NEUEN VERSIONEN VON main BEHALTEN ==========
             homeController = new HomeController(backlogService);
             taskController = new TaskController(taskService, accountService, backlogService);
             backlogController = new BacklogController(backlogService, userStoryService, taskService);
