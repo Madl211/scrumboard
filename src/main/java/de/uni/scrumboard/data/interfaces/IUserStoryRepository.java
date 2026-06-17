@@ -20,4 +20,8 @@ public interface IUserStoryRepository {
 
     List<Map<String, Object>> getTasksByUserStoryId(int userStoryId);
 
+    int getProductownerIdByUserStoryId(int userStoryId);
+
+    int getUserStoryPriority(int userStoryId);
+
 }

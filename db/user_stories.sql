@@ -5,6 +5,7 @@ CREATE TABLE user_stories (
     creatorId INTEGER NOT NULL,
     backlogId INTEGER NOT NULL,
     lastUpdated INTEGER NOT NULL,
+    priorities INTEGER,
     FOREIGN KEY creatorId REFERENCES accounts(accountId),
     FOREIGN KEY backlogId REFERENCES backlogs(id)
 );

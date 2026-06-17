@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import de.uni.scrumboard.data.interfaces.IUserStoryRepository;
 import de.uni.scrumboard.data.UserStory;
+import de.uni.scrumboard.data.interfaces.IUserStoryRepository;
 import de.uni.scrumboard.service.interfaces.IUserStoryService;
 
 public class UserStoryService implements IUserStoryService {
@@ -46,4 +46,13 @@ public class UserStoryService implements IUserStoryService {
         return userStoryRepository.getTasksByUserStoryId(userStoryId);
     }
 
+    @Override
+    public int getProductOwnerByUserStoryId(int userStoryId) {
+        return userStoryRepository.getProductownerIdByUserStoryId(userStoryId);
+    }
+
+     @Override
+    public int getUserStoryPriority(int userStoryId) {
+        return userStoryRepository.getUserStoryPriority(userStoryId);
+    }
 }

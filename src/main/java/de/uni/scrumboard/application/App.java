@@ -8,15 +8,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-import de.uni.scrumboard.data.ResetTokenRepositoryImpl;
-import de.uni.scrumboard.data.ResetTokenRepository;
-import de.uni.scrumboard.data.PasswordResetToken;
-import de.uni.scrumboard.service.PasswordResetService;
-import de.uni.scrumboard.data.PasswordUtil;
 import de.uni.scrumboard.application.interfaces.IApp;
 import de.uni.scrumboard.data.AccountRepository;
 import de.uni.scrumboard.data.BacklogRepository;
 import de.uni.scrumboard.data.ProfileRepository;
+import de.uni.scrumboard.data.ResetTokenRepository;
+import de.uni.scrumboard.data.ResetTokenRepositoryImpl;
 import de.uni.scrumboard.data.TaskRepository;
 import de.uni.scrumboard.data.UserStoryRepository;
 import de.uni.scrumboard.data.interfaces.IUserStoryRepository;
@@ -29,6 +26,7 @@ import de.uni.scrumboard.presentation.UserStoryController;
 import de.uni.scrumboard.presentation.interfaces.IUserStoryController;
 import de.uni.scrumboard.service.AccountService;
 import de.uni.scrumboard.service.BacklogService;
+import de.uni.scrumboard.service.PasswordResetService;
 import de.uni.scrumboard.service.ProfileService;
 import de.uni.scrumboard.service.TaskService;
 import de.uni.scrumboard.service.UserStoryService;
@@ -104,6 +102,12 @@ public class App implements IApp {
                 .get("/backlog/{id}", backlogController::getBacklog)
                 .get("/backlog/{id}/last-update", backlogController::getLastUpdate)
 
+                .get("/backlog/{id}/assignees", backlogController::getBacklogAssignees)
+                .get("/backlog/{id}/assignees/add", backlogController::getAddBacklogAssignee)
+                .post("/backlog/{id}/assignees/add", backlogController::postAddBacklogAssignee)
+                .get("/backlog/{id}/assignees/remove/{assigneeId}", backlogController::postRemoveBacklogAssignee)   
+
+                
                 .get("/create-backlog", backlogController::getCreateBacklog)
                 .post("/create-backlog", backlogController::postCreateBacklog)
 
@@ -216,10 +220,11 @@ public class App implements IApp {
                             "estimatedTime INTEGER," +
                             "actualTime INTEGER," +
                             "status INTEGER," +
+                            "priorities INTEGER," +
                             "lastUpdated INTEGER NOT NULL," +
                             "FOREIGN KEY(creatorId) REFERENCES accounts(accountId)" +
                             ")");
-
+            
             statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS task_assignees (" +
                             "taskId INTEGER NOT NULL," +
@@ -252,12 +257,13 @@ public class App implements IApp {
                         creatorId INTEGER NOT NULL,
                         backlogId INTEGER NOT NULL,
                         status INTEGER NOT NULL DEFAULT 0,
+                        priorities INTEGER,
                         lastUpdated INTEGER NOT NULL,
                         FOREIGN KEY(creatorId) REFERENCES accounts(accountId),
                         FOREIGN KEY(backlogId) REFERENCES backlogs(id)
                     );""");
 
-            // ========== DEINE TABELLE (BEHALTEN) ==========
+        
             statement.executeUpdate("""
                 CREATE TABLE IF NOT EXISTS password_reset_tokens (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -274,6 +280,14 @@ public class App implements IApp {
                 CREATE INDEX IF NOT EXISTS idx_reset_token ON password_reset_tokens(token);
             """);
 
+            statement.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS backlog_assignees (
+                        backlogId INTEGER NOT NULL,
+                        assigneeid INTEGER NOT NULL,
+                        roles VARCHAR(255) NOT NULL, 
+                        FOREIGN KEY (assigneeid) references accounts(accountId),
+                        FOREIGN KEY(backlogId) REFERENCES backlogs(id)
+            );""");
            
             statement.executeUpdate("""
                     CREATE TABLE IF NOT EXISTS user_story_tasks (
@@ -284,11 +298,9 @@ public class App implements IApp {
                         FOREIGN KEY(taskId) REFERENCES tasks(taskId) ON DELETE CASCADE
                     );""");
 
-            // Migration: add status column to existing user_stories tables
             try {
                 statement.executeUpdate("ALTER TABLE user_stories ADD COLUMN status INTEGER NOT NULL DEFAULT 0");
             } catch (SQLException ignored) {
-                // Column already exists
             }
             
         } catch (SQLException e) {

@@ -22,7 +22,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
     @Override
     public Optional<Task> getTaskById(int taskId) {
         try (PreparedStatement sqlStatement = connection.prepareStatement(
-                "SELECT taskId, title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime, status, lastUpdated FROM tasks WHERE taskId = ?")) {
+                "SELECT taskId, title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime, status, priorities, lastUpdated FROM tasks WHERE taskId = ?")) {
             sqlStatement.setInt(1, taskId);
 
             try (ResultSet result = sqlStatement.executeQuery()) {
@@ -36,6 +36,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
                     Date created = result.getDate("createdDate");
                     int estimatedTime = result.getInt("estimatedTime");
                     int actualTime = result.getInt("actualTime");
+                    int priorities = result.getInt("priorities");  
                     TaskStatus status = TaskStatus.itoStatus(result.getInt("status"));
                     long lastUpdated = result.getLong("lastUpdated");
 
@@ -43,7 +44,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
                     List<Account> assignees = getAssigneesForTask(taskId);
 
                     Task task = new Task(id, title, desc, assignees, creator, start, due, created, estimatedTime,
-                            actualTime, status, lastUpdated);
+                            actualTime, status,priorities, lastUpdated);
                     return Optional.of(task);
                 }
                 return Optional.empty();
@@ -56,7 +57,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
     public List<Task> getAllTasks() {
         List<Task> tasks = new ArrayList<>();
         try (PreparedStatement sqlStatement = connection.prepareStatement(
-                "SELECT taskId, title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime, status, lastUpdated FROM tasks")) {
+                "SELECT taskId, title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime, status, priorities, lastUpdated FROM tasks")) {
 
             try (ResultSet result = sqlStatement.executeQuery()) {
                 while (result.next()) {
@@ -69,6 +70,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
                     Date created = result.getDate("createdDate");
                     int estimatedTime = result.getInt("estimatedTime");
                     int actualTime = result.getInt("actualTime");
+                    int priorities = result.getInt("priorities");  
                     TaskStatus status = TaskStatus.itoStatus(result.getInt(("status")));
                     long lastUpdated = result.getLong("lastUpdated");
 
@@ -76,7 +78,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
                     List<Account> assignees = getAssigneesForTask(id);
 
                     Task task = new Task(id, title, desc, assignees, creator, start, due, created, estimatedTime,
-                            actualTime, status, lastUpdated);
+                            actualTime, status, priorities,  lastUpdated);
                     tasks.add(task);
                 }
             }
@@ -89,7 +91,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
     @Override
     public boolean saveTask(Task task, int taskId) {
         try (PreparedStatement sqlStatement = connection.prepareStatement(
-                "INSERT INTO tasks(taskId, title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime, status, lastUpdated) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+                "INSERT INTO tasks(taskId, title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime, status, priorities, lastUpdated) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?) "
                         + "ON CONFLICT(taskId) DO UPDATE SET "
                         + "title = excluded.title, "
                         + "description = excluded.description, "
@@ -98,6 +100,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
                         + "estimatedTime = excluded.estimatedTime, "
                         + "actualTime = excluded.actualTime, "
                         + "status = excluded.status, "
+                        + "priorities = excluded.priorities, " 
                         + "lastUpdated = excluded.lastUpdated")) {
 
             sqlStatement.setInt(1, taskId);
@@ -110,7 +113,8 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
             sqlStatement.setInt(8, task.estimatedTime());
             sqlStatement.setInt(9, task.actualTime());
             sqlStatement.setInt(10, task.status().val);
-            sqlStatement.setLong(11, Instant.now().getEpochSecond());
+            sqlStatement.setInt(11, task.priorities());  
+            sqlStatement.setLong(12, Instant.now().getEpochSecond());
 
             sqlStatement.executeUpdate();
 
@@ -130,7 +134,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
         long timestamp_of_now = Instant.now().getEpochSecond();
 
         try (PreparedStatement sqlStatement = connection.prepareStatement(
-                "INSERT INTO tasks(title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime, status, lastUpdated) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO tasks(title, description, creatorId, startDate, dueDate, createdDate, estimatedTime, actualTime, status, priorities, lastUpdated) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 Statement.RETURN_GENERATED_KEYS)) {
             sqlStatement.setString(1, title);
             sqlStatement.setString(2, desc);
@@ -141,7 +145,8 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
             sqlStatement.setInt(7, estimatedTime);
             sqlStatement.setInt(8, actualTime);
             sqlStatement.setInt(9, status.val);
-            sqlStatement.setLong(10, timestamp_of_now);
+            sqlStatement.setInt(10, 0); 
+            sqlStatement.setLong(11, timestamp_of_now);
 
             int affectedRows = sqlStatement.executeUpdate();
             if (affectedRows == 0) {
@@ -152,7 +157,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
                 if (generatedKeys.next()) {
                     int generatedTaskId = generatedKeys.getInt(1);
                     Task task = new Task(generatedTaskId, title, desc, assignees, creator, start, due, created,
-                            estimatedTime, actualTime, status, timestamp_of_now);
+                            estimatedTime, actualTime, status, 0, timestamp_of_now);
                     saveAssigneesForTask(generatedTaskId, assignees);
                     return task;
                 }
@@ -275,18 +280,19 @@ public List<Task> getTasksWithoutAssignmentForUserStory(int backlogId) {
     List<Task> tasks = new ArrayList<>();
 
     String sql = """
-        SELECT t.taskId, t.title, t.description, t.creatorId,
-               t.startDate, t.dueDate, t.createdDate,
-               t.estimatedTime, t.actualTime, t.status, t.lastUpdated
-        FROM tasks t
-        JOIN backlog_tasks bt ON t.taskId = bt.taskId
-        WHERE bt.backlogId = ?
-        AND NOT EXISTS (
-            SELECT 1
-            FROM user_story_tasks ust
-            WHERE ust.taskId = t.taskId
-        )
-        """;
+            SELECT t.taskId, t.title, t.description, t.creatorId,
+                   t.startDate, t.dueDate, t.createdDate,
+                   t.estimatedTime, t.actualTime, t.status, t.priorities, t.lastUpdated
+            FROM tasks t
+            JOIN backlog_tasks bt ON t.taskId = bt.taskId
+            WHERE bt.backlogId = ?
+            AND NOT EXISTS (
+                SELECT 1
+                FROM user_story_tasks ust
+                WHERE ust.taskId = t.taskId
+            )
+            """;
+
 
     try (PreparedStatement stmt = connection.prepareStatement(sql)) {
         stmt.setInt(1, backlogId);
@@ -304,6 +310,7 @@ public List<Task> getTasksWithoutAssignmentForUserStory(int backlogId) {
                 int estimatedTime = result.getInt("estimatedTime");
                 int actualTime = result.getInt("actualTime");
                 TaskStatus status = TaskStatus.itoStatus(result.getInt("status"));
+                int priorities = result.getInt("priorities");  
                 long lastUpdated = result.getLong("lastUpdated");
 
                 Account creator = getAccountById(creatorId);
@@ -312,7 +319,7 @@ public List<Task> getTasksWithoutAssignmentForUserStory(int backlogId) {
                 Task task = new Task(
                         id, title, desc, assignees, creator,
                         start, due, created,
-                        estimatedTime, actualTime, status, lastUpdated
+                        estimatedTime, actualTime, status, priorities, lastUpdated
                 );
 
                 tasks.add(task);
@@ -376,6 +383,7 @@ public List<Task> getTasksWithoutAssignmentForUserStory(int backlogId) {
                     int estimatedTime = result.getInt("estimatedTime");
                     int actualTime = result.getInt("actualTime");
                     TaskStatus status = TaskStatus.itoStatus(result.getInt("status"));
+                    int priorities = result.getInt("priorities");  
                     long lastUpdated = result.getLong("lastUpdated");
 
                     Account creator = getAccountById(creatorId);
@@ -384,7 +392,7 @@ public List<Task> getTasksWithoutAssignmentForUserStory(int backlogId) {
                     Task task = new Task(
                             id, title, desc, assignees, creator,
                             start, due, created,
-                            estimatedTime, actualTime, status, lastUpdated);
+                            estimatedTime, actualTime, status, priorities, lastUpdated);
 
                     tasks.add(task);
                 }
@@ -418,10 +426,11 @@ public List<Task> getTasksWithoutAssignmentForUserStory(int backlogId) {
                     int actualTime = result.getInt("actualTime");
                     TaskStatus status = TaskStatus.itoStatus(result.getInt("status"));
                     Account creator = getAccountById(creatorId);
+                    int priorities = result.getInt("priorities");  
                     List<Account> assignees = getAssigneesForTask(id);
                     long lastUpdated = result.getLong("lastUpdated");
                     tasks.add(new Task(id, title, desc, assignees, creator, start, due, created, estimatedTime,
-                            actualTime, status, lastUpdated));
+                            actualTime, status, priorities, lastUpdated));
                 }
             }
         } catch (SQLException e) {

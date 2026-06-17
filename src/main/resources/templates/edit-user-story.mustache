@@ -2,6 +2,7 @@
     <h1>Edit User Story</h1>
     
     <form action="/edit-user-story/{{userStory.id}}" method="post" style="display: flex; flex-direction: column; gap: 1rem;">
+        
         <div>
             <label for="titel" style="display: block; margin-bottom: 0.5rem;">Titel:</label>
             <input type="text" id="titel" name="titel" value="{{userStory.titel}}" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
@@ -34,13 +35,48 @@
             <label for="backlog" style="display: block; margin-bottom: 0.5rem;">Backlog:</label>
             <select name="backlog" id="backlog" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                 {{#backlogs}}
-                    <option value="{{id}}">{{bezeichnung}}</option>
+                    <option value="{{id}}" {{#selected}}selected{{/selected}}>{{bezeichnung}}</option>
                 {{/backlogs}}
             </select>
         </div>
 
+        <div>
+            <label style="display: block; margin-bottom: 0.5rem;">Priorität:</label>
+            
+            {{#isProductOwner}}
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <div>
+                        <input type="radio" id="priorityLow" name="priority" value="0" {{#priorityLow}}checked{{/priorityLow}}>
+                        <label for="priorityLow">Niedrig</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="priorityMedium" name="priority" value="1" {{#priorityMedium}}checked{{/priorityMedium}}>
+                        <label for="priorityMedium">Mittel</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="priorityHigh" name="priority" value="2" {{#priorityHigh}}checked{{/priorityHigh}}>
+                        <label for="priorityHigh">Hoch</label>
+                    </div>
+                </div>
+            {{/isProductOwner}}
+            
+            {{^isProductOwner}}
+                <div style="padding: 8px; background-color: #f5f5f5; border-radius: 4px; border: 1px solid #ddd;">
+                    {{#priorityLow}}Niedrig{{/priorityLow}}
+                    {{#priorityMedium}}Mittel{{/priorityMedium}}
+                    {{#priorityHigh}}Hoch{{/priorityHigh}}
+                    <span style="font-size: 0.8rem; color: #888; margin-left: 10px;">
+                        (Nur Product Owner kann ändern)
+                    </span>
+                </div>
+                <input type="hidden" name="priority" value="{{priority}}">
+            {{/isProductOwner}}
+        </div>
+
         {{#showErrorMessage}}
-            <div style="color: red;">Der Titel darf nicht leer sein.</div>
+            <div style="color: red; background-color: #f8d7da; padding: 10px; border-radius: 4px; border: 1px solid #f5c6cb;">
+                Der Titel darf nicht leer sein.
+            </div>
         {{/showErrorMessage}}
 
         <div>
