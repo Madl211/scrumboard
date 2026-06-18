@@ -7,7 +7,7 @@ import de.uni.scrumboard.data.enums.TaskStatus;
 
 public record Task(int taskId, String title, String desc, List<Account> assignees, Account creator, Date start,
         Date due,
-        Date created, int estimatedTime, int actualTime, TaskStatus status,int priorities, long lastUpdated) {
+        Date created, int estimatedTime, int actualTime, TaskStatus status, int priorities, long lastUpdated) {
 
     public int priorities() {
         return priorities;
@@ -61,19 +61,18 @@ public record Task(int taskId, String title, String desc, List<Account> assignee
         return lastUpdated;
     }
 
-
-     public boolean isPriorityLow() {
+    public boolean isPriorityLow() {
         return priorities == 0;
     }
-    
+
     public boolean isPriorityMedium() {
         return priorities == 1;
     }
-    
+
     public boolean isPriorityHigh() {
         return priorities == 2;
     }
-    
+
     public String getPriorityCount() {
         return switch (priorities) {
             case 0 -> "Niedrig";

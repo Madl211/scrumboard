@@ -214,6 +214,8 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
             .map(id -> "/backlog/" + id)
             .orElse("/home");
         model.put("cancelPath", currentReturnPathOrFallback(context, editFallbackPath));
+        model.put("underEstimate", t.estimatedTime() > t.actualTime());
+        model.put("percentage", (t.estimatedTime() > t.actualTime()) ? (int) ((t.actualTime() / (float) t.estimatedTime()) * 100) : (int) ((t.estimatedTime() / (float) t.actualTime()) * 100));
 
         context.render("templates/edit-task.mustache", model);
         // button zum kriegen der Daten über die Task
@@ -245,6 +247,7 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         String startDateStr = context.formParam("startDate");
         String dueDateStr = context.formParam("dueDate");
         String estimatedTimeStr = context.formParam("estimatedTime");
+        String realTimeStr = context.formParam("realTime");
         String[] assigneeIdsStr = context.formParamMap().getOrDefault("assignees", List.of()).toArray(new String[0]);
 
         List<Integer> assigneeIds = Arrays.stream(assigneeIdsStr)
@@ -258,6 +261,7 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         java.util.Date startDate = null;
         java.util.Date dueDate = null;
         int estimatedTime = 0;
+        int realTime = 0;
 
         int statusInt = Integer.valueOf(context.formParam("status"));
         if (statusInt < 0 || statusInt > 4)
@@ -271,6 +275,8 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
                 dueDate = dateFormat.parse(dueDateStr);
             if (estimatedTimeStr != null && !estimatedTimeStr.isEmpty())
                 estimatedTime = Integer.parseInt(estimatedTimeStr);
+            if (realTimeStr != null && !realTimeStr.isEmpty())
+                realTime = Integer.parseInt(realTimeStr);
         } catch (ParseException | NumberFormatException e) {
             context.status(400).result("Invalid date or number format");
             return;
@@ -297,7 +303,7 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
             dueDate,
             existing.created(),
             estimatedTime,
-            existing.actualTime(),
+            realTime,
             status,
             priorities,
             existing.lastUpdated()
@@ -343,6 +349,7 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         // ID
 
     }
+
     @Override
     public void SearchTask(Context context){
         String filterParam = context.queryParam("filter");
@@ -355,8 +362,15 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         model.put("tasks", tasks);
         context.render("templates/search.mustache", model);
     }
+
     @Override
     public void showMessage(Context context){
+        Integer accountId = context.sessionAttribute("accountId");
+        if (accountId == null) {
+            context.redirect("/home");
+            return;
+        }
+
         List<Task> tasks = taskService.checkwhendue();
         Map<String, Object> model = new HashMap<>();
         model.put("tasks", tasks);
