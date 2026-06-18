@@ -105,7 +105,17 @@ Beim Aufruf von \texttt{GET /edit-user-story/\{id\}} lädt der \texttt{UserStory
 	\label{fig:sequenzdiagramm_s3_2}
 \end{figure}
 
-\subsubsection{Modellierung fuer die Anforderung 12.1: Aktualisierung bei Veränderungen}
+\subsubsection{Modellierung für User Stories S8.2 und S8.3: Real Time Tracking und Visualisierung}
+\paragraph{Modellierung verfeinerter Struktur}
+Zur Implementierung dieser User Story wurde die Struktur des Projektes nicht beeinflusst. Es wurden lediglich Änderungen am Template und innerhalb der \texttt{getEditTask} und \texttt{postEditTask} Methoden des \texttt{TaskController} vorgenommen. 
+
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+Zur Implementierung dieser User Story wurden Interfaces und Datenstrukturen nicht bearbeitet. Das benötigte \texttt{actualTime} Feld war zum Zeitpunkt der Implementation bereits vorhanden und vollständig in allen Schichten unterhalb des Presentation-Layers implementiert.
+
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+Beim Aufruf von \texttt{GET /edit-task/\{id\}} wird der gespeicherte Wert (sonst 0) abgerufen und in dem neu erstellten Feld innerhalb des vorhandenen Formulars angezeigt. Bei Änderung und entsprechendem Aufruf von \texttt{POST /edit-task/\{id\}} wird der neue Wert in die Datenbank übertragen und gespeichert. Zusätzlich dazu wird unterhalb des Formulars in einem einfachen Balkendiagramm, welches bei Aufruf von \texttt{GET /edit-task/\{id\}} berechnet wird (sich also nicht bei Modifikation der Werte aktualisiert), die Differenz zwischen Schätzung und tatsächlich benötigter Zeit (\texttt{estimate} und \texttt{actual}) gezeigt.
+
+\subsubsection{Modellierung für die Anforderung 12.1: Aktualisierung bei Veränderungen}
 \paragraph{Modellierung verfeinerter Struktur}
 Die Schnitstelle des Backends muss um einen Pfad erweitert werden.
 Der Aufruf der Methode \textit{GET /backlog/\{id\}/last-update} soll einen UNIX-Zeitstempel zurückgeben, welcher den Zeitpunkt der letzten Aktualisierung einer User-Story oder einer Task in dem aktuellen Backlog darstellt.
