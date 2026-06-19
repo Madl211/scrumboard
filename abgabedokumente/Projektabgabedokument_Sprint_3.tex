@@ -35,14 +35,12 @@
 \section{Backlogs und Planung}
 
 \subsection{Produktbacklog vor und nach dem Sprint}
-In diesem Sprint haben wir dem Produktbacklog neue Aufgaben hinzugefügt, welche dem Refactoring der grafischen Oberfläche dienen.
-Diese Abarbeitung dieser Aufgaben ist nötig, da in den vergangenen Sprints zu wenig auf eine einheitliche Gestaltung geachtet wurde.
-Konkret sind das die Aufgaben Refactoring Startseite, Refactoring Profilseite, TODO!!!.
+Das Produktbacklog hat sich im Vergleich zum letzten Sprint nicht verändert.
 
 \subsection{Sprint Planung}
 Im letzten Sprint wurden folgende User Stories vollständig umgesetzt: S2.1, S4.3, S4.1, S9.1, S9.2, TODO. \\
 Das Ergebnis war ein lauffähiger Prototyp, in welchem die User Stories der ersten beiden Sprints umgesetzt sind.\\
-In diesem Sprint planen wir alle restlichen User Stories umzusetzen, damit im letzten Sprint bei Bedarf ein Refactoring stattfinden kann.
+In diesem Sprint planen wir alle restlichen User Stories umzusetzen, damit im letzten Sprint bei Bedarf ein Refactoring und die Vorbereitung des Vortrags stattfinden kann.
 
 \noindent\textit{Hinweis: Das vollständige Sprintbacklog ist unter \href{run:./Sprintbacklog.pdf}{Sprintbacklog.pdf}, sowie \href{https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/uebung3/team3/projekt-team3-uebung3/-/blob/main/abgabedokumente/Sprintbacklog.pdf?ref_type=heads}{im Gitlab} zu finden.}
 
@@ -108,7 +106,7 @@ Beim Aufruf von \texttt{GET /edit-user-story/\{id\}} lädt der \texttt{UserStory
 
 \subsubsection{Modellierung für User Stories S8.2 und S8.3: Real Time Tracking und Visualisierung}
 \paragraph{Modellierung verfeinerter Struktur}
-Zur Implementierung dieser User Story wurde die Struktur des Projektes nicht beeinflusst. Es wurden lediglich Änderungen am Template und innerhalb der \texttt{getEditTask} und \texttt{postEditTask} Methoden des \texttt{TaskController} vorgenommen. 
+Zur Implementierung dieser User Story wurde die Struktur des Projektes nicht beeinflusst. Es wurden lediglich Änderungen am Template und innerhalb der \texttt{getEditTask} und \texttt{postEditTask} Methoden des \texttt{TaskController} vorgenommen.
 
 \paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
 Zur Implementierung dieser User Story wurden Interfaces und Datenstrukturen nicht bearbeitet. Das benötigte \texttt{actualTime} Feld war zum Zeitpunkt der Implementation bereits vorhanden und vollständig in allen Schichten unterhalb des Presentation-Layers implementiert.
@@ -173,7 +171,7 @@ Bei der Umsetzung dieser Userstory hat keine Veränderung, die das grundlegende 
 	\centering
 	\includegraphics[width=\textwidth]{S3_3_Klassendiagramm_copy.png}
 	\caption{Erweitertes Klassendiagramm der Klasse Task}
-	\label{fig:sequenzdiagramm_s3_3}
+	\label{fig:klassendiagramm_s3_3}
 \end{figure}
 
 
@@ -207,14 +205,14 @@ Dazu wurde im Presentation Layer im UserStoryController das Attribut priorities 
 
 
 \paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
-Neu hinzugekommen ist die Tabelle backlogassignees in backlogs.sql, um die Accounttabelle mit der Backlogtabelle verbinden zu können. Das ermöglicht eine Zuweisung von Accounts zu Backlogs inklusive Rollenzuweisung.Des Weiteren wurden im Data-Layer die Methoden getAssigneesByBacklogId, addAssigneeToBacklog, removeAssigneeFromBacklog, updateAssigneeRole, isUserAssignedToBacklog, getProductOwnerIdByBacklogId und getAvailableUsersForBacklog im Backlogrepository hinzugefügt um Accounts zu Backlogs zuweisen zu können, aber auch direkt zugehörige Rollen zuweisen zu können. 
-Sonst wurden nur Nuancen verändert, wie die zusätzliche Übergabe des priorities Parameters.  
+Neu hinzugekommen ist die Tabelle backlogassignees in backlogs.sql, um die Accounttabelle mit der Backlogtabelle verbinden zu können. Das ermöglicht eine Zuweisung von Accounts zu Backlogs inklusive Rollenzuweisung.Des Weiteren wurden im Data-Layer die Methoden getAssigneesByBacklogId, addAssigneeToBacklog, removeAssigneeFromBacklog, updateAssigneeRole, isUserAssignedToBacklog, getProductOwnerIdByBacklogId und getAvailableUsersForBacklog im Backlogrepository hinzugefügt um Accounts zu Backlogs zuweisen zu können, aber auch direkt zugehörige Rollen zuweisen zu können.
+Sonst wurden nur Nuancen verändert, wie die zusätzliche Übergabe des priorities Parameters.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{S2_2_Klassendiagramm.png}
 	\caption{Funktion der Backloglogik}
-	\label{fig:sequenzdiagramm_s2_2}
+	\label{fig:klassendiagramm_s2_2}
 \end{figure}
 
 \paragraph{Modellierung relevanter Verhaltensaspekte}
@@ -254,51 +252,52 @@ An den genutzten Technologien wurden keine Änderungen vorgenommen.
 
 
 \subsection{Tracing}
+Für jede User Story und Anforderung wurde ein neuer Branch im Gitlab angelegt.
+Nach Fertigstellung der Implementierung wurde der Branch in den main-Branch gemergt.
+Eine Liste aller umgesetzten User Stories und Anforderungen mit dem dazugehörigen Merge-Commit ist Tabelle \ref{tab:tracing} zu entnehmen.
+
+\begin{table}
+	\centering
+	\small
+	\renewcommand{\arraystretch}{1.4}
+	\begin{tabular}{| p{3.5cm} | p{10cm} |}
+		\hline
+		\textbf{User Story}                                                                                   & \textbf{Hash des Merge-Commits}          \\
+		\hline
+		\textbf{S1.3} - Passwörter zurücksetzen                                                               & 645b6bdf9be433881b46e36796b4e38061d89a35 \\
+		\hline
+		\textbf{S2.2} - User Stories Prioritäten zuweisen                                                     & b28c8aa96ab0ba09bec59b3b5fa35cfd82e844d4 \\
+		\hline
+		\textbf{S3.2} - Verlinkung Tasks und User Stories                                                     & 41c1803c2c2124f2163909d346c59c24d1abdd9b \\
+		\hline
+		\textbf{S3.3} - Tasks Prioritäten zuweisen                                                            & 1cc6ef03e7e3cded81b077bc9c996d531c680689 \\
+		\hline
+		\textbf{S6.2} - Anzeige der Zuordnung von Nutzern zu Tasks im Board                                   & 21ead934b373bf88060ebe66d4e3e9d8046dc7c5 \\
+		\hline
+		\textbf{S8.2} - Erfassung der tatsächlichen Bearbeitungszeit einer Task                               & 1d7834ef0a36b19ba76e412e8a344784b515d44d \\
+		\hline
+		\textbf{S8.3} - Visualisierung der Abweichungen zwischen Schätzung und tatsächlicher Bearbeitungszeit & 1d7834ef0a36b19ba76e412e8a344784b515d44d \\
+		\hline
+		\textbf{S10.1} - Benachrichtigung bei dringend zu erledigenden Tasks                                  & fcfb914c6824dbca01a1c8cc4a9f169e95f0e1c0 \\
+		\hline
+		\textbf{Anforderung 12.1} - Automatische Anzeige von Änderungen                                       & 7e01342e38ad0ed779556adefe093700ada11161 \\
+		\hline
+	\end{tabular}
+	\caption{Tracing: Hash der Merge-Commits der umgesetzten User Stories und Anforderungen}
+	\label{tab:tracing}
+\end{table}
 
 
 \subsection{Laufender Prototyp}
 
 
 \subsubsection*{Installations- und Kompilieranweisung}
+Die Installations- und Kompilieranweisung ist im \href{https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/uebung3/team3/projekt-team3-uebung3/-/blob/main/README.md?ref_type=heads}{Gitlab} zu finden.
 
-Im Folgenden wird beschrieben, wie man den Prototypen kompilieren kann:
-
-\textbf{Voraussetzungen:}
-\begin{itemize}
-	\item Java 21 oder höher (getestet unter Windows 11 und Ubuntu 24.04)
-	\item Apache Maven 3.9 oder höher
-	\item SQLite (keine separate Installation nötig -- der JDBC-Treiber ist im Build enthalten)
-\end{itemize}
-
-\textbf{Schritt 1 -- Repository klonen:}
-\begin{verbatim}
-git clone https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/
-    uebung3/team3/projekt-team3-uebung3.git
-cd projekt-team3-uebung3
-\end{verbatim}
-
-\textbf{Schritt 2 -- Konfigurationsdatei anpassen:}
-
-Die Datei \texttt{src/main/resources/application.properties} enthält den Parameter \texttt{database.url}.
-Dieser muss auf einen gültigen Pfad zur SQLite-Datenbankdatei gesetzt werden, z.\,B.:
-\begin{verbatim}
-database.url=jdbc:sqlite:/home/user/scrumboard.db
-\end{verbatim}
-Die Datenbankdatei wird beim ersten Start automatisch angelegt.
-
-\textbf{Schritt 3 -- Projekt bauen:}
-\begin{verbatim}
-mvn package
-\end{verbatim}
-
-\textbf{Schritt 4 -- Anwendung starten:}
-\begin{verbatim}
-java -jar target/scrumboard-1.0-SNAPSHOT.jar
-\end{verbatim}
-
-Die Anwendung ist anschließend im Browser unter localhost erreichbar.
 
 \subsection{Abweichung Sprintplanung}
+Der Plan in diesem Sprint war es, alle restlichen Anforderungen und User Stories umzusetzen.
+Es wurden alle Anforderungen und User Stories implementiert, so dass der Plan vollständig erfüllt wurde.
 
 
 \end{document}
