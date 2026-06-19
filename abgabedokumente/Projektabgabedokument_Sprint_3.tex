@@ -120,7 +120,7 @@ Die Schnitstelle des Backends muss um einen Pfad erweitert werden.
 Der Aufruf der Methode \textit{GET /backlog/\{id\}/last-update} soll einen UNIX-Zeitstempel zurückgeben, welcher den Zeitpunkt der letzten Aktualisierung einer User-Story oder einer Task in dem aktuellen Backlog darstellt.
 Hierfür wird in den Klassen \textit{BacklogController}, \textit{BacklogService} und \textit{BacklogRepository} die Methode \textit{getLastUpdate(backlogId)} benötigt.
 Das Klassendiagramm in Abbildung \ref{fig:klassendiagramm_12_1} zeigt diese Erweiterung.
-\begin{figure}[H]
+\begin{figure}
 	\centering
 	\includegraphics[width=\textwidth]{anforderung_12_1_klassendiagramm.png}
 	\caption{Klassendiagramm für die Anforderung 12.1}
@@ -136,10 +136,10 @@ Außerdem müssen die Klassen \textit{UserStory} und \textit{Task} erweitert wer
 Beide Klassen erhalten ein neues Attribut namens \textit{lastUpdated}.
 Dieses Attribut repräsentiert den Zeitpunkt der letzten Aktualisierung und ist ein UNIX-Zeitstempel.
 Die Abbildung \ref{fig:datenstrukturen_12_1} zeigt die angesprochenen Erweiterungen.
-\begin{figure}[H]
+\begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{anforderung_12_1_klassendiagramm.png}
-	\caption{Klassendiagramm für die Anforderung 12.1}
+	\includegraphics[width=6cm]{anforderung_12_1_datenstrukturen.png}
+	\caption{Datenstrukturen für die Anforderung 12.1}
 	\label{fig:datenstrukturen_12_1}
 \end{figure}
 
@@ -147,7 +147,7 @@ Die Abbildung \ref{fig:datenstrukturen_12_1} zeigt die angesprochenen Erweiterun
 \paragraph{Modellierung relevanter Verhaltensaspekte}
 Die Anforderung erfordert, dass in einem Zeitabstand von zwei Sekunden, überprüft wird, ob sich eine User-Story oder eine Task im aktuellen Backlog verändert hat.
 Der Ablauf wird im Sequenzdiagramm in Abbildung \ref{fig:sequenzdiagramm_12_1} dargestellt.
-\begin{figure}[H]
+\begin{figure}
 	\centering
 	\includegraphics[width=\textwidth]{anforderung_12_1_sequenzdiagramm.png}
 	\caption{Klassendiagramm für die Anforderung 12.1}
@@ -230,25 +230,16 @@ Nur wenn der Benutzer Product Owner ist und der übermittelte Prioritätswert im
 \end{figure}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 \section{Implementation und Tests}
 \subsection{Updates zu den genutzen Technologien}
 An den genutzten Technologien wurden keine Änderungen vorgenommen.
 
 
 \subsection{Dokumentation der Codequalität}
+In diesem Sprint haben wir uns entschieden, die Korrektheit der Implementierung manuell zu überprüfen.
+Hierbei hat jeder Entwickler vor der Implementierung einer User Story einen dazugehörigen Testfall oder mehrere dazugehörige Testfälle erstellt.
+Ein Testfall besteht aus Test ID, dem Ziel des Tests, der Rolle, in welcher der Test ausgeführt werden soll, der Beschreibung des zu testenden Verhaltens und dem Ergebnis des Tests zum Ende des Sprints.
+Die Gesamtheit aller Testfälle ist im \href{https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/uebung3/team3/projekt-team3-uebung3/-/blob/main/abgabedokumente/Manuelle_Tests.pdf?ref_type=heads}{Gitlab} zu finden.
 
 
 \subsection{Tracing}
@@ -289,7 +280,7 @@ Eine Liste aller umgesetzten User Stories und Anforderungen mit dem dazugehörig
 
 
 \subsection{Laufender Prototyp}
-
+Der aktuelle Prototyp erfüllt alle im Dokument \href{https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/uebung3/team3/projekt-team3-uebung3/-/blob/main/anforderungen/anforderungen.pdf?ref_type=heads}{Anforderungen} genannten Anforderungen.
 
 \subsubsection*{Installations- und Kompilieranweisung}
 Die Installations- und Kompilieranweisung ist im \href{https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/uebung3/team3/projekt-team3-uebung3/-/blob/main/README.md?ref_type=heads}{Gitlab} zu finden.
