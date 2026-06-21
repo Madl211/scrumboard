@@ -51,7 +51,7 @@ In diesem Sprint planen wir alle restlichen User Stories umzusetzen, damit im le
 Die Struktur des Systems bleibt weitestgehend ungeändert. Eine neue Seite Urgent, welche Tasks anzeigt, die bald beendet werden müssen, wurde im Frontend hinzugefügt. Außerdem wurde ein Popup Fenster hinzufefügt, dass den User auf der Home Seite darauf hinweist, sich die fälligen Tasks auf der Urgent Seite anzusehen.
 \paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
 Der TaskController erhält eine Methode, die den TaskService aufruft und das Ergebnis an die Urgent Seite übergibt, sodass dieses dargestellt werden kann. Der TaskService bekommt eine Methode, die das TaskRepository zweimal aufruft. Einmal um alle Tasks zu erhalten über die alte Methode getallTasks() und beim zweiten mal wird die checkwhendue() Methode im TaskRepository aufgerufen, die die Tasks in der Liste nach ihrer Fälligkeit untersucht. \par
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=10cm]{10.1.1.png}
 	\caption{Klassendiagramm für User Story S10.1}
@@ -61,7 +61,7 @@ Der TaskController erhält eine Methode, die den TaskService aufruft und das Erg
 \paragraph{Modellierung relevanter Verhaltensaspekte}
 Der User bekommt eine automatische Nachricht(Popup), das ihn darauf hinweist, die Urgent Seite zu besuchen, um zu sehen, welche Tasks bald beendet werden müssen. Sobald er die Seite aufruft wird showMessage() im TaskController aufgerufen und somit checkwhendue() im TaskService.
 Der TaskService ruft nun im TaskRepository die Methode getallTasks() auf und verwendet das Zwischenergebnis als Argument für die Methode checkwhendue(List), die sich ebenfalls im TaskRepository befindet. Diese sorgt dafür, dass nur die Tasks, die innerhalb von einer Woche fällig sind, in der Liste bleiben und dass diese nach Fälligkeit sortiert sind. Das Ergebnis wird anschließend weitergeleitet, bis die Tasks dem User angezeigt werden.
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=10cm]{10.1.2.png}
 	\caption{Sequenzdiagramm für User Story S10.1}
@@ -75,7 +75,7 @@ Im \textbf{Presentation Layer} wurden \texttt{getEditUserStory} und \texttt{post
 Im \textbf{Service Layer} wurden \textbf{IUserStoryService} und \textbf{UserStoryService} um \texttt{setTasksForUserStory(int, List)} und \texttt{getTasksByUserStoryId(int)} ergänzt. \textbf{ITaskService} und \textbf{TaskService} erhielten \texttt{getTasksWithAssignmentForUserStory(int)}.\\
 Im \textbf{Data Layer} wurden dieselben Methoden in \textbf{IUserStoryRepository}, \textbf{UserStoryRepository}, \textbf{ITaskRepository} und \textbf{TaskRepository} implementiert. \texttt{setTasksForUserStory} verwaltet die Verknüpfungstabelle \texttt{user\_story\_tasks} via DELETE + INSERT.
 
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=10cm]{s3_2_klassendiagramm.png}
 	\caption{Klassendiagramm für User Story S3.2}
@@ -86,7 +86,7 @@ Im \textbf{Data Layer} wurden dieselben Methoden in \textbf{IUserStoryRepository
 
 Neu hinzugekommen ist die Verknüpfungstabelle \textbf{user\_story\_tasks} mit den Feldern \texttt{userStoryId} und \texttt{taskId}, die die m:n-Beziehung zwischen User Stories und Tasks speichert. Die Klasse \textbf{UserStory} selbst bleibt strukturell unverändert. Analog zu Tasks besitzt sie ein \texttt{status}-Feld vom Typ \textbf{TaskStatus}, wodurch die Darstellung im Backlog-Board identisch zu der bisherigen Task-Darstellung ist.
 
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=10cm]{s3_2_datenstrukturen.png}
 	\caption{Datenstrukturdiagramm für User Story S3.2}
@@ -97,7 +97,7 @@ Neu hinzugekommen ist die Verknüpfungstabelle \textbf{user\_story\_tasks} mit d
 
 Beim Aufruf von \texttt{GET /edit-user-story/\{id\}} lädt der \texttt{UserStoryController} die User Story sowie alle Tasks mit \texttt{isAssigned}-Flag und rendert das Formular. Beim \texttt{POST} werden Stammdaten aktualisiert und die Task-Verlinkungen über \texttt{setTasksForUserStory} neu gesetzt. Anschließend erfolgt eine Weiterleitung zum Backlog-Board.
 
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=10cm]{s3_2_sequenzdiagramm.png}
 	\caption{Sequenzdiagramm für User Story S3.2}
@@ -120,7 +120,7 @@ Die Schnitstelle des Backends muss um einen Pfad erweitert werden.
 Der Aufruf der Methode \textit{GET /backlog/\{id\}/last-update} soll einen UNIX-Zeitstempel zurückgeben, welcher den Zeitpunkt der letzten Aktualisierung einer User-Story oder einer Task in dem aktuellen Backlog darstellt.
 Hierfür wird in den Klassen \textit{BacklogController}, \textit{BacklogService} und \textit{BacklogRepository} die Methode \textit{getLastUpdate(backlogId)} benötigt.
 Das Klassendiagramm in Abbildung \ref{fig:klassendiagramm_12_1} zeigt diese Erweiterung.
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=10cm]{anforderung_12_1_klassendiagramm.png}
 	\caption{Klassendiagramm für die Anforderung 12.1}
@@ -136,7 +136,7 @@ Außerdem müssen die Klassen \textit{UserStory} und \textit{Task} erweitert wer
 Beide Klassen erhalten ein neues Attribut namens \textit{lastUpdated}.
 Dieses Attribut repräsentiert den Zeitpunkt der letzten Aktualisierung und ist ein UNIX-Zeitstempel.
 Die Abbildung \ref{fig:datenstrukturen_12_1} zeigt die angesprochenen Erweiterungen.
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=6cm]{anforderung_12_1_datenstrukturen.png}
 	\caption{Datenstrukturen für die Anforderung 12.1}
@@ -147,7 +147,7 @@ Die Abbildung \ref{fig:datenstrukturen_12_1} zeigt die angesprochenen Erweiterun
 \paragraph{Modellierung relevanter Verhaltensaspekte}
 Die Anforderung erfordert, dass in einem Zeitabstand von zwei Sekunden, überprüft wird, ob sich eine User-Story oder eine Task im aktuellen Backlog verändert hat.
 Der Ablauf wird im Sequenzdiagramm in Abbildung \ref{fig:sequenzdiagramm_12_1} dargestellt.
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=10cm]{anforderung_12_1_sequenzdiagramm.png}
 	\caption{Sequenzdiagramm für die Anforderung 12.1}
@@ -167,7 +167,7 @@ Diese Schritte sollen jede zweite Sekunde wiederholt werden.
 \paragraph{Modellierung verfeinerter Struktur}
 Bei der Umsetzung dieser Userstory hat es keine Veränderung gegeben, die das grundlegende Verhalten des Systems verändert. Es wurde die bestehende Datenbanktabelle „tasks“ angepasst und um das INTEGER Attribut priorities erweitert. Dazu wurde auch im Data-Layer das TaskRepository ergänzt um die zusätzliche Handhabung des ergänzten priorities Parameters.  Im Presentation-Layer wurde ebenfalls zusätzlich noch definiert, wie mit priorities umzugehen ist. Bspw., dass der Wert 0 für priorities = priorityLow steht und 2 für priorityHigh
 
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=6cm]{S3_3_Klassendiagramm_copy.png}
 	\caption{Erweitertes Klassendiagramm der Klasse Task}
@@ -189,7 +189,7 @@ Mit den aktualisierten Daten einschließlich des neuen Prioritätswerts wird ein
 
 Es wurde kein weiteres Verhaltensdiagramm modelliert, da der Ablauf linear ist und keine komplexen Verzweigungen oder weitere beteiligte Akteure aufweist, die eine zusätzliche Modellierung erfordern würden.
 
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=10cm]{S3_3_Sequenzdiagramm_copy.png}
 	\caption{Sequenzdiagramm für User Story S3.3}
@@ -208,7 +208,7 @@ Dazu wurde im Presentation Layer im UserStoryController das Attribut priorities 
 Neu hinzugekommen ist die Tabelle backlogassignees in backlogs.sql, um die Accounttabelle mit der Backlogtabelle verbinden zu können. Das ermöglicht eine Zuweisung von Accounts zu Backlogs inklusive Rollenzuweisung.Des Weiteren wurden im Data-Layer die Methoden getAssigneesByBacklogId, addAssigneeToBacklog, removeAssigneeFromBacklog, updateAssigneeRole, isUserAssignedToBacklog, getProductOwnerIdByBacklogId und getAvailableUsersForBacklog im Backlogrepository hinzugefügt um Accounts zu Backlogs zuweisen zu können, aber auch direkt zugehörige Rollen zuweisen zu können.
 Sonst wurden nur Nuancen verändert, wie die zusätzliche Übergabe des priorities Parameters.
 
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=10cm]{S2_2_Klassendiagramm.png}
 	\caption{Funktion der Backloglogik}
@@ -222,7 +222,7 @@ Der Benutzer sendet eine \texttt{POST}-Anfrage an \texttt{/user-story/\{id\}/edi
 
 Nur wenn der Benutzer Product Owner ist und der übermittelte Prioritätswert im gültigen Bereich von 0 bis 2 liegt, wird die neue Priorität übernommen. Andernfalls bleibt der bisherige Wert unverändert. Der \texttt{UserStoryController} erstellt daraufhin ein aktualisiertes \texttt{UserStory}-Objekt und übergibt es über \texttt{updateUserStory(updatedUserStory)} an den \texttt{UserStoryService}. Dieser leitet den Aufruf an das \texttt{UserStoryRepository} weiter, welches ein \texttt{UPDATE} auf die Datenbanktabelle \texttt{user\_stories} ausführt und dabei das Feld \texttt{priorities} aktualisiert. Nach erfolgreichem Speichern wird der Benutzer per HTTP-Redirect zurück zum zugehörigen Backlog weitergeleitet.
 
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=10cm]{S2_2_Sequenzdiagramm.png}
 	\caption{Sequenzdiagramm für User Story S3.3}
@@ -234,7 +234,7 @@ Nur wenn der Benutzer Product Owner ist und der übermittelte Prioritätswert im
 \paragraph{Modellierung verfeinerter Struktur}
 Die Struktur des Systems bleibt weitestgehend unverändert. Es wurde lediglich die Darstellung der Tasks im
 Board erweitert, sodass die zugeordneten Nutzer mit angezeigt werden.
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=10cm]{s6_2_klassendiagramm_2.png} %ändern
 	\caption{Klassendiagramm für User Story S6.2}
@@ -249,7 +249,7 @@ die das TaskRepository aufruft, um die zugeordneten Nutzer für die Tasks zu erh
 
 
 
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=10cm]{s6_2_datenstrukturen_2.png}
 	\caption{Datenstrukturdiagramm für User Story S6.2} %ändern
@@ -262,7 +262,7 @@ ruft nun im TaskService die Methode getTasksWithAssigneesForBacklog() auf,
 welche das TaskRepository aufruft, um die Tasks mit ihren zugeordneten Nutzern zu erhalten.
 Das Ergebnis wird anschließend weitergeleitet, bis die Tasks mit ihren zugeordneten Nutzern dem User angezeigt werden.
 
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=10cm]{s6_2_sequenzdiagramm_2.png} %ändern
 	\caption{Sequenzdiagramm für User Story S6.2}
