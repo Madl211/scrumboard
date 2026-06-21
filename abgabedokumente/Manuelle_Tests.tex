@@ -43,7 +43,7 @@
 	\endlastfoot
 
 	\textbf{T2.1.1}                                                                                                                                                                                    &
-	Testen der User Story S2.1                                                                                                                                                                         &
+	Testen der User Story S2.1                                                                                                                                                                       &
 	Nutzer                                                                                                                                                                                             &
 	Ausgehend von der Startseite kann ich als angemeldeter Nutzer nach der Auswahl eines Backlogs mit einem Klick auf den Button \textit{Create User Story} auf die Seite \textit{/create-user-story}. &
 	Bestanden
@@ -142,17 +142,81 @@
 	Nutzer &                                                                                                                                                                                             
 	Als angemeldeter Nutzer kann ich in einem Backlog, in dem ich die Rolle "Product Owner" habe, auf die Seite edit-user-story gehen und in der entsprechenden Userstory die Priorität low, medium oder High angeben &
 	Bestanden
-
+	\\
+	\hline
 	\textbf{T2.2.1} &                                                                                                                                                                                    
 	Testen der User Story S3.3 &                                                                                                                                                                    
 	Nutzer &                                                                                                                                                                                             
 	Als angemeldeter Benutzer kann ich auf die Seite /backlogs gehen und von dort aus auf die Seite /create-task gehen. Auf der Seite kann ich dann die Task erstellen und ihr eine Priorität zuweisen &
 	Bestanden
-
+	\\
+	\hline
 	\textbf{T2.2.2} &                                                                                                                                                                                    
 	Testen der User Story S3.3 &                                                                                                                                                                    
 	Nutzer &                                                                                                                                                                                             
 	Als angemeldeter Benutzer kann ich auf die Seite /backlogs gehen und von dort aus auf die Seite /edit-task gehen. Auf der Seite kann ich dann die Task anpassen und ihr eine Priorität zuweisen &
+		\\
+	\hline
+	\textbf{T1.3.1} &
+	Testen der User Story S1.3 &
+	Nutzer &
+	Als angemeldeter Nutzer gehe ich in mein Profil und klicke auf den Button „Passwort zurücksetzen“. Daraufhin wird mir ein Fenster / Dialog angezeigt, in dem ich meine E-Mail-Adresse eingeben kann. Ich gebe im Passwort-Reset-Dialog meine registrierte E-Mail-Adresse ein und bestätige mit „Reset-Link senden“. Daraufhin erhalte ich eine E-Mail mit einem gültigen Link. Nach dem Klick auf den Link kann ich ein neues Passwort vergeben und mich anschließend damit anmelden.&
+	Bestanden
+	\\
+	\hline
+	\textbf{T4.2.1} &
+	Testen der User Story S4.2 &
+	Nutzer &
+	Als angemeldeter Nutzer kann ich in einem erstellten Backlog, beim erstellen von Task diesen einen Status zuweisen und in Tasklisten sortiert nach Status werden diese dann im Backlog angezeigt.&
+	Bestanden
+	\\
+	\hline
+	\textbf{T8.2.1} &
+	Testen der User Story S8.2 (Neue Task) &
+	Nutzer &
+	Als angemeldeter Nutzer kann ich in einem erstellten Backlog eine Task erstellen und ihr eine tatsächliche Bearbeitungszeit zuweisen. &
+	Bestanden
+	\\
+	\hline
+	\textbf{T8.2.2} &
+	Testen der User Story S8.2 (Bestehende Task abrufen) &
+	Nutzer &
+	Als angemeldeter Nutzer kann ich in einem erstellten Backlog eine bestehende Task abrufen und ihre tatsächliche Bearbeitungszeit ansehen. &
+	Bestanden
+	\\
+	\hline
+	\textbf{T8.2.3} &
+	Testen der User Story S8.2 (Bestehende Task bearbeiten) &
+	Nutzer &
+	Als angemeldeter Nutzer kann ich in einem erstellten Backlog eine bestehende Task abrufen, ihre tatsächliche Bearbeitungszeit bearbeiten und speichern. &
+	Bestanden
+	\\
+	\hline
+	\textbf{T8.3} &
+	Testen der User Story S8.3 &
+	Nutzer &
+	Als angemeldeter Nutzer kann ich in einem erstellten Backlog eine bestehende Task abrufen und ihre tatsächliche Bearbeitungszeit anhand eines Balkendiagramms mit der gegebenen Schätzung vergleichen. &
+	Bestanden
+	\\
+	\hline
+	\textbf{T6.2.1} &
+	Testen der User Story S6.2 (Assignee sichtbar im Board) &
+	Nutzer &
+	Als angemeldeter Nutzer erstelle ich eine Task und weise ihr über \textit{/edit-task/\{id\}} mindestens einen Nutzer zu. Anschließend öffne ich das zugehörige Backlog-Board und überprüfe, ob der Name des zugewiesenen Nutzers unterhalb des Task-Titels auf der Board-Karte angezeigt wird. &
+	Bestanden
+	\\
+	\hline
+	\textbf{T6.2.2} &
+	Testen der User Story S6.2 (Keine Assignees) &
+	Nutzer &
+	Als angemeldeter Nutzer erstelle ich eine Task ohne Zuweisung eines Nutzers. Auf dem Board-Board wird für diese Task kein Nutzername angezeigt, die Karte bleibt ohne Assignee-Anzeige. &
+	Bestanden
+	\\
+	\hline
+	\textbf{T6.2.3} &
+	Testen der User Story S6.2 (Mehrere Assignees) &
+	Nutzer &
+	Als angemeldeter Nutzer weise ich einer Task über \textit{/edit-task/\{id\}} mehrere Nutzer zu. Auf dem Backlog-Board werden alle zugewiesenen Nutzernamen auf der Board-Karte der Task angezeigt. &
 	Bestanden
 \end{longtable}
 
