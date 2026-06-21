@@ -229,6 +229,46 @@ Nur wenn der Benutzer Product Owner ist und der übermittelte Prioritätswert im
 	\label{fig:sequenzdiagramm_s2_2}
 \end{figure}
 
+\subsubsection{Modellierung für UserStory S6.2: Anzeige der Zuordnung von Nutzern zu Tasks im Board}
+
+\paragraph{Modellierung verfeinerter Struktur}
+Die Struktur des Systems bleibt weitestgehend unverändert. Es wurde lediglich die Darstellung der Tasks im
+Board erweitert, sodass die zugeordneten Nutzer mit angezeigt werden.
+\begin{figure}
+	\centering
+	\includegraphics[width=10cm]{s6_2_klassendiagramm_2.png} %ändern
+	\caption{Klassendiagramm für User Story S6.2}
+	\label{fig:klassendiagramm_s6_2}
+\end{figure}
+
+
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+Der TaskController erhält eine Methode, die den TaskService aufruft und das Ergebnis an die
+Board Seite übergibt, sodass dieses dargestellt werden kann. Der TaskService bekommt eine Methode,
+die das TaskRepository aufruft, um die zugeordneten Nutzer für die Tasks zu erhalten. \par
+
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=10cm]{s6_2_datenstrukturen_2.png}
+	\caption{Datenstrukturdiagramm für User Story S6.2} %ändern
+	\label{fig:datenstrukturen_s6_2}
+\end{figure}
+
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+Beim Aufruf der Board Seite wird die Methode showBoard() im TaskController aufgerufen. Diese
+ruft nun im TaskService die Methode getTasksWithAssigneesForBacklog() auf,
+welche das TaskRepository aufruft, um die Tasks mit ihren zugeordneten Nutzern zu erhalten.
+Das Ergebnis wird anschließend weitergeleitet, bis die Tasks mit ihren zugeordneten Nutzern dem User angezeigt werden.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=10cm]{s6_2_sequenzdiagramm_2.png} %ändern
+	\caption{Sequenzdiagramm für User Story S6.2}
+	\label{fig:sequenzdiagramm_s6_2}
+\end{figure}
+
 
 \section{Implementation und Tests}
 \subsection{Updates zu den genutzen Technologien}

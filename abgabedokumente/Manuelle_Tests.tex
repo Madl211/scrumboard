@@ -176,6 +176,27 @@
 	Nutzer &
 	Als angemeldeter Nutzer kann ich in einem erstellten Backlog eine bestehende Task abrufen und ihre tatsächliche Bearbeitungszeit anhand eines Balkendiagramms mit der gegebenen Schätzung vergleichen. &
 	Bestanden
+	\\
+	\hline
+	\textbf{T6.2.1} &
+	Testen der User Story S6.2 (Assignee sichtbar im Board) &
+	Nutzer &
+	Als angemeldeter Nutzer erstelle ich eine Task und weise ihr über \textit{/edit-task/\{id\}} mindestens einen Nutzer zu. Anschließend öffne ich das zugehörige Backlog-Board und überprüfe, ob der Name des zugewiesenen Nutzers unterhalb des Task-Titels auf der Board-Karte angezeigt wird. &
+	Bestanden
+	\\
+	\hline
+	\textbf{T6.2.2} &
+	Testen der User Story S6.2 (Keine Assignees) &
+	Nutzer &
+	Als angemeldeter Nutzer erstelle ich eine Task ohne Zuweisung eines Nutzers. Auf dem Board-Board wird für diese Task kein Nutzername angezeigt, die Karte bleibt ohne Assignee-Anzeige. &
+	Bestanden
+	\\
+	\hline
+	\textbf{T6.2.3} &
+	Testen der User Story S6.2 (Mehrere Assignees) &
+	Nutzer &
+	Als angemeldeter Nutzer weise ich einer Task über \textit{/edit-task/\{id\}} mehrere Nutzer zu. Auf dem Backlog-Board werden alle zugewiesenen Nutzernamen auf der Board-Karte der Task angezeigt. &
+	Bestanden
 \end{longtable}
 
 \end{document}

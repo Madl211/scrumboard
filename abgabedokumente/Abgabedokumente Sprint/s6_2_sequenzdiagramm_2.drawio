@@ -1,0 +1,138 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Seite-1" id="s6_2_sequenzdiagramm_2">
+    <mxGraphModel dx="900" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ===== LIFELINES ===== -->
+
+        <!-- BacklogController: x=20, w=140 → center=90, activation: left=85, right=95 -->
+        <mxCell id="s62s2-bc" value="BacklogController" parent="1" vertex="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};">
+          <mxGeometry x="20" y="60" width="140" height="560" as="geometry" />
+        </mxCell>
+        <mxCell id="s62s2-bc-box" value="" parent="s62s2-bc" vertex="1" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};">
+          <mxGeometry x="65" y="70" width="10" height="450" as="geometry" />
+        </mxCell>
+
+        <!-- TaskService: x=200, w=130 → center=265, activation: left=260, right=270 -->
+        <mxCell id="s62s2-ts" value="TaskService" parent="1" vertex="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};">
+          <mxGeometry x="200" y="60" width="130" height="560" as="geometry" />
+        </mxCell>
+        <mxCell id="s62s2-ts-box" value="" parent="s62s2-ts" vertex="1" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};">
+          <mxGeometry x="60" y="170" width="10" height="260" as="geometry" />
+        </mxCell>
+
+        <!-- TaskRepository: x=380, w=145 → center=452, activation: left=447, right=457 -->
+        <mxCell id="s62s2-tr" value="TaskRepository" parent="1" vertex="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};">
+          <mxGeometry x="380" y="60" width="145" height="560" as="geometry" />
+        </mxCell>
+        <mxCell id="s62s2-tr-box" value="" parent="s62s2-tr" vertex="1" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};">
+          <mxGeometry x="68" y="200" width="10" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Datenbank: x=575, w=100 → center=625, activation: left=620, right=630 -->
+        <mxCell id="s62s2-db" value="Datenbank" parent="1" vertex="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};">
+          <mxGeometry x="575" y="60" width="110" height="560" as="geometry" />
+        </mxCell>
+        <mxCell id="s62s2-db-box" value="" parent="s62s2-db" vertex="1" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};">
+          <mxGeometry x="50" y="230" width="10" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- ===== MESSAGES ===== -->
+
+        <!-- 0. User → BacklogController: GET /backlog/{id} (entry arrow from left) -->
+        <mxCell id="s62s2-m0" value="GET /backlog/{id}" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;curved=0;rounded=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="0" y="150" as="sourcePoint" />
+            <mxPoint x="85" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 1. BacklogController → TaskService: getTasksByBacklogId(backlogId) -->
+        <!-- BacklogController right=95, TaskService left=260 (absolute: 200+60=260) -->
+        <mxCell id="s62s2-m1" value="getTasksByBacklogId(backlogId)" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;curved=0;rounded=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="95" y="185" as="sourcePoint" />
+            <mxPoint x="260" y="185" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 2. TaskService → TaskRepository: getTasksByBacklogId(backlogId) -->
+        <!-- TaskService right=270, TaskRepository left=447 (absolute: 380+68-1=447) -->
+        <mxCell id="s62s2-m2" value="getTasksByBacklogId(backlogId)" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;curved=0;rounded=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="215" as="sourcePoint" />
+            <mxPoint x="447" y="215" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 3. TaskRepository → DB: SELECT tasks WHERE backlogId = ? -->
+        <!-- TaskRepository right=457, DB left=620 (absolute: 575+50-5=620) -->
+        <mxCell id="s62s2-m3" value="SELECT tasks WHERE backlogId=?" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;curved=0;rounded=0;fontSize=9;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="457" y="245" as="sourcePoint" />
+            <mxPoint x="620" y="245" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 4. [loop] TaskRepository → DB: SELECT accounts for each taskId (getAssigneesForTask) -->
+        <mxCell id="s62s2-loop-note" value="[für jede Task]" parent="1" vertex="1" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=2;fontSize=9;">
+          <mxGeometry x="380" y="262" width="90" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s62s2-m4" value="getAssigneesForTask(taskId)" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;curved=0;rounded=0;fontSize=9;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="457" y="275" as="sourcePoint" />
+            <mxPoint x="620" y="275" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 5. DB → TaskRepository: List<Account> -->
+        <mxCell id="s62s2-m5" value=": List&lt;Account&gt;" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;fontSize=9;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="305" as="sourcePoint" />
+            <mxPoint x="457" y="305" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 6. DB → TaskRepository: List<Task> result (rows) -->
+        <mxCell id="s62s2-m6" value=": List&lt;Task&gt; (mit Assignees)" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;fontSize=9;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="330" as="sourcePoint" />
+            <mxPoint x="457" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 7. TaskRepository → TaskService: List<Task> (each task has populated assignees) -->
+        <mxCell id="s62s2-m7" value=": List&lt;Task&gt; (mit Assignees)" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="447" y="360" as="sourcePoint" />
+            <mxPoint x="270" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 8. TaskService → BacklogController: List<Task> (each task has populated assignees) -->
+        <mxCell id="s62s2-m8" value=": List&lt;Task&gt; (mit Assignees)" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="260" y="400" as="sourcePoint" />
+            <mxPoint x="95" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 9. Note: BacklogController filtert nach Status und rendert Board mit Assignees -->
+        <mxCell id="s62s2-note" value="BacklogController übergibt Tasks inkl.&lt;br&gt;Assignees an das Template.&lt;br&gt;Im Board werden neben dem Task-Titel&lt;br&gt;die zugeordneten Nutzer angezeigt." parent="1" vertex="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;size=15;align=left;spacingLeft=6;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;">
+          <mxGeometry x="25" y="430" width="260" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- 10. BacklogController → User: render backlog.mustache (response arrow) -->
+        <mxCell id="s62s2-m9" value="render backlog.mustache" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="85" y="518" as="sourcePoint" />
+            <mxPoint x="0" y="518" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
