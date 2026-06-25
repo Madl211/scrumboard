@@ -268,19 +268,11 @@
 	\caption{Sprint Board für Sprint 3}
 	\endlastfoot
 
-	\cellcolor{userstorycolor}\textbf{S1.3} Als Nutzer kann ich mein Passwort zurücksetzen, sodass ich wieder Zugri! auf meinen Account erhalte.
+  \cellcolor{userstorycolor}\textbf{S2.2} Als Product Owner kann ich einer User Story die Priorität hoch, normal oder niedrig zuweisen, sodass in der Sprintplanung berücksichtigt werden kann, welche User Stories am dringendsten implementiert werden müssen.
 
-	Umsetzung: Adrian                        &
-	                                         &
-	                                         &
-	                                         &
-	\\
-	\hline
+	Umsetzung: Yanik
 
-	\cellcolor{userstorycolor}\textbf{S2.2} Als Product Owner kann ich einer User Story die Priorität hoch, normal oder niedrig zuweisen, sodass in der Sprintplanung berücksichtigt werden kann, welche User Stories am dringendsten implementiert werden müssen.
-
-	Umsetzung: Yanik     
-	\textit{Aufwand: 4h}                     
+	\textit{Aufwand: 4h}
                     &
 	                                         &
 	                                         &
@@ -290,21 +282,30 @@
 												\colorbox{taskcolor}{\textcolor{white}{\parbox{3cm}{\scriptsize Erweiterung Eingabefeld für Prioritätenzuweisung für Userstory}}} \vspace{0.05cm}
 												\colorbox{taskcolor}{\textcolor{white}{\parbox{3cm}{\scriptsize Logik anpassen, sodass nur Product Owner Priorität zuweist}}} \vspace{0.05cm}
 
-												\\					
+												\\
 	\hline
 
 	\cellcolor{userstorycolor}\textbf{S3.2} Als Nutzer kann ich Tasks mit User Stories verlinken, sodass der Zusammenhang zwischen Tasks und User Stories klar ist.
 
-	Umsetzung: Mathis                        &
+	Umsetzung: Mathis
+
+  Aufwand: 5h &
 	                                         &
 	                                         &
 	                                         &
+  
+  \colorbox{taskcolor}{\textcolor{white}{\parbox{3cm}{\scriptsize DB-Tabelle user\_story\_task erstellen}}} \vspace{0.05cm}
+  \colorbox{taskcolor}{\textcolor{white}{\parbox{3cm}{\scriptsize Endpoint GET /task/{id}/link\_story erstellen}}} \vspace{0.05cm}
+  \colorbox{taskcolor}{\textcolor{white}{\parbox{3cm}{\scriptsize Endpoint POST /task/{id}/link\_story erstellen}}} \vspace{0.05cm}
+  \colorbox{taskcolor}{\textcolor{white}{\parbox{3cm}{\scriptsize Frontend Formular zur Auswahl von Tasks zu einer User-Story erstellen}}} \vspace{0.05cm}
+  \colorbox{taskcolor}{\textcolor{white}{\parbox{3cm}{\scriptsize Dropdown zur Anzeige der verlinkten Tasks im Frontend hinzufügen}}} \vspace{0.05cm}
 	\\
 	\hline
 
 	\cellcolor{userstorycolor}\textbf{S.3.3} Als Nutzer kann ich einer Task die Priorität hoch, normal oder niedrig zuweisen, sodass in der Sprintplanung berücksichtigt werden kann, welche Task am dringendsten implementiert werden müssen.
 
-	Umsetzung: Yanik  
+	Umsetzung: Yanik
+
 	\textit{Aufwand: 1h}                     &
 	                                         &
 	                                         &
@@ -317,10 +318,19 @@
 
 	\cellcolor{userstorycolor}\textbf{S6.2} Als Nutzer kann ich die Zuordnung von Nutzern zu Tasks im Task-Board sehen, sodass die Verantwortlichkeiten transparent sind.
 
-	Umsetzung: Eric                          &
+	Umsetzung: Eric
+
+  Aufwand: 2h &
 	                                         &
 	                                         &
 	                                         &
+	\colorbox{taskcolor}{\textcolor{white}{\parbox{3cm}{\scriptsize TaskRepository: Methode für zugeordnete Nutzer}}} \vspace{0.05cm}
+
+	\colorbox{taskcolor}{\textcolor{white}{\parbox{3cm}{\scriptsize TaskService: getTasksWithAssigneesForBacklog()}}} \vspace{0.05cm}
+
+	\colorbox{taskcolor}{\textcolor{white}{\parbox{3cm}{\scriptsize TaskController: showBoard() anpassen}}} \vspace{0.05cm}
+
+	\colorbox{taskcolor}{\textcolor{white}{\parbox{3cm}{\scriptsize Board-Template anpassen}}} \vspace{0.05cm}
 	\\
 	\hline
 
@@ -353,10 +363,16 @@
 
 	\cellcolor{userstorycolor}\textbf{S10.1} Als Nutzer erhalte ich in-system Benachrichtigungen über Tasks, die bald beendet werden müssen.
 
-	Umsetzung: Niklas                        &
+	Umsetzung: Niklas   
+
+    Aufwand: 3h
+    &
 	                                         &
 	                                         &
 	                                         &
+
+    \colorbox{taskcolor}{\textcolor{white}{\parbox{3cm}{\scriptsize Popup einbauen}}} \vspace{0.05cm}
+    \colorbox{taskcolor}{\textcolor{white}{\parbox{3cm}{\scriptsize Setup Urgent-Seite}}} \vspace{0.05cm}
 	\\
 	\hline
 
@@ -368,6 +384,7 @@
 	                                         &
 	                                         &
 	                                         &
+
 
 	\colorbox{taskcolor}{\textcolor{white}{\parbox{3cm}{\scriptsize DB-Tabellen user\_stories und tasks anpassen}}} \vspace{0.05cm}
 
@@ -418,8 +435,6 @@
 	                                         &
 	                                         &
 	                                         &
-
-	\colorbox{taskcolor}{\textcolor{white}{\parbox{3cm}{\scriptsize Header überarbeiten}}} \vspace{0.05cm}
 
 	\colorbox{taskcolor}{\textcolor{white}{\parbox{3cm}{\scriptsize Suchleiste entfernen}}} \vspace{0.05cm}
 
