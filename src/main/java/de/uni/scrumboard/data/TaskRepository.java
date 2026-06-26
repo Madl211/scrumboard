@@ -362,7 +362,7 @@ public List<Task> getTasksWithoutAssignmentForUserStory(int backlogId) {
         List<Task> tasks = new ArrayList<>();
         String sql = """
                     SELECT taskId, title, description, creatorId, startDate, dueDate,
-                           createdDate, estimatedTime, actualTime, status, lastUpdated
+                           createdDate, estimatedTime, actualTime, status, priorities, lastUpdated
                     FROM tasks
                     WHERE LOWER(title) LIKE ?
                 """;
@@ -409,7 +409,7 @@ public List<Task> getTasksWithoutAssignmentForUserStory(int backlogId) {
     public List<Task> getTasksByBacklogId(int backlogId) {
         List<Task> tasks = new ArrayList<>();
         String sql = "SELECT t.taskId, t.title, t.description, t.creatorId, t.startDate, t.dueDate, " +
-                "t.createdDate, t.estimatedTime, t.actualTime, t.status, t.lastUpdated " +
+                "t.createdDate, t.estimatedTime, t.actualTime, t.status, t.priorities, t.lastUpdated " +
                 "FROM tasks t JOIN backlog_tasks bt ON t.taskId = bt.taskId WHERE bt.backlogId = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, backlogId);
