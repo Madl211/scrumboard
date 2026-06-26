@@ -14,11 +14,4 @@ Eric    | - suche funktioniert nicht(in TaskRepo ist die SQL Abfrage falsch, es 
         | - contributer page, die komischen zeichen entfernen, "x" und "-", zurück button entfernen
         | - wenn kein assignee zugeordnet dann soll "none"angezeigt werden und nicht blank
 --------|------------------------------------------------------------------------------------------------
-Kevin   | - Profilseite schicker machen 
-        | - auch bei editTask & createTask & createUserstory & create new backlog, den Header überarbeiten(wie überall)
-        | - im Backlog ist der header noch anders als der aktuelle(urgent fehlt), auch wieder enger machen(wie auf der homepage)
-        | - auch bei show contributers den header überarbeiten
-        | - gibt es in mustache komponente für header?<- schauen ob das funktioniert!!!
-        | - bei add assignees fehlt der header
-
-
+Kevin   | - Profilseite schicker machen
