@@ -5,13 +5,13 @@ Adrian  | - alles auf Englisch übersetzen
         | - im Backlog den zurück button entfernen
         | - Filter anschauen(vllt schauen, ob man nach Auswahl des Filters die Searchfunktion direkt ausführt, um nicht nochmal auf search drücken zu müssen)
 --------|------------------------------------------------------------------------------------------------
-Mathis  | - nach Registrierung soll auf home geroutet werden und nicht auf Profilseite
+Mathis  | - nach Registrierung soll auf home geroutet werden und nicht auf Profilseite -
         | - bei Taskcontroller & UserstoryController auch Priorität übergeben, wird aktuell noch nicht gespeichert!!!
         | - bei Edittask & Edituserstory update von Priorität implementieren
         | - korrekt zurück routen, aktuell wird man aus edit von der suche in backlog (das ändern!)
 --------|------------------------------------------------------------------------------------------------
-Eric    | - suche funktioniert nicht(in TaskRepo ist die SQL Abfrage falsch, es wird priority abgefragt, aber gar nicht in er sql suche gesucht)
-        | - contributer page, die komischen zeichen entfernen, "x" und "-", zurück button entfernen
-        | - wenn kein assignee zugeordnet dann soll "none"angezeigt werden und nicht blank
+Eric    | - suche funktioniert nicht(in TaskRepo ist die SQL Abfrage falsch, es wird priority abgefragt, aber gar nicht in er sql suche gesucht) -
+        | - contributer page, die komischen zeichen entfernen, "x" und "-", zurück button entfernen -
+        | - wenn kein assignee zugeordnet dann soll "none"angezeigt werden und nicht blank -
 --------|------------------------------------------------------------------------------------------------
 Kevin   | - Profilseite schicker machen

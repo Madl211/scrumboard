@@ -95,9 +95,9 @@ public record AuthController(IAccountService accountService, IProfileService pro
         }
 
         context.sessionAttribute("accountId", accountId.get());
-        context.redirect("/profile");
+        context.redirect("/home");
     }
-
+    
     @Override
     public void logout(Context context) {
         var session = context.req().getSession(false);
