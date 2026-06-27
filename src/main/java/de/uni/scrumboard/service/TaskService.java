@@ -37,7 +37,7 @@ public record TaskService(ITaskRepository taskRepository, IAccountRepository acc
     }
     @Override
     public Task createTask(String title, String description, List<Integer> assigneeIds, int creatorId, Date startDate,
-            Date dueDate, int estimatedTime, TaskStatus status) {
+            Date dueDate, int estimatedTime, TaskStatus status, int priority) {
                 
         Account creator = accountRepository.findById(creatorId)
                 .orElseThrow(() -> new RuntimeException("Creator not found"));
@@ -48,7 +48,7 @@ public record TaskService(ITaskRepository taskRepository, IAccountRepository acc
 
         Date created = new Date();
         return taskRepository.createTask(0, title, description, assignees, creator, startDate, dueDate, created,
-                estimatedTime, 0, status);
+                estimatedTime, 0, status, priority);
     }
 
     @Override

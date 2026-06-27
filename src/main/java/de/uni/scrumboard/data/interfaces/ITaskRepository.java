@@ -19,7 +19,7 @@ public interface ITaskRepository {
 
     Task createTask(int taskId, String title, String desc, List<Account> assignees, Account creator, Date start,
             Date due,
-            Date created, int estimatedTime, int actualTime, TaskStatus status);
+            Date created, int estimatedTime, int actualTime, TaskStatus status, int priority);
 
     List<Task> getTasksByBacklogId(int backlogId);
 

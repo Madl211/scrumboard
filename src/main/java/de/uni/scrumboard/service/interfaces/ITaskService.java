@@ -11,7 +11,7 @@ import de.uni.scrumboard.data.enums.TaskStatus;
 public interface ITaskService {
     Optional<Task> getTaskById(int taskId);
     List<Task> searchTasks(String search, int filter);
-    Task createTask(String title, String description, List<Integer> assigneeIds, int creatorId, Date startDate, Date dueDate, int estimatedTime, TaskStatus status);
+    Task createTask(String title, String description, List<Integer> assigneeIds, int creatorId, Date startDate, Date dueDate, int estimatedTime, TaskStatus status, int priority);
     boolean updateTask(Task task);
     List<Task> getTasksByBacklogId(int backlogId);
     List<Map<String, Object>> getAccountsWithAssignmentForTask(int taskId);

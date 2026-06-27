@@ -142,6 +142,19 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         java.util.Date dueDate = null;
         int estimatedTime = 0;
 
+        String priorityStr = context.formParam("priority");
+        int priority = 0;
+
+        try {
+            if (priorityStr != null) {
+            priority = Integer.parseInt(priorityStr);
+            }
+            } catch (NumberFormatException e) {
+                     priority = 0;
+         }     if (priority < 0 || priority > 2) {
+            priority = 0; 
+        }
+
         int statusInt = Integer.valueOf(context.formParam("status"));
         if (statusInt < 0 || statusInt > 4)
             statusInt = 0;
@@ -166,7 +179,7 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         String backlogIdStr = context.formParam("backlog");
         Integer selectedBacklogId = null;
         Task created = taskService.createTask(title, description, assigneeIds, accountId, startDate, dueDate,
-                estimatedTime, status);
+                estimatedTime, status, priority);
         if (backlogIdStr != null && !backlogIdStr.isEmpty()) {
             try {
                 selectedBacklogId = Integer.parseInt(backlogIdStr);
@@ -263,6 +276,19 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
         int estimatedTime = 0;
         int realTime = 0;
 
+        String priorityStr = context.formParam("priority");
+        int priority = 0;
+
+        try {
+            if (priorityStr != null) {
+            priority = Integer.parseInt(priorityStr);
+            }
+            } catch (NumberFormatException e) {
+                     priority = 0;
+         }     if (priority < 0 || priority > 2) {
+            priority = 0; 
+        }
+
         int statusInt = Integer.valueOf(context.formParam("status"));
         if (statusInt < 0 || statusInt > 4)
             statusInt = 0;
@@ -282,14 +308,7 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
             return;
         }
 
-        String priorityString = context.formParam("priorities");
-        int priorities = 0;
-        try {
-            priorities = Integer.parseInt(priorityString);
-            if (priorities < 0 || priorities > 2) priorities = 0;
-            } catch (NumberFormatException e) {
-                priorities = 0;
-            }
+      
 
 
         Task existing = task.get();
@@ -305,7 +324,7 @@ public record TaskController(ITaskService taskService, IAccountService accountSe
             estimatedTime,
             realTime,
             status,
-            priorities,
+            priority,
             existing.lastUpdated()
         );
 

@@ -129,7 +129,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
 
     @Override
     public Task createTask(int taskId, String title, String desc, List<Account> assignees, Account creator, Date start,
-            Date due, Date created, int estimatedTime, int actualTime, TaskStatus status) {
+            Date due, Date created, int estimatedTime, int actualTime, TaskStatus status, int priority) {
 
         long timestamp_of_now = Instant.now().getEpochSecond();
 
@@ -145,8 +145,9 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
             sqlStatement.setInt(7, estimatedTime);
             sqlStatement.setInt(8, actualTime);
             sqlStatement.setInt(9, status.val);
-            sqlStatement.setInt(10, 0); 
+            sqlStatement.setInt(10, priority); 
             sqlStatement.setLong(11, timestamp_of_now);
+            
 
             int affectedRows = sqlStatement.executeUpdate();
             if (affectedRows == 0) {
@@ -157,7 +158,7 @@ public record TaskRepository(Connection connection) implements ITaskRepository {
                 if (generatedKeys.next()) {
                     int generatedTaskId = generatedKeys.getInt(1);
                     Task task = new Task(generatedTaskId, title, desc, assignees, creator, start, due, created,
-                            estimatedTime, actualTime, status, 0, timestamp_of_now);
+                            estimatedTime, actualTime, status, priority, timestamp_of_now);
                     saveAssigneesForTask(generatedTaskId, assignees);
                     return task;
                 }
