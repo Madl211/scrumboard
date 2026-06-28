@@ -4,8 +4,8 @@
 
     <h1>Backlogs</h1>
     <div>
-        <a href="/create-backlog" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Neuen Backlog erstellen</a>
-        <a href="/home" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-left: 8px;">Zurück</a>
+        <a href="/create-backlog" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Create new backlog</a>
+        <a href="/home" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-left: 8px;">Back</a>
     </div>
 
     <br>
@@ -14,12 +14,12 @@
     <div style="border: 1px solid #ccc; padding: 12px; margin-bottom: 10px;">
         <strong>{{bezeichnung}}</strong>
         <span style="margin-left: 12px;">ID: {{id}}</span>
-        <a href="/backlog/{{id}}" style="background-color: #007bff; color: white; padding: 6px 14px; text-decoration: none; border-radius: 5px; margin-left: 16px;">Öffnen</a>
+        <a href="/backlog/{{id}}" style="background-color: #007bff; color: white; padding: 6px 14px; text-decoration: none; border-radius: 5px; margin-left: 16px;">open</a>
     </div>
     {{/backlogs}}
 
     {{^backlogs}}
-    <p>Noch keine Backlogs vorhanden. Erstelle einen neuen Backlog!</p>
+    <p>no Backlog. Create one!</p>
     {{/backlogs}}
 
 </div>

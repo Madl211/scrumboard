@@ -13,7 +13,7 @@
             </div>
 
             <div>
-                <label for="beschreibung" style="display: block; margin-bottom: 0.5rem;">Beschreibung:</label>
+                <label for="beschreibung" style="display: block; margin-bottom: 0.5rem;">Description:</label>
                 <textarea id="beschreibung" name="beschreibung" rows="4" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
             </div>
 
@@ -27,6 +27,14 @@
                     <div>
                         <input type="radio" id="statusInProg" name="status" value="1">
                         <label for="statusInProg">In Progress</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="statusReview" name="status" value="3">
+                        <label for="statusReview">Review</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="statusTest" name="status" value="4">
+                        <label for="statusTest">Test</label>
                     </div>
                     <div>
                         <input type="radio" id="statusCompleted" name="status" value="2">
@@ -45,11 +53,11 @@
             </div>
 
             <div>
-                <label style="display: block; margin-bottom: 0.5rem;">Priorität:</label>
+                <label style="display: block; margin-bottom: 0.5rem;">Priority:</label>
                 <div style="padding: 10px; background-color: #f5f5f5; border-radius: 4px; border: 1px solid #ddd; color: #555;">
-                    <span style="font-weight: 500;"> Niedrig</span>
+                    <span style="font-weight: 500;"> Low</span>
                     <span style="font-size: 0.8rem; color: #888; margin-left: 10px;">
-                        (Standard - kann später im Edit-Modus angepasst werden)
+                        (can be edit later)
                     </span>
                 </div>
                 <input type="hidden" name="priority" value="0">
@@ -57,12 +65,12 @@
 
             {{#showErrorMessage}}
                 <div style="color: red; background-color: #f8d7da; padding: 10px; border-radius: 4px; border: 1px solid #f5c6cb;">
-                    Der Titel darf nicht leer sein.
+                    Title shouldn't be empty
                 </div>
             {{/showErrorMessage}}
 
             <div>
-                <label style="display: block; margin-bottom: 0.5rem;">Tasks zuordnen:</label>
+                <label style="display: block; margin-bottom: 0.5rem;">Tasks assign:</label>
                 {{#tasks}}
                 <div style="margin-bottom: 0.5rem;">
                     <input type="checkbox" id="task-{{taskId}}" name="tasks" value="{{taskId}}">
@@ -70,7 +78,7 @@
                 </div>
                 {{/tasks}}
                 {{^tasks}}
-                <p style="color: #888;">Keine Tasks vorhanden.</p>
+                <p style="color: #888;">no task found.</p>
                 {{/tasks}}
             </div>
 

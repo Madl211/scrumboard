@@ -1,16 +1,16 @@
 <meta charset="UTF-8">
 <div style="max-width: 420px;margin: 2vh auto;font-family: Arial, sans-serif;display: flex;height: 96vh;justify-content: center;align-items: center;flex-direction: column;">
-    <h1>Anmelden</h1>
+    <h1>sign up</h1>
     <form action="/login" method="post" style="display: flex; flex-direction: column; gap: 10px;">
         <label>
-            E-Mail oder Nutzername
+            E-Mail or Username
             <input type="text" name="email" value="{{email}}" required style="width: 100%; padding: 8px;" />
         </label>
         <label>
-            Passwort
+            Password
             <input type="password" name="password" required="" style="width: 100%; padding: 8px;">
         </label>
-        <button type="submit" style="padding: 10px;">Anmelden</button>
+        <button type="submit" style="padding: 10px;">Sign in</button>
     </form>
-    <p style="margin-top: 16px;">Noch keinen Account? <a href="/register">Registrieren</a></p>
+    <p style="margin-top: 16px;">No Account? <a href="/register">Register</a></p>
 </div>

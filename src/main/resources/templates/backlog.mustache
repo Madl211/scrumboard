@@ -6,7 +6,7 @@
     <div style="margin-bottom: 2rem; display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
         <div style="margin-bottom: 2rem;">
             <h2>{{backlog.bezeichnung}}</h2>
-            <a href="/home" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Zurück</a>
+            <a href="/home" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Back</a>
         </div>
         <div>
             <a href="/backlog/{{backlog.id}}/assignees" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Show Contributers</a>
@@ -40,17 +40,17 @@
                     </div>
                 </details>
                 <div style="margin-top: 8px;">
-                    <a href="/edit-user-story/{{id}}">Bearbeiten</a>
+                    <a href="/edit-user-story/{{id}}">Edit</a>
                 </div>
             </div>
             {{/todoUserStories}}
             {{^todoUserStories}}
-            <p>Keine User Stories vorhanden</p>
+            <p>no user story</p>
             {{/todoUserStories}}
 
             <hr style="margin: 20px 0;">
 
-            <h3>Einzelne Tasks</h3>
+            <h3>Tasks</h3>
             {{#todoTasks}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
                 <strong>{{title}}</strong>
@@ -64,7 +64,7 @@
             </div>
             {{/todoTasks}}
             {{^todoTasks}}
-            <p>Keine Tasks vorhanden</p>
+            <p>no task</p>
             {{/todoTasks}}
         </div>
 
@@ -82,26 +82,26 @@
                         {{#tasks}}
                         <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #eee;">
                             <span>{{title}} ({{statusLabel}})</span>
-                            <a href="/edit-task/{{taskId}}">Bearbeiten</a>
+                            <a href="/edit-task/{{taskId}}">Edit</a>
                         </div>
                         {{/tasks}}
                         {{^tasks}}
-                        <p style="color: #888;">Keine Tasks zugeordnet.</p>
+                        <p style="color: #888;">no task assigned.</p>
                         {{/tasks}}
                     </div>
                 </details>
                 <div style="margin-top: 8px;">
-                    <a href="/edit-user-story/{{id}}">Bearbeiten</a>
+                    <a href="/edit-user-story/{{id}}">edit</a>
                 </div>
             </div>
             {{/inProgressUserStories}}
             {{^inProgressUserStories}}
-            <p>Keine User Stories vorhanden</p>
+            <p>no user story</p>
             {{/inProgressUserStories}}
 
             <hr style="margin: 20px 0;">
 
-            <h3>Einzelne Tasks</h3>
+            <h3>Tasks</h3>
             {{#inProgressTasks}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
                 <strong>{{title}}</strong>
@@ -115,7 +115,7 @@
             </div>
             {{/inProgressTasks}}
             {{^inProgressTasks}}
-            <p>Keine Tasks vorhanden</p>
+            <p>no task</p>
             {{/inProgressTasks}}
         </div>
 
@@ -137,22 +137,22 @@
                         </div>
                         {{/tasks}}
                         {{^tasks}}
-                        <p style="color: #888;">Keine Tasks zugeordnet.</p>
+                        <p style="color: #888;">no task assigned.</p>
                         {{/tasks}}
                     </div>
                 </details>
                 <div style="margin-top: 8px;">
-                    <a href="/edit-user-story/{{id}}">Bearbeiten</a>
+                    <a href="/edit-user-story/{{id}}">Edit</a>
                 </div>
             </div>
             {{/reviewUserStories}}
             {{^reviewUserStories}}
-            <p>Keine User Stories vorhanden</p>
+            <p>no user story</p>
             {{/reviewUserStories}}
 
             <hr style="margin: 20px 0;">
 
-            <h3>Einzelne Tasks</h3>
+            <h3>Tasks</h3>
             {{#reviewTasks}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
                 <strong>{{title}}</strong>
@@ -166,7 +166,7 @@
             </div>
             {{/reviewTasks}}
             {{^reviewTasks}}
-            <p>Keine Tasks vorhanden</p>
+            <p>no task</p>
             {{/reviewTasks}}
         </div>
 
@@ -184,26 +184,26 @@
                         {{#tasks}}
                         <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #eee;">
                             <span>{{title}} ({{statusLabel}})</span>
-                            <a href="/edit-task/{{taskId}}">Bearbeiten</a>
+                            <a href="/edit-task/{{taskId}}">Edit</a>
                         </div>
                         {{/tasks}}
                         {{^tasks}}
-                        <p style="color: #888;">Keine Tasks zugeordnet.</p>
+                        <p style="color: #888;">no task assigned</p>
                         {{/tasks}}
                     </div>
                 </details>
                 <div style="margin-top: 8px;">
-                    <a href="/edit-user-story/{{id}}">Bearbeiten</a>
+                    <a href="/edit-user-story/{{id}}">Edit</a>
                 </div>
             </div>
             {{/testUserStories}}
             {{^testUserStories}}
-            <p>Keine User Stories vorhanden</p>
+            <p>no User story</p>
             {{/testUserStories}}
 
             <hr style="margin: 20px 0;">
 
-            <h3>Einzelne Tasks</h3>
+            <h3>Tasks</h3>
             {{#testTasks}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
                 <strong>{{title}}</strong>
@@ -217,7 +217,7 @@
             </div>
             {{/testTasks}}
             {{^testTasks}}
-            <p>Keine Tasks vorhanden</p>
+            <p>no task</p>
             {{/testTasks}}
         </div>
 
@@ -239,22 +239,22 @@
                         </div>
                         {{/tasks}}
                         {{^tasks}}
-                        <p style="color: #888;">Keine Tasks zugeordnet.</p>
+                        <p style="color: #888;">no task assigned.</p>
                         {{/tasks}}
                     </div>
                 </details>
                 <div style="margin-top: 8px;">
-                    <a href="/edit-user-story/{{id}}">Bearbeiten</a>
+                    <a href="/edit-user-story/{{id}}">Edit</a>
                 </div>
             </div>
             {{/doneUserStories}}
             {{^doneUserStories}}
-            <p>Keine User Stories vorhanden</p>
+            <p>no user story</p>
             {{/doneUserStories}}
 
             <hr style="margin: 20px 0;">
 
-            <h3>Einzelne Tasks</h3>
+            <h3>Tasks</h3>
             {{#doneTasks}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
                 <strong>{{title}}</strong>
@@ -268,7 +268,7 @@
             </div>
             {{/doneTasks}}
             {{^doneTasks}}
-            <p>Keine Tasks vorhanden</p>
+            <p>no task</p>
             {{/doneTasks}}
         </div>
 

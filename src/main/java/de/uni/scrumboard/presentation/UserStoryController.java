@@ -241,6 +241,8 @@ public class UserStoryController implements IUserStoryController {
         model.put("tasks", taskService.getTasksWithAssignmentForUserStory(id));
         model.put("statusIsTodo", us.status() == TaskStatus.TODO);
         model.put("statusIsInProgress", us.status() == TaskStatus.IN_PROGRESS);
+        model.put("statusIsReview", us.status() == TaskStatus.REVIEW);
+        model.put("statusIsTest", us.status() == TaskStatus.TEST);
         model.put("statusIsCompleted", us.status() == TaskStatus.COMPLETED);
         model.put("priorities", priorities);
         model.put("isProductOwner", isProductOwner);         
@@ -317,6 +319,8 @@ public void postEditUserStory(Context context) {
         model.put("tasks", taskService.getTasksWithAssignmentForUserStory(id));
         model.put("statusIsTodo", us.status() == TaskStatus.TODO);
         model.put("statusIsInProgress", us.status() == TaskStatus.IN_PROGRESS);
+        model.put("statusIsReview", us.status() == TaskStatus.REVIEW);
+        model.put("statusIsTest", us.status() == TaskStatus.TEST);
         model.put("statusIsCompleted", us.status() == TaskStatus.COMPLETED);
         model.put("cancelPath", currentReturnPathOrFallback(context, "/backlog/" + us.backlogId()));
         model.put("showErrorMessage", true);

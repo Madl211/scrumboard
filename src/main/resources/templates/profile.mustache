@@ -4,8 +4,8 @@
     <div style="max-width: 520px;margin: 2vh auto;margin-top: auto;font-family: Arial, sans-serif;display: flex;height: 96vh;justify-content: center;align-items: center;flex-direction: column;">
     
         <div style="display: flex;justify-content: space-between;align-items: center;margin-bottom: 20px;width: stretch;">
-            <h1>Profil</h1>
-            <a href="/logout" style="text-decoration: none; color: #444;">Abmelden</a>
+            <h1>Profile</h1>
+            <a href="/logout" style="text-decoration: none; color: #444;">log out</a>
         </div>
         
         <form action="/profile" method="post" style="display: flex;flex-direction: column;gap: 12px;width: stretch;">
@@ -18,33 +18,33 @@
                 <input name="eMail" type="email" value="{{eMail}}" style="padding: 10px; width: 100%;">
             </label>
             <label style="display: flex; flex-direction: column; gap: 4px;">
-                Telefonnummer
+                Phonenumber
                 <input name="telefonnummer" type="text" value="{{telefonnummer}}" style="padding: 10px; width: 100%;">
             </label>
             <label style="display: flex; flex-direction: column; gap: 4px;">
-                Ort
+                Place
                 <input name="ort" type="text" value="{{ort}}" style="padding: 10px; width: 100%;">
             </label>
             <label style="display: flex; flex-direction: column; gap: 4px;">
-                Postleitzahl
+                Postal code
                 <input name="postleitzahl" type="text" value="{{postleitzahl}}" style="padding: 10px; width: 100%;">
             </label>
             <label style="display: flex; flex-direction: column; gap: 4px;">
-                Straße
+                street
                 <input name="strasse" type="text" value="{{strasse}}" style="padding: 10px; width: 100%;">
             </label>
             <label style="display: flex; flex-direction: column; gap: 4px;">
-                Hausnummer
+                House number
                 <input name="hausnummer" type="text" value="{{hausnummer}}" style="padding: 10px; width: 100%;">
             </label>
             
-            <button type="submit" style="padding: 12px; margin-top: 12px;">Profil speichern</button>
+            <button type="submit" style="padding: 12px; margin-top: 12px;">Save profile</button>
         </form>
         
 
         <div style="margin-top: 20px; width: stretch; text-align: center;">
             <a href="/forgot-password" style="display: block; background-color: #007bff; color: white; padding: 12px; text-decoration: none; border-radius: 4px; font-size: 14px;">
-                Passwort zurücksetzen 
+                Reset Password 
             </a>
         </div>
     </div>
