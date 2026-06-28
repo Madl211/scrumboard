@@ -76,9 +76,9 @@
 
             <button type="button" onclick="setFilter(0)">TODO</button>
             <button type="button" onclick="setFilter(1)">IN_PROGRESS</button>
-            <button type="button" onclick="setFilter(2)">REVIEW</button>
-            <button type="button" onclick="setFilter(3)">TEST</button>
-            <button type="button" onclick="setFilter(4)">COMPLETED</button>
+            <button type="button" onclick="setFilter(3)">REVIEW</button>
+            <button type="button" onclick="setFilter(4)">TEST</button>
+            <button type="button" onclick="setFilter(2)">COMPLETED</button>
             <button type="button" onclick="setFilter(-1)">All / Clear Filter</button>
 
             <br><br>
@@ -197,5 +197,6 @@ function closeFilter() {
 function setFilter(value) {
     document.getElementById("filterInput").value = value;
     closeFilter();
+    document.getElementById("filterInput").form.submit();
 }
 </script>

@@ -444,11 +444,14 @@ public List<Task> getTasksWithoutAssignmentForUserStory(int backlogId) {
     public List<Task> filterTask(List<Task> list, int filter) {
         if (filter == 0) {
             list.removeIf(task -> task.status() != TaskStatus.TODO);
-        }
-        if (filter == 1) {
+        } else if (filter == 1) {
             list.removeIf(task -> task.status() != TaskStatus.IN_PROGRESS);
         } else if (filter == 2) {
             list.removeIf(task -> task.status() != TaskStatus.COMPLETED);
+        } else if (filter == 3) {
+            list.removeIf(task -> task.status() != TaskStatus.REVIEW);
+        } else if (filter == 4) {
+            list.removeIf(task -> task.status() != TaskStatus.TEST);
         }
         return list;
     }

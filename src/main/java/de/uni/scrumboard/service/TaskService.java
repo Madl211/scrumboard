@@ -23,7 +23,7 @@ public record TaskService(ITaskRepository taskRepository, IAccountRepository acc
 
     @Override
     public List<Task> searchTasks(String search, int filter) {
-        if (filter != 0 && filter != 1 && filter != 2){
+        if (filter < 0 || filter > 4){
             if(search==null){
             return taskRepository.getAllTasks();
             }
