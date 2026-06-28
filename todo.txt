@@ -13,5 +13,3 @@ Mathis  | - nach Registrierung soll auf home geroutet werden und nicht auf Profi
 Eric    | - suche funktioniert nicht(in TaskRepo ist die SQL Abfrage falsch, es wird priority abgefragt, aber gar nicht in er sql suche gesucht) - fertig
         | - contributer page, die komischen zeichen entfernen, "x" und "-", zurück button entfernen - fertig
         | - wenn kein assignee zugeordnet dann soll "none"angezeigt werden und nicht blank - fertig
---------|------------------------------------------------------------------------------------------------
-Kevin   | - Profilseite schicker machen
