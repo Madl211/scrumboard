@@ -218,6 +218,34 @@
 	Nutzer &
 	Als angemeldeter Nutzer weise ich einer Task über \textit{/edit-task/\{id\}} mehrere Nutzer zu. Auf dem Backlog-Board werden alle zugewiesenen Nutzernamen auf der Board-Karte der Task angezeigt. &
 	Bestanden
+	\\
+	\hline
+	\textbf{T3.3.1} &
+	Testen der User Story S3.3 (Priorität-Badge sichtbar im Backlog) &
+	Nutzer &
+	Als angemeldeter Nutzer erstelle ich eine Task und weise ihr die Priorität \textit{Hoch} zu. Anschließend öffne ich das zugehörige Backlog-Board und überprüfe, ob auf der Task-Karte ein farbiger Badge mit der Aufschrift \textit{Hoch} sichtbar ist. &
+	Bestanden
+	\\
+	\hline
+	\textbf{T3.3.2} &
+	Testen der User Story S3.3 (Sortierung nach Priorität im Backlog) &
+	Nutzer &
+	Als angemeldeter Nutzer lege ich in einem Backlog mehrere Tasks mit unterschiedlichen Prioritäten an (Hoch, Mittel, Niedrig). Im Backlog-Board überprüfe ich, ob innerhalb einer Spalte die Tasks mit Priorität \textit{Hoch} oben, \textit{Mittel} in der Mitte und \textit{Niedrig} unten angezeigt werden. &
+	Bestanden
+	\\
+	\hline
+	\textbf{T3.3.3} &
+	Testen der User Story S3.3 (Priorität-Änderung einer Task wird gespeichert) &
+	Nutzer &
+	Als angemeldeter Nutzer öffne ich eine bestehende Task über \textit{/edit-task/\{id\}}, ändere die Priorität von \textit{Niedrig} auf \textit{Hoch} und speichere. Nach dem Speichern öffne ich die Task erneut und überprüfe, ob die neue Priorität \textit{Hoch} korrekt angezeigt wird. &
+	Bestanden
+	\\
+	\hline
+	\textbf{T3.3.4} &
+	Testen der User Story S3.3 (Priorität-Änderung einer User Story durch PO wird gespeichert) &
+	Product Owner &
+	Als Nutzer mit der Rolle \textit{Product Owner} öffne ich eine bestehende User Story über \textit{/edit-user-story/\{id\}}, ändere die Priorität und speichere. Nach dem Speichern öffne ich die User Story erneut und überprüfe, ob die geänderte Priorität korrekt gespeichert wurde und angezeigt wird. &
+	Bestanden
 \end{longtable}
 
 \end{document}
