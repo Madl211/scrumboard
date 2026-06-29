@@ -52,7 +52,10 @@
             <h3>Tasks</h3>
             {{#todoTasks}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <strong>{{title}}</strong>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <strong>{{title}}</strong>
+                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityCount}}</span>
+                </div>
                 <p>{{desc}}</p>
                 <p>
                 Assignees:
@@ -103,7 +106,10 @@
             <h3>Tasks</h3>
             {{#inProgressTasks}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <strong>{{title}}</strong>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <strong>{{title}}</strong>
+                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityCount}}</span>
+                </div>
                 <p>{{desc}}</p>
                 <p>
                 Assignees:
@@ -154,7 +160,10 @@
             <h3>Tasks</h3>
             {{#reviewTasks}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <strong>{{title}}</strong>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <strong>{{title}}</strong>
+                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityCount}}</span>
+                </div>
                 <p>{{desc}}</p>
                 <p>
                 Assignees:
@@ -205,7 +214,10 @@
             <h3>Tasks</h3>
             {{#testTasks}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <strong>{{title}}</strong>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <strong>{{title}}</strong>
+                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityCount}}</span>
+                </div>
                 <p>{{desc}}</p>
                 <p>
                 Assignees:
@@ -256,7 +268,10 @@
             <h3>Tasks</h3>
             {{#doneTasks}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <strong>{{title}}</strong>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <strong>{{title}}</strong>
+                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityCount}}</span>
+                </div>
                 <p>{{desc}}</p>
                 <p>
                 Assignees:

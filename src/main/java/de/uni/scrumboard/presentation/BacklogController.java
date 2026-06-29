@@ -1,6 +1,7 @@
 package de.uni.scrumboard.presentation;
 
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,18 +127,23 @@ public class BacklogController implements IBacklogController {
 
         List<Task> todoTasks = tasks.stream()
                 .filter(t -> t.status() == TaskStatus.TODO)
+                .sorted(Comparator.comparingInt(Task::priorities).reversed())
                 .collect(Collectors.toList());
         List<Task> inProgressTasks = tasks.stream()
                 .filter(t -> t.status() == TaskStatus.IN_PROGRESS)
+                .sorted(Comparator.comparingInt(Task::priorities).reversed())
                 .collect(Collectors.toList());
         List<Task> doneTasks = tasks.stream()
                 .filter(t -> t.status() == TaskStatus.COMPLETED)
+                .sorted(Comparator.comparingInt(Task::priorities).reversed())
                 .collect(Collectors.toList());
         List<Task> reviewTasks = tasks.stream()
                 .filter(t -> t.status() == TaskStatus.REVIEW)
+                .sorted(Comparator.comparingInt(Task::priorities).reversed())
                 .collect(Collectors.toList());
         List<Task> testTasks = tasks.stream()
                 .filter(t -> t.status() == TaskStatus.TEST)
+                .sorted(Comparator.comparingInt(Task::priorities).reversed())
                 .collect(Collectors.toList());
 
         Timestamp timestampOfLastCheckedUpdate = backlogService.getLastUpdate(backlogId);

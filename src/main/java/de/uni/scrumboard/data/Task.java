@@ -81,4 +81,13 @@ public record Task(int taskId, String title, String desc, List<Account> assignee
             default -> "Niedrig";
         };
     }
+
+    public String getPriorityColor() {
+        return switch (priorities) {
+            case 0 -> "#28a745";
+            case 1 -> "#fd7e14";
+            case 2 -> "#dc3545";
+            default -> "#6c757d";
+        };
+    }
 }
