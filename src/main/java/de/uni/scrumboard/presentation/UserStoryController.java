@@ -280,7 +280,7 @@ public void postEditUserStory(Context context) {
     String beschreibung = context.formParam("beschreibung");
     String backlogIdString = context.formParam("backlog");
     String statusString = context.formParam("status");
-    String priorityString = context.formParam("priorities");
+    String priorityString = context.formParam("priority");
     
     int productOwnerId = userStoryService.getProductOwnerByUserStoryId(id);
     boolean isProductOwner = (accountId == productOwnerId);

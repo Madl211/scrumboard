@@ -103,22 +103,27 @@ public class BacklogController implements IBacklogController {
 
         List<Map<String, Object>> todoUserStories = userStories.stream()
                 .filter(s -> s.status() == TaskStatus.TODO)
+                .sorted(Comparator.comparingInt(UserStory::priorities).reversed())
                 .map(s -> enrichUserStory(s))
                 .collect(Collectors.toList());
         List<Map<String, Object>> inProgressUserStories = userStories.stream()
                 .filter(s -> s.status() == TaskStatus.IN_PROGRESS)
+                .sorted(Comparator.comparingInt(UserStory::priorities).reversed())
                 .map(s -> enrichUserStory(s))
                 .collect(Collectors.toList());
         List<Map<String, Object>> doneUserStories = userStories.stream()
                 .filter(s -> s.status() == TaskStatus.COMPLETED)
+                .sorted(Comparator.comparingInt(UserStory::priorities).reversed())
                 .map(s -> enrichUserStory(s))
                 .collect(Collectors.toList());
         List<Map<String, Object>> reviewUserStories = userStories.stream()
                 .filter(s -> s.status() == TaskStatus.REVIEW)
+                .sorted(Comparator.comparingInt(UserStory::priorities).reversed())
                 .map(s -> enrichUserStory(s))
                 .collect(Collectors.toList());
         List<Map<String, Object>> testUserStories = userStories.stream()
                 .filter(s -> s.status() == TaskStatus.TEST)
+                .sorted(Comparator.comparingInt(UserStory::priorities).reversed())
                 .map(s -> enrichUserStory(s))
                 .collect(Collectors.toList());
 
@@ -173,6 +178,18 @@ public class BacklogController implements IBacklogController {
         map.put("titel", us.titel());
         map.put("beschreibung", us.beschreibung());
         map.put("tasks", tasks);
+        String priorityLabel = switch (us.priorities()) {
+            case 2 -> "Hoch";
+            case 1 -> "Mittel";
+            default -> "Niedrig";
+        };
+        String priorityColor = switch (us.priorities()) {
+            case 2 -> "#dc3545";
+            case 1 -> "#fd7e14";
+            default -> "#28a745";
+        };
+        map.put("priorityLabel", priorityLabel);
+        map.put("priorityColor", priorityColor);
         return map;
     }
 

@@ -130,9 +130,9 @@ String query = "SELECT id, titel, beschreibung, creatorId, backlogId, status, pr
     @Override
     public List<Map<String, Object>> getTasksByUserStoryId(int userStoryId) {
         List<Map<String, Object>> tasks = new ArrayList<>();
-        String sql = "SELECT t.taskId, t.title, t.status FROM tasks t " +
+        String sql = "SELECT t.taskId, t.title, t.status, t.priorities FROM tasks t " +
                 "JOIN user_story_tasks ust ON t.taskId = ust.taskId " +
-                "WHERE ust.userStoryId = ? ORDER BY t.taskId";
+                "WHERE ust.userStoryId = ? ORDER BY t.priorities DESC, t.taskId";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, userStoryId);
             try (ResultSet result = ps.executeQuery()) {
@@ -150,6 +150,19 @@ String query = "SELECT id, titel, beschreibung, creatorId, backlogId, status, pr
                         default          -> statusLabel = "Todo";
                     }
                     task.put("statusLabel", statusLabel);
+                    int priorities = result.getInt("priorities");
+                    String priorityLabel = switch (priorities) {
+                        case 2 -> "Hoch";
+                        case 1 -> "Mittel";
+                        default -> "Niedrig";
+                    };
+                    String priorityColor = switch (priorities) {
+                        case 2 -> "#dc3545";
+                        case 1 -> "#fd7e14";
+                        default -> "#28a745";
+                    };
+                    task.put("priorityLabel", priorityLabel);
+                    task.put("priorityColor", priorityColor);
                     tasks.add(task);
                 }
             }

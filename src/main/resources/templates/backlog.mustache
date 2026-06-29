@@ -22,7 +22,10 @@
             <h3>User Stories</h3>
             {{#todoUserStories}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <strong>{{titel}}</strong>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <strong>{{titel}}</strong>
+                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityLabel}}</span>
+                </div>
                 <p>{{beschreibung}}</p>
                 <details style="margin-top: 8px;">
                     <summary style="cursor: pointer; color: #555;">Tasks</summary>
@@ -30,7 +33,10 @@
                         {{#tasks}}
                         <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #eee;">
                             <span>{{title}} ({{statusLabel}})</span>
-                            <a href="/edit-task/{{taskId}}">Bearbeiten</a>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="background-color: {{priorityColor}}; color: white; padding: 1px 6px; border-radius: 3px; font-size: 0.75em; font-weight: bold;">{{priorityLabel}}</span>
+                                <a href="/edit-task/{{taskId}}">Bearbeiten</a>
+                            </div>
                         </div>
                         {{/tasks}}
                         {{^tasks}}
@@ -76,7 +82,10 @@
             <h3>User Stories</h3>
             {{#inProgressUserStories}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <strong>{{titel}}</strong>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <strong>{{titel}}</strong>
+                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityLabel}}</span>
+                </div>
                 <p>{{beschreibung}}</p>
                 <details style="margin-top: 8px;">
                     <summary style="cursor: pointer; color: #555;">Tasks</summary>
@@ -84,7 +93,10 @@
                         {{#tasks}}
                         <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #eee;">
                             <span>{{title}} ({{statusLabel}})</span>
-                            <a href="/edit-task/{{taskId}}">Edit</a>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="background-color: {{priorityColor}}; color: white; padding: 1px 6px; border-radius: 3px; font-size: 0.75em; font-weight: bold;">{{priorityLabel}}</span>
+                                <a href="/edit-task/{{taskId}}">Edit</a>
+                            </div>
                         </div>
                         {{/tasks}}
                         {{^tasks}}
@@ -130,7 +142,10 @@
             <h3>User Stories</h3>
             {{#reviewUserStories}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <strong>{{titel}}</strong>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <strong>{{titel}}</strong>
+                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityLabel}}</span>
+                </div>
                 <p>{{beschreibung}}</p>
                 <details style="margin-top: 8px;">
                     <summary style="cursor: pointer; color: #555;">Tasks</summary>
@@ -138,7 +153,10 @@
                         {{#tasks}}
                         <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #eee;">
                             <span>{{title}} ({{statusLabel}})</span>
-                            <a href="/edit-task/{{taskId}}">Bearbeiten</a>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="background-color: {{priorityColor}}; color: white; padding: 1px 6px; border-radius: 3px; font-size: 0.75em; font-weight: bold;">{{priorityLabel}}</span>
+                                <a href="/edit-task/{{taskId}}">Bearbeiten</a>
+                            </div>
                         </div>
                         {{/tasks}}
                         {{^tasks}}
@@ -184,7 +202,10 @@
             <h3>User Stories</h3>
             {{#testUserStories}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <strong>{{titel}}</strong>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <strong>{{titel}}</strong>
+                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityLabel}}</span>
+                </div>
                 <p>{{beschreibung}}</p>
                 <details style="margin-top: 8px;">
                     <summary style="cursor: pointer; color: #555;">Tasks</summary>
@@ -192,7 +213,10 @@
                         {{#tasks}}
                         <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #eee;">
                             <span>{{title}} ({{statusLabel}})</span>
-                            <a href="/edit-task/{{taskId}}">Edit</a>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="background-color: {{priorityColor}}; color: white; padding: 1px 6px; border-radius: 3px; font-size: 0.75em; font-weight: bold;">{{priorityLabel}}</span>
+                                <a href="/edit-task/{{taskId}}">Edit</a>
+                            </div>
                         </div>
                         {{/tasks}}
                         {{^tasks}}
@@ -238,7 +262,10 @@
             <h3>User Stories</h3>
             {{#doneUserStories}}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <strong>{{titel}}</strong>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <strong>{{titel}}</strong>
+                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityLabel}}</span>
+                </div>
                 <p>{{beschreibung}}</p>
                 <details style="margin-top: 8px;">
                     <summary style="cursor: pointer; color: #555;">Tasks</summary>
@@ -246,7 +273,10 @@
                         {{#tasks}}
                         <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #eee;">
                             <span>{{title}} ({{statusLabel}})</span>
-                            <a href="/edit-task/{{taskId}}">Bearbeiten</a>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="background-color: {{priorityColor}}; color: white; padding: 1px 6px; border-radius: 3px; font-size: 0.75em; font-weight: bold;">{{priorityLabel}}</span>
+                                <a href="/edit-task/{{taskId}}">Bearbeiten</a>
+                            </div>
                         </div>
                         {{/tasks}}
                         {{^tasks}}
