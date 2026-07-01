@@ -35,12 +35,28 @@
 \section{Backlogs und Planung}
 
 \subsection{Produktbacklog vor und nach dem Sprint}
-Das Produktbacklog hat sich im Vergleich zum letzten Sprint nicht verändert.
+In diesem Sprint wurden dem Produktbacklog mehrere Tasks hinzugefügt.
+Die Tasks wurden in einem Meeting mit den Entwicklern identifiziert.
+In diesem Meeting wurde die gesamte Anwendung nach Problemen und Verbesserungsmöglichkeiten durchsucht.
+Folgende Tasks sind dadurch entstanden:
+\begin{itemize}
+	\item Refactoring der Startseite
+	\item Refactoring der Profilseite
+	\item Refactoring des Headers
+	\item Vereinheitlichung der Sprache
+	\item überflüssige Zurück-Buttons entfernen
+	\item fehlende Status beim Bearbeiten einer User-Story ergänzen
+	\item Umleitung nach Registrierung korrigieren
+	\item Fehler beim Speichern von Prioritäten korrigieren
+	\item Fehler in Suche beheben
+	\item Refactoring Anzeige Assignees
+\end{itemize}
 
 \subsection{Sprint Planung}
 Im letzten Sprint wurden alle verbleibenden User Stories und Anforderungen vollständig umgesetzt.\\
-In diesem Sprint lag der Fokus auf Refactoring sowie der Erweiterung und Korrektur bereits implementierter Features. Konkret wurden die Start- und Profilseite überarbeitet, S3.3 um die visuelle Prioritätsanzeige im Backlog-Board erweitert und ein Bug behoben, durch den die Priorität einer User Story beim Speichern nicht übernommen wurde.
-
+In diesem Sprint lag der Fokus auf Refactoring sowie der Erweiterung und Korrektur bereits implementierter Features.
+Die Aufgaben, welche dem Produktbacklog hinzugefügt wurden, sollen in diesem vollständig abgearbeitet werden.\\
+\\
 \noindent\textit{Hinweis: Das vollständige Sprintbacklog ist unter \href{run:./Sprintbacklog.pdf}{Sprintbacklog.pdf}, sowie \href{https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/uebung3/team3/projekt-team3-uebung3/-/blob/main/abgabedokumente/Sprintbacklog.pdf?ref_type=heads}{im Gitlab} zu finden.}
 
 \section{Verfeinerte Architektur}
@@ -77,9 +93,9 @@ Für die in diesem Sprint durchgeführten Erweiterungen und Bug-Fixes wurden neu
 Die vollständige Testdokumentation ist im \href{https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/uebung3/team3/projekt-team3-uebung3/-/blob/main/abgabedokumente/Manuelle_Tests.pdf?ref_type=heads}{Gitlab} zu finden.
 
 \subsection{Tracing}
-Für jede User Story und Anforderung wurde ein Branch im Gitlab angelegt.
-Nach Fertigstellung der Implementierung wurde der Branch in den main-Branch gemergt.
-Eine Liste aller in diesem Sprint umgesetzten Aufgaben mit dem dazugehörigen Commit-Hash ist Tabelle \ref{tab:tracing_sprint4} zu entnehmen.
+Da der Umfang der Aufgaben stark variierte, wurden einige Aufgaben auf einem separaten Branch und andere wiederum als einzelner Commit auf dem main-Branch umgesetzt.
+In Tabelle \ref{tab:tracing} wird daher der Hash des Commits aufgeführt, der alle Änderungen für die jeweilige Aufgabe enthält.
+Im Fall von umfangreicheren Aufgaben, ist dies der Merge-Commit.
 
 \begin{table}[H]
 	\centering
@@ -87,19 +103,19 @@ Eine Liste aller in diesem Sprint umgesetzten Aufgaben mit dem dazugehörigen Co
 	\renewcommand{\arraystretch}{1.4}
 	\begin{tabular}{| p{4.5cm} | p{9cm} |}
 		\hline
-		\textbf{Aufgabe}                                                             & \textbf{Hash des Commits}                \\
+		\textbf{Aufgabe}                                          & \textbf{Hash des Commits}                \\
 		\hline
-		\textbf{Refactoring Startseite}                                              & 689279b0b27f6f5b0b44aed8ace9ca6b8f1a15a6 \\
+		Refactoring Startseite                                    & e11f1598abe405648113fe816094e33a38ac638e \\
 		\hline
-		\textbf{Refactoring Profilseite}                                             & 21fb79b4acb6c9d3b8fa52c46f7c3a5c0b7e1d02 \\
+		Refactoring Profilseite                                   & 21fb79bf713f3093c29d9445bdc81d7e376d493a \\
 		\hline
-		\textbf{S3.3} - Priorität-Badge und Sortierung im Backlog                   & 7e139701164b596093647577f7a605dff54a0921 \\
+		Refactoring Header                                        & 0d590a2623358612f4ce1229d06cee310e629163 \\
 		\hline
-		\textbf{S2.2 / S3.3} - Bug-Fix: Priorität einer User Story wird gespeichert & ab14c35018de2244ab3444ea6faebef10294195a \\
+		\textbf{S3.3} - Priorität-Badge und Sortierung im Backlog & 7e139701164b596093647577f7a605dff54a0921 \\
 		\hline
 	\end{tabular}
-	\caption{Tracing: Hash der Commits der umgesetzten Aufgaben in Sprint 4}
-	\label{tab:tracing_sprint4}
+	\caption{Tracing: Hashes der Commits}
+	\label{tab:tracing}
 \end{table}
 
 \subsection{Laufender Prototyp}
