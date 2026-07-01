@@ -1,0 +1,114 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\setcounter{secnumdepth}{4}
+
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\geometry{a4paper, margin=2.5cm}
+\graphicspath{{images/}}
+
+\begin{document}
+
+\begin{table}[h]
+	\centering
+	\footnotesize
+	\begin{tabular}{| p{1.5cm} | p{2.5cm} | p{2cm} | p{2cm} | p{2cm} |}
+		\hline
+		                            & Verantwortliche Teammitglieder (Organisation, Anlegen der Dokumentenversion, Moderation, Abgabe)         & Anwesende während der Meetings                                                                           & (Online-) Beiträge zum Inhalt durch                                                                      & Korrektur-gelesen durch                                                                                  \\
+		\hline
+		Dokument Sprint 4 Version 1 & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer & Paul Schröder, Eric Buthmann, Yanik Buthmann, Mathis Behrendt, Adrian Gode, Niklas Krüger, Kevin Zellmer \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\section{Backlogs und Planung}
+
+\subsection{Produktbacklog vor und nach dem Sprint}
+Das Produktbacklog hat sich im Vergleich zum letzten Sprint nicht verändert.
+
+\subsection{Sprint Planung}
+Im letzten Sprint wurden alle verbleibenden User Stories und Anforderungen vollständig umgesetzt.\\
+In diesem Sprint lag der Fokus auf Refactoring sowie der Erweiterung und Korrektur bereits implementierter Features. Konkret wurden die Start- und Profilseite überarbeitet, S3.3 um die visuelle Prioritätsanzeige im Backlog-Board erweitert und ein Bug behoben, durch den die Priorität einer User Story beim Speichern nicht übernommen wurde.
+
+\noindent\textit{Hinweis: Das vollständige Sprintbacklog ist unter \href{run:./Sprintbacklog.pdf}{Sprintbacklog.pdf}, sowie \href{https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/uebung3/team3/projekt-team3-uebung3/-/blob/main/abgabedokumente/Sprintbacklog.pdf?ref_type=heads}{im Gitlab} zu finden.}
+
+\section{Verfeinerte Architektur}
+\subsection{Task/User Stories}
+
+
+\subsubsection{Modellierung/Refactoring für User Story S3.3: Anzeige und Sortierung von Task-Prioritäten im Backlog}
+\paragraph{Modellierung verfeinerter Struktur}
+Die grundlegende Architektur aus Sprint 3 bleibt unverändert. Im Data Layer wurde die Klasse \texttt{Task} um die Hilfsmethode \texttt{getPriorityColor()} ergänzt, die je nach Prioritätswert eine Farbe zurückgibt (rot für Hoch, orange für Mittel, grün für Niedrig). Im Presentation Layer wurde der \texttt{BacklogController} angepasst, sodass die Task-Listen aller fünf Statusspalten vor der Übergabe ans Template nach Priorität absteigend sortiert werden. Im Frontend-Template \texttt{backlog.mustache} wurde jede Task-Karte um ein farbiges Priorität-Badge erweitert.
+
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+Es wurden keine neuen Klassen, Interfaces oder Datenbankfelder hinzugefügt. Die bestehende Methode \texttt{getPriorityCount()} aus Sprint 3 wurde lediglich durch \texttt{getPriorityColor()} für die Darstellung ergänzt. Das Klassendiagramm und die Datenstrukturen aus Sprint 3 sind weiterhin gültig.
+
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+Beim Aufruf von \texttt{GET /backlog/\{id\}} werden die Tasks wie bisher nach Status gruppiert und nun zusätzlich innerhalb jeder Gruppe nach Priorität absteigend sortiert. Das Sequenzdiagramm aus Sprint 3 beschreibt den Ablauf weiterhin korrekt; Sortierung und Badge-Darstellung sind rein technische Ergänzungen ohne neue Interaktionsschritte.
+
+\subsubsection{Modellierung/Refactoring für User Story S2.2: Bug-Fix Priorität einer User Story wird beim Speichern nicht übernommen}
+\paragraph{Modellierung verfeinerter Struktur}
+Die Architektur bleibt unverändert. Der Fehler lag in einem inkonsistenten Formularnamen: Das Template \texttt{edit-user-story.mustache} sendete den Prioritätswert unter dem Feldnamen \texttt{priority}, während \texttt{postEditUserStory} im \texttt{UserStoryController} ihn unter \texttt{priorities} abfragte. Dadurch war \texttt{priorityString} stets \texttt{null} und die Priorität wurde nie gespeichert.
+
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
+Keine Änderungen an Interfaces oder Datenstrukturen.
+
+\paragraph{Modellierung relevanter Verhaltensaspekte}
+Nach der Korrektur liest \texttt{postEditUserStory} den Parameter korrekt unter \texttt{priority}. Das Verhalten entspricht nun dem in Sprint 3 beschriebenen Sequenzdiagramm für S2.2.
+
+\section{Implementation und Tests}
+\subsection{Updates zu den genutzten Technologien}
+An den genutzten Technologien wurden keine Änderungen vorgenommen.
+
+\subsection{Dokumentation der Codequalität}
+Wie in den vorangegangenen Sprints wurde die Korrektheit der Implementierung manuell überprüft.
+Für die in diesem Sprint durchgeführten Erweiterungen und Bug-Fixes wurden neue Testfälle erstellt.
+Die vollständige Testdokumentation ist im \href{https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/uebung3/team3/projekt-team3-uebung3/-/blob/main/abgabedokumente/Manuelle_Tests.pdf?ref_type=heads}{Gitlab} zu finden.
+
+\subsection{Tracing}
+Für jede User Story und Anforderung wurde ein Branch im Gitlab angelegt.
+Nach Fertigstellung der Implementierung wurde der Branch in den main-Branch gemergt.
+Eine Liste aller in diesem Sprint umgesetzten Aufgaben mit dem dazugehörigen Commit-Hash ist Tabelle \ref{tab:tracing_sprint4} zu entnehmen.
+
+\begin{table}[H]
+	\centering
+	\small
+	\renewcommand{\arraystretch}{1.4}
+	\begin{tabular}{| p{4.5cm} | p{9cm} |}
+		\hline
+		\textbf{Aufgabe}                                                             & \textbf{Hash des Commits}                \\
+		\hline
+		\textbf{Refactoring Startseite}                                              & 689279b0b27f6f5b0b44aed8ace9ca6b8f1a15a6 \\
+		\hline
+		\textbf{Refactoring Profilseite}                                             & 21fb79b4acb6c9d3b8fa52c46f7c3a5c0b7e1d02 \\
+		\hline
+		\textbf{S3.3} - Priorität-Badge und Sortierung im Backlog                   & 7e139701164b596093647577f7a605dff54a0921 \\
+		\hline
+		\textbf{S2.2 / S3.3} - Bug-Fix: Priorität einer User Story wird gespeichert & ab14c35018de2244ab3444ea6faebef10294195a \\
+		\hline
+	\end{tabular}
+	\caption{Tracing: Hash der Commits der umgesetzten Aufgaben in Sprint 4}
+	\label{tab:tracing_sprint4}
+\end{table}
+
+\subsection{Laufender Prototyp}
+Der aktuelle Prototyp erfüllt alle im Dokument \href{https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/uebung3/team3/projekt-team3-uebung3/-/blob/main/anforderungen/anforderungen.pdf?ref_type=heads}{Anforderungen} genannten Anforderungen.
+
+\subsubsection*{Installations- und Kompilieranweisung}
+Die Installations- und Kompilieranweisung ist im \href{https://git.informatik.uni-rostock.de/softwaretechnik-ws-2025-26/uebung3/team3/projekt-team3-uebung3/-/blob/main/README.md?ref_type=heads}{Gitlab} zu finden.
+
+\subsection{Abweichung Sprintplanung}
+Der Plan in diesem Sprint war es, Refactoring-Maßnahmen durchzuführen sowie bereits implementierte Features zu erweitern und zu korrigieren. Alle geplanten Aufgaben wurden vollständig umgesetzt, sodass der Plan erfüllt wurde.
+
+\end{document}
