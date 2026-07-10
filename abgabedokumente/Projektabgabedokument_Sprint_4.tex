@@ -41,15 +41,15 @@ In diesem Meeting wurde die gesamte Anwendung nach Problemen und Verbesserungsm�
 Folgende Tasks sind dadurch entstanden:
 \begin{itemize}
 	\item Refactoring der Startseite
-	\item Refactoring der Profilseite
 	\item Refactoring des Headers
+	\item Refactoring User Story S5.3: Anzeige Profil
+	\item Refactoring für User Story S2.2: Bug-Fix Priorität einer User Story wird beim Speichern nicht übernommen
+	\item Refactoring für User Story S3.3: Anzeige und Sortierung von Task-Prioritäten im Backlog
+	\item Refactoring Anzeige Assignees
 	\item Vereinheitlichung der Sprache
 	\item überflüssige Zurück-Buttons entfernen
-	\item fehlende Status beim Bearbeiten einer User-Story ergänzen
 	\item Umleitung nach Registrierung korrigieren
-	\item Fehler beim Speichern von Prioritäten korrigieren
 	\item Fehler in Suche beheben
-	\item Refactoring Anzeige Assignees
 \end{itemize}
 
 \subsection{Sprint Planung}
@@ -82,6 +82,76 @@ Keine Änderungen an Interfaces oder Datenstrukturen.
 
 \paragraph{Modellierung relevanter Verhaltensaspekte}
 Nach der Korrektur liest \texttt{postEditUserStory} den Parameter korrekt unter \texttt{priority}. Das Verhalten entspricht nun dem in Sprint 3 beschriebenen Sequenzdiagramm für S2.2.
+
+\subsubsection{Refactoring Startseite}
+Das Refactoring der Startseite hatte keine Auswirkungen auf die Struktur des Systems.
+Es wurde ausschließlich die grafische Oberfläche verändert.\\
+Vor dem Refactoring wurde auf der Startseite eine Liste der Nutzer, eine Liste der Tasks, eine Suchzeile und Buttons zum Erstellen verschiedener Elemente angezeigt.
+Die Startseite vor dem Refactoring ist in Abbildung \ref{fig:startseite_vor_refactoring} zu sehen.
+\begin{figure}
+	\centering
+	\fbox{\includegraphics[width=12cm]{startseite_vor_refactoring.png}}
+	\caption{Design der Startseite vor dem Refactoring}
+	\label{fig:startseite_vor_refactoring}
+\end{figure}
+Die Entwickler haben sich dazu entschieden, das Hauptfeature, die Backlogs, auf der Startseite anzuzeigen.
+Dies soll die Nutzung des Systems vereinfachen.
+Die Gestaltung der Startseite nach dem Refactoring ist in Abbildung \ref{fig:startseite_nach_refactoring} zu sehen.
+\begin{figure}
+	\centering
+	\fbox{\includegraphics[width=12cm]{startseite_nach_refactoring.png}}
+	\caption{Design der Startseite nach dem Refactoring}
+	\label{fig:startseite_nach_refactoring}
+\end{figure}
+
+\subsubsection{Refactoring Header}
+Das Refactoring des Headers hatte keine Auswirkungen auf die Struktur des Systems.
+Es wurde ausschließlich die grafische Oberfläche verändert.\\
+Das Refactoring des Headers sollte die Anzeige von unterschiedlichen Headern auf den Seiten beheben.
+Die Abbildung \ref{fig:header_vor_refactoring} zeigt ein Beispiel für die Anzeige verschiedener Header auf unterschiedlichen Seiten.
+\begin{figure}
+	\centering
+	\begin{minipage}[b]{0.4\textwidth}
+		\fbox{\includegraphics[width=\textwidth]{header_vor_refactoring_1.png}}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[b]{0.4\textwidth}
+		\fbox{\includegraphics[width=\textwidth]{header_vor_refactoring_2.png}}
+	\end{minipage}
+	\caption{Anzeige unterschiedlicher Header vor dem Refactoring}
+	\label{fig:header_vor_refactoring}
+\end{figure}
+Um dieses Problem zu beheben, wurde ein Mustache-Partial erstellt.
+Das Partial wurde dann auf jeder Seite eingebunden.
+Damit erhält man auf jeder Seite einen einheitlichen Header.\\
+Der einheitliche Header ist in Abbildung \ref{fig:header_nach_refactoring} zu sehen.
+\begin{figure}
+	\centering
+	\fbox{\includegraphics[width=10cm]{header_nach_refactoring.png}}
+	\caption{Einheitlicher Header nach dem Refactoring}
+	\label{fig:header_nach_refactoring}
+\end{figure}
+
+\subsubsection{Refactoring User Story S5.3: Anzeige Profil}
+Das Refactoring der Profilseite hatte keine Auswirkungen auf die Struktur des Systems.
+Es wurde ausschließlich die grafische Oberfläche verändert.\\
+Die grafische Oberfläche der Profilseite unterschied sich vor dem Refactoring deutlich vom Designkonzept der anderen Seiten.
+Zu sehen ist die Oberfläche der Profilseite vor dem Refactoring in Abbildung \ref{fig:profilseite_vor_refactoring}.
+\begin{figure}
+	\centering
+	\fbox{\includegraphics[width=4cm]{profilseite_vor_refactoring.png}}
+	\caption{Design der Profilseite vor dem Refactoring}
+	\label{fig:profilseite_vor_refactoring}
+\end{figure}
+Durch das Refactoring wurde die Seite an das allgemeine Designkonzept der Anwendung angepasst.
+Zu sehen ist die verbesserte Oberfläche in Abbildung \ref{fig:profilseite_nach_refactoring}.
+\begin{figure}
+	\centering
+	\fbox{\includegraphics[width=12cm]{profilseite_nach_refactoring.png}}
+	\caption{Design der Profilseite nach dem Refactoring}
+	\label{fig:profilseite_nach_refactoring}
+\end{figure}
+
 
 \section{Implementation und Tests}
 \subsection{Updates zu den genutzten Technologien}
