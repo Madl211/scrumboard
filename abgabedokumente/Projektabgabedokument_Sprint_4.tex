@@ -132,6 +132,28 @@ Der einheitliche Header ist in Abbildung \ref{fig:header_nach_refactoring} zu se
 	\label{fig:header_nach_refactoring}
 \end{figure}
 
+\subsubsection{Refactoring Backloganzeige Assignees}
+Es bestand das Problem, dass wenn kein Nutzer einer Task zugewiesen war, die Anzeige der Assignees ein blank war.
+Dieses Problem wurde behoben, indem dort nun "none" angezeigt wird, wenn kein Nutzer zugewiesen ist. Dies macht es deutlich klarer, dass kein Nutzer zugewiesen ist.\\
+\begin{figure}
+	\centering
+	\fbox{\includegraphics[width=12cm]{backlogRef.png}}
+	\caption{Anzeige der Assignees nach dem Refactoring}
+	\label{fig:backlog_assignees}
+\end{figure}
+\subsubsection{Refactoring Contributor Page}
+Es bestand das Problem, dass die Contributor Page nicht korrekt angezeigt wurde. Es gab fehler mit der Anzeige von Symbolen und diese wurden nun entfernt, da diese sowieso nicht besonders funktional waren.
+\begin{figure}
+	\centering
+	\fbox{\includegraphics[width=12cm]{contributorRef.png}}
+	\caption{Anzeige der Contributor Page nach dem Refactoring}
+	\label{fig:contributor_page_ref}
+\end{figure}
+\subsubsection{Refactoring Abfrage einer Task}
+Hier bestand das Problem, dass die Abfrage einer Task nicht korrekt funktionierte. Es wurde nun die Abfrage so angepasst, dass diese korrekt funktioniert und die Task korrekt angezeigt wird.
+Das Problem war, es wurde zwar das Attribut "priorities" im result der Abfrage genutzt, aber dieses Attribut wurde nie in der Anfrage gesucht. Das wurde jetzt
+hinzugefügt und jetzt funktioniert die Abfrage korrekt.\\
+
 \subsubsection{Refactoring User Story S5.3: Anzeige Profil}
 Das Refactoring der Profilseite hatte keine Auswirkungen auf die Struktur des Systems.
 Es wurde ausschließlich die grafische Oberfläche verändert.\\
@@ -213,6 +235,11 @@ Im Fall von umfangreicheren Aufgaben, ist dies der Merge-Commit.
 		\hline
 		Refactoring Tasklistenerweiterung                         & 689279b675b373e8397c8894438625af45e51529 \\
 		\hline
+		Refactoring Backlog Anzeige Assignees                     & 828008e72efee5f162e168882fdc9bbc8251f760 \\
+		\hline
+		Refactoring contributor Page							  & 828008e72efee5f162e168882fdc9bbc8251f760 \\
+		\hline
+		Refactoring Abfrage einer Task							  & 828008e72efee5f162e168882fdc9bbc8251f760 \\
 	\end{tabular}
 	\caption{Tracing: Hashes der Commits}
 	\label{tab:tracing}
