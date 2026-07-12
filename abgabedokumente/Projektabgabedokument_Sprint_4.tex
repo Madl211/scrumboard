@@ -153,6 +153,32 @@ Zu sehen ist die verbesserte Oberfläche in Abbildung \ref{fig:profilseite_nach_
 \end{figure}
 
 
+\subsection{Refactoring Suchfilter: Fehler in der Suche beheben}
+
+\subsubsection{Modellierung verfeinerter Struktur}
+Die Architektur bleibt unverändert. Der Suchfilter war nach der Erweiterung der Tasklisten auf fünf Status fehlerhaft: Die Filter-Schaltflächen in \texttt{search.mustache} übergaben Werte, die nicht mit den numerischen Werten des Enums \texttt{TaskStatus} übereinstimmten. Zusätzlich berücksichtigte die Methode \texttt{searchTasks} im \texttt{TaskService} nur die Filterwerte 0 bis 2, sodass die Filter für \texttt{REVIEW} und \texttt{TEST} wirkungslos blieben. Die Methode \texttt{filterTask} im \texttt{TaskRepository} filterte ebenfalls nur nach drei Status. Alle drei Stellen wurden korrigiert und auf den Wertebereich 0 bis 4 erweitert.
+
+\subsubsection{Modellierung verfeinerter Interfaces und Datenstrukturen}
+Keine Änderungen an Interfaces oder Datenstrukturen.
+
+\subsubsection{Modellierung relevanter Verhaltensaspekte}
+Nach der Korrektur liefert die Suche für jeden der fünf Status die zugehörigen Tasks. Zusätzlich wurde die Bedienung verbessert: Bislang musste nach der Auswahl eines Filters zusätzlich die Schaltfläche \emph{Search} betätigt werden. Nun wird das Suchformular bei der Auswahl eines Filters unmittelbar abgeschickt, sodass die gefilterte Trefferliste ohne weiteren Klick angezeigt wird. Ein zuvor eingegebener Suchbegriff bleibt dabei erhalten.
+
+
+\subsection{Modellierung/Refactoring für User Story S4.2: Erweiterung der Tasklisten auf fünf Status}
+
+\subsubsection{Modellierung verfeinerter Struktur}
+Die grundlegende Architektur bleibt unverändert. Im Data Layer wurde das Enum \texttt{TaskStatus} um die Werte \texttt{REVIEW} und \texttt{TEST} erweitert. Die bestehenden Werte \texttt{TODO}, \texttt{IN\_PROGRESS} und \texttt{COMPLETED} behalten ihre bisherigen numerischen Werte (0, 1 und 2), sodass bereits gespeicherte Datensätze weiterhin korrekt geladen werden; die neuen Werte wurden mit 3 und 4 angehängt. Im Presentation Layer wurde der \texttt{BacklogController} angepasst, sodass Tasks und User Stories nach allen fünf Status gruppiert und an das Template übergeben werden. Im \texttt{TaskController} wurde die Validierung des Statuswertes auf den Bereich 0 bis 4 erweitert. Im Frontend wurde das Template \texttt{backlog.mustache} von drei auf fünf Statusspalten erweitert; die Templates \texttt{create-task.mustache} und \texttt{edit-task.mustache} bieten die Statusauswahl nun für alle fünf Status an.
+
+\subsubsection{Modellierung verfeinerter Interfaces und Datenstrukturen}
+Es wurden keine neuen Klassen, Interfaces oder Datenbankfelder hinzugefügt. Die Erweiterung beschränkt sich auf zwei zusätzliche Werte im bestehenden Enum \texttt{TaskStatus}. Da der Status weiterhin als Integer persistiert wird und die bestehenden Werte unverändert bleiben, war keine Migration der Datenbank erforderlich. Das Klassendiagramm aus den vorangegangenen Sprints bleibt gültig.
+
+\subsubsection{Modellierung relevanter Verhaltensaspekte}
+Beim Aufruf von \texttt{GET /backlog/\{id\}} werden Tasks und User Stories wie bisher nach ihrem Status gruppiert, nun jedoch auf fünf statt auf drei Tasklisten verteilt. Jede Task besitzt weiterhin genau einen Status und erscheint entsprechend in genau einer Taskliste. Beim Anlegen und Bearbeiten einer Task kann der Status frei aus den fünf Werten gewählt werden. Die Interaktionsschritte der bestehenden Sequenzdiagramme bleiben unverändert; die Erweiterung betrifft ausschließlich den Wertebereich des Status.
+
+
+
+
 \section{Implementation und Tests}
 \subsection{Updates zu den genutzten Technologien}
 An den genutzten Technologien wurden keine Änderungen vorgenommen.
@@ -182,6 +208,10 @@ Im Fall von umfangreicheren Aufgaben, ist dies der Merge-Commit.
 		Refactoring Header                                        & 0d590a2623358612f4ce1229d06cee310e629163 \\
 		\hline
 		\textbf{S3.3} - Priorität-Badge und Sortierung im Backlog & 7e139701164b596093647577f7a605dff54a0921 \\
+		\hline
+		Refactoring Suchfilter                                    & 51a84a4c6db3f3feba9ea40d08c08903be09c449 \\
+		\hline
+		Refactoring Tasklistenerweiterung                         & 689279b675b373e8397c8894438625af45e51529 \\
 		\hline
 	\end{tabular}
 	\caption{Tracing: Hashes der Commits}
