@@ -40,16 +40,17 @@ Die Tasks wurden in einem Meeting mit den Entwicklern identifiziert.
 In diesem Meeting wurde die gesamte Anwendung nach Problemen und Verbesserungsmöglichkeiten durchsucht.
 Folgende Tasks sind dadurch entstanden:
 \begin{itemize}
-	\item Refactoring der Startseite
-	\item Refactoring des Headers
-	\item Refactoring User Story S5.3: Anzeige Profil
-	\item Refactoring für User Story S2.2: Bug-Fix Priorität einer User Story wird beim Speichern nicht übernommen
-	\item Refactoring für User Story S3.3: Anzeige und Sortierung von Task-Prioritäten im Backlog
-	\item Refactoring Anzeige Assignees
-	\item Vereinheitlichung der Sprache
-	\item überflüssige Zurück-Buttons entfernen
-	\item Umleitung nach Registrierung korrigieren
-	\item Fehler in Suche beheben
+	\item Refactoring User Story S3.3: Anzeige und Sortierung von Task-Prioritäten im Backlog
+	\item Refactoring User Story S2.2: Bug-Fix Priorität einer User Story wird beim Speichern nicht übernommen
+	\item Refactoring Startseite: Verbesserung der Übersichtlichkeit der Startseite
+	\item Refactoring Header: Einheitlichen Header auf allen Seiten implementieren
+	\item Refactoring Anzeige der Assignees
+	\item Refactoring Contributor Seite
+	\item Refactoring Abfrage Task
+	\item Refactoring User Story S5.3: Anpassung der Profilseite an das abgestimmte Layout
+	\item Refactoring Suche
+	\item Refactoring Taskliste: Erweiterung der Tasklisten von 3 auf 5 Status (Todo, In Progress, Review, Test, Done)
+	\item Refactoring Sprache
 \end{itemize}
 
 \subsection{Sprint Planung}
@@ -63,7 +64,7 @@ Die Aufgaben, welche dem Produktbacklog hinzugefügt wurden, sollen in diesem vo
 \subsection{Task/User Stories}
 
 
-\subsubsection{Modellierung/Refactoring für User Story S3.3: Anzeige und Sortierung von Task-Prioritäten im Backlog}
+\subsubsection{Modellierung/Refactoring User Story S3.3: Anzeige und Sortierung von Task-Prioritäten im Backlog}
 \paragraph{Modellierung verfeinerter Struktur}
 Die grundlegende Architektur aus Sprint 3 bleibt unverändert. Im Data Layer wurde die Klasse \texttt{Task} um die Hilfsmethode \texttt{getPriorityColor()} ergänzt, die je nach Prioritätswert eine Farbe zurückgibt (rot für Hoch, orange für Mittel, grün für Niedrig). Im Presentation Layer wurde der \texttt{BacklogController} angepasst, sodass die Task-Listen aller fünf Statusspalten vor der Übergabe ans Template nach Priorität absteigend sortiert werden. Im Frontend-Template \texttt{backlog.mustache} wurde jede Task-Karte um ein farbiges Priorität-Badge erweitert.
 
@@ -83,7 +84,7 @@ Keine Änderungen an Interfaces oder Datenstrukturen.
 \paragraph{Modellierung relevanter Verhaltensaspekte}
 Nach der Korrektur liest \texttt{postEditUserStory} den Parameter korrekt unter \texttt{priority}. Das Verhalten entspricht nun dem in Sprint 3 beschriebenen Sequenzdiagramm für S2.2.
 
-\subsubsection{Refactoring Startseite}
+\subsubsection{Refactoring Startseite:  Verbesserung der Übersichtlichkeit der Startseite}
 Das Refactoring der Startseite hatte keine Auswirkungen auf die Struktur des Systems.
 Es wurde ausschließlich die grafische Oberfläche verändert.\\
 Vor dem Refactoring wurde auf der Startseite eine Liste der Nutzer, eine Liste der Tasks, eine Suchzeile und Buttons zum Erstellen verschiedener Elemente angezeigt.
@@ -104,7 +105,7 @@ Die Gestaltung der Startseite nach dem Refactoring ist in Abbildung \ref{fig:sta
 	\label{fig:startseite_nach_refactoring}
 \end{figure}
 
-\subsubsection{Refactoring Header}
+\subsubsection{Refactoring Header: Einheitlichen Header auf allen Seiten implementieren}
 Das Refactoring des Headers hatte keine Auswirkungen auf die Struktur des Systems.
 Es wurde ausschließlich die grafische Oberfläche verändert.\\
 Das Refactoring des Headers sollte die Anzeige von unterschiedlichen Headern auf den Seiten beheben.
@@ -132,16 +133,16 @@ Der einheitliche Header ist in Abbildung \ref{fig:header_nach_refactoring} zu se
 	\label{fig:header_nach_refactoring}
 \end{figure}
 
-\subsubsection{Refactoring Backloganzeige Assignees}
+\subsubsection{Refactoring Anzeige Assignees}
 Es bestand das Problem, dass wenn kein Nutzer einer Task zugewiesen war, die Anzeige der Assignees ein blank war.
 Dieses Problem wurde behoben, indem dort nun "none" angezeigt wird, wenn kein Nutzer zugewiesen ist. Dies macht es deutlich klarer, dass kein Nutzer zugewiesen ist.\\
 \begin{figure}
 	\centering
-	\fbox{\includegraphics[width=12cm]{backlogRef.png}}
+	\fbox{\includegraphics[width=4cm]{backlogRef.png}}
 	\caption{Anzeige der Assignees nach dem Refactoring}
 	\label{fig:backlog_assignees}
 \end{figure}
-\subsubsection{Refactoring Contributor Page}
+\subsubsection{Refactoring Contributor Seite}
 Es bestand das Problem, dass die Contributor Page nicht korrekt angezeigt wurde. Es gab fehler mit der Anzeige von Symbolen und diese wurden nun entfernt, da diese sowieso nicht besonders funktional waren.
 \begin{figure}
 	\centering
@@ -149,12 +150,12 @@ Es bestand das Problem, dass die Contributor Page nicht korrekt angezeigt wurde.
 	\caption{Anzeige der Contributor Page nach dem Refactoring}
 	\label{fig:contributor_page_ref}
 \end{figure}
-\subsubsection{Refactoring Abfrage einer Task}
+\subsubsection{Refactoring Abfrage Task}
 Hier bestand das Problem, dass die Abfrage einer Task nicht korrekt funktionierte. Es wurde nun die Abfrage so angepasst, dass diese korrekt funktioniert und die Task korrekt angezeigt wird.
 Das Problem war, es wurde zwar das Attribut "priorities" im result der Abfrage genutzt, aber dieses Attribut wurde nie in der Anfrage gesucht. Das wurde jetzt
 hinzugefügt und jetzt funktioniert die Abfrage korrekt.\\
 
-\subsubsection{Refactoring User Story S5.3: Anzeige Profil}
+\subsubsection{Refactoring User Story S5.3: Anpassung der Profilseite an das abgestimmte Layout}
 Das Refactoring der Profilseite hatte keine Auswirkungen auf die Struktur des Systems.
 Es wurde ausschließlich die grafische Oberfläche verändert.\\
 Die grafische Oberfläche der Profilseite unterschied sich vor dem Refactoring deutlich vom Designkonzept der anderen Seiten.
@@ -175,27 +176,27 @@ Zu sehen ist die verbesserte Oberfläche in Abbildung \ref{fig:profilseite_nach_
 \end{figure}
 
 
-\subsection{Refactoring Suchfilter: Fehler in der Suche beheben}
+\subsubsection{Refactoring Suche}
 
-\subsubsection{Modellierung verfeinerter Struktur}
+\paragraph{Modellierung verfeinerter Struktur}
 Die Architektur bleibt unverändert. Der Suchfilter war nach der Erweiterung der Tasklisten auf fünf Status fehlerhaft: Die Filter-Schaltflächen in \texttt{search.mustache} übergaben Werte, die nicht mit den numerischen Werten des Enums \texttt{TaskStatus} übereinstimmten. Zusätzlich berücksichtigte die Methode \texttt{searchTasks} im \texttt{TaskService} nur die Filterwerte 0 bis 2, sodass die Filter für \texttt{REVIEW} und \texttt{TEST} wirkungslos blieben. Die Methode \texttt{filterTask} im \texttt{TaskRepository} filterte ebenfalls nur nach drei Status. Alle drei Stellen wurden korrigiert und auf den Wertebereich 0 bis 4 erweitert.
 
-\subsubsection{Modellierung verfeinerter Interfaces und Datenstrukturen}
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
 Keine Änderungen an Interfaces oder Datenstrukturen.
 
-\subsubsection{Modellierung relevanter Verhaltensaspekte}
+\paragraph{Modellierung relevanter Verhaltensaspekte}
 Nach der Korrektur liefert die Suche für jeden der fünf Status die zugehörigen Tasks. Zusätzlich wurde die Bedienung verbessert: Bislang musste nach der Auswahl eines Filters zusätzlich die Schaltfläche \emph{Search} betätigt werden. Nun wird das Suchformular bei der Auswahl eines Filters unmittelbar abgeschickt, sodass die gefilterte Trefferliste ohne weiteren Klick angezeigt wird. Ein zuvor eingegebener Suchbegriff bleibt dabei erhalten.
 
 
-\subsection{Modellierung/Refactoring für User Story S4.2: Erweiterung der Tasklisten auf fünf Status}
+\subsubsection{Modellierung/Refactoring Taskliste: Erweiterung der Tasklisten von 3 auf 5 Status (Todo, In Progress, Review, Test, Done)}
 
-\subsubsection{Modellierung verfeinerter Struktur}
+\paragraph{Modellierung verfeinerter Struktur}
 Die grundlegende Architektur bleibt unverändert. Im Data Layer wurde das Enum \texttt{TaskStatus} um die Werte \texttt{REVIEW} und \texttt{TEST} erweitert. Die bestehenden Werte \texttt{TODO}, \texttt{IN\_PROGRESS} und \texttt{COMPLETED} behalten ihre bisherigen numerischen Werte (0, 1 und 2), sodass bereits gespeicherte Datensätze weiterhin korrekt geladen werden; die neuen Werte wurden mit 3 und 4 angehängt. Im Presentation Layer wurde der \texttt{BacklogController} angepasst, sodass Tasks und User Stories nach allen fünf Status gruppiert und an das Template übergeben werden. Im \texttt{TaskController} wurde die Validierung des Statuswertes auf den Bereich 0 bis 4 erweitert. Im Frontend wurde das Template \texttt{backlog.mustache} von drei auf fünf Statusspalten erweitert; die Templates \texttt{create-task.mustache} und \texttt{edit-task.mustache} bieten die Statusauswahl nun für alle fünf Status an.
 
-\subsubsection{Modellierung verfeinerter Interfaces und Datenstrukturen}
+\paragraph{Modellierung verfeinerter Interfaces und Datenstrukturen}
 Es wurden keine neuen Klassen, Interfaces oder Datenbankfelder hinzugefügt. Die Erweiterung beschränkt sich auf zwei zusätzliche Werte im bestehenden Enum \texttt{TaskStatus}. Da der Status weiterhin als Integer persistiert wird und die bestehenden Werte unverändert bleiben, war keine Migration der Datenbank erforderlich. Das Klassendiagramm aus den vorangegangenen Sprints bleibt gültig.
 
-\subsubsection{Modellierung relevanter Verhaltensaspekte}
+\paragraph{Modellierung relevanter Verhaltensaspekte}
 Beim Aufruf von \texttt{GET /backlog/\{id\}} werden Tasks und User Stories wie bisher nach ihrem Status gruppiert, nun jedoch auf fünf statt auf drei Tasklisten verteilt. Jede Task besitzt weiterhin genau einen Status und erscheint entsprechend in genau einer Taskliste. Beim Anlegen und Bearbeiten einer Task kann der Status frei aus den fünf Werten gewählt werden. Die Interaktionsschritte der bestehenden Sequenzdiagramme bleiben unverändert; die Erweiterung betrifft ausschließlich den Wertebereich des Status.
 
 
@@ -221,25 +222,28 @@ Im Fall von umfangreicheren Aufgaben, ist dies der Merge-Commit.
 	\renewcommand{\arraystretch}{1.4}
 	\begin{tabular}{| p{4.5cm} | p{9cm} |}
 		\hline
-		\textbf{Aufgabe}                                          & \textbf{Hash des Commits}                \\
+		\textbf{Aufgabe}              & \textbf{Hash des Commits}                                                         \\
 		\hline
-		Refactoring Startseite                                    & e11f1598abe405648113fe816094e33a38ac638e \\
+		Refactoring User Story S3.3   & 7e139701164b596093647577f7a605dff54a0921                                          \\
 		\hline
-		Refactoring Profilseite                                   & 21fb79bf713f3093c29d9445bdc81d7e376d493a \\
+		Refactoring Startseite        & e11f1598abe405648113fe816094e33a38ac638e                                          \\
 		\hline
-		Refactoring Header                                        & 0d590a2623358612f4ce1229d06cee310e629163 \\
+		Refactoring Header            & 0d590a2623358612f4ce1229d06cee310e629163                                          \\
 		\hline
-		\textbf{S3.3} - Priorität-Badge und Sortierung im Backlog & 7e139701164b596093647577f7a605dff54a0921 \\
+		Refactoring Anzeige Assignees & 828008e72efee5f162e168882fdc9bbc8251f760                                          \\
 		\hline
-		Refactoring Suchfilter                                    & 51a84a4c6db3f3feba9ea40d08c08903be09c449 \\
+		Refactoring Contributor Seite & 828008e72efee5f162e168882fdc9bbc8251f760                                          \\
 		\hline
-		Refactoring Tasklistenerweiterung                         & 689279b675b373e8397c8894438625af45e51529 \\
+		Refactoring Abfrage Task      & 828008e72efee5f162e168882fdc9bbc8251f760                                          \\
 		\hline
-		Refactoring Backlog Anzeige Assignees                     & 828008e72efee5f162e168882fdc9bbc8251f760 \\
+		Refactoring User Story 5.3    & 21fb79bf713f3093c29d9445bdc81d7e376d493a                                          \\
 		\hline
-		Refactoring contributor Page							  & 828008e72efee5f162e168882fdc9bbc8251f760 \\
+		Refactoring Suche             & 51a84a4c6db3f3feba9ea40d08c08903be09c449                                          \\
 		\hline
-		Refactoring Abfrage einer Task							  & 828008e72efee5f162e168882fdc9bbc8251f760 \\
+		Refactoring Taskliste         & 689279b675b373e8397c8894438625af45e51529                                          \\
+		\hline
+		Refactoring Sprache           & d563a662c51587278dd2d207661ea74deff96ba4 689279b675b373e8397c8894438625af45e51529 \\
+		\hline
 	\end{tabular}
 	\caption{Tracing: Hashes der Commits}
 	\label{tab:tracing}
