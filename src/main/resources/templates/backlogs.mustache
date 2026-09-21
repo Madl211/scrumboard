@@ -1,25 +1,32 @@
-<div style="max-width: 900px; margin: 2vh auto; font-family: Arial, sans-serif;">
-
+<div class="app-shell">
     {{> header}}
 
-    <h1>Backlogs</h1>
-    <div>
-        <a href="/create-backlog" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Create new backlog</a>
-        <a href="/home" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-left: 8px;">Back</a>
+    <div class="page-header">
+        <div>
+            <p class="eyebrow">Overview</p>
+            <h2>Backlogs</h2>
+        </div>
+        <div class="form-actions">
+            <a href="/create-backlog" class="primary-button">Create new backlog</a>
+            <a href="/home" class="secondary-button">Back</a>
+        </div>
     </div>
 
-    <br>
+    <div class="page-card">
+        <div class="backlog-list">
+            {{#backlogs}}
+            <div class="backlog-item">
+                <div>
+                    <strong class="backlog-name">{{bezeichnung}}</strong>
+                    <div class="muted-text">ID: {{id}}</div>
+                </div>
+                <a href="/backlog/{{id}}" class="button">Open</a>
+            </div>
+            {{/backlogs}}
 
-    {{#backlogs}}
-    <div style="border: 1px solid #ccc; padding: 12px; margin-bottom: 10px;">
-        <strong>{{bezeichnung}}</strong>
-        <span style="margin-left: 12px;">ID: {{id}}</span>
-        <a href="/backlog/{{id}}" style="background-color: #007bff; color: white; padding: 6px 14px; text-decoration: none; border-radius: 5px; margin-left: 16px;">open</a>
+            {{^backlogs}}
+            <p class="empty-state">No backlog yet. Create one to get started.</p>
+            {{/backlogs}}
+        </div>
     </div>
-    {{/backlogs}}
-
-    {{^backlogs}}
-    <p>no Backlog. Create one!</p>
-    {{/backlogs}}
-
 </div>

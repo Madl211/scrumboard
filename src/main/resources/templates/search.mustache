@@ -1,193 +1,76 @@
-<div style="max-width: 1200px; margin: 2vh auto; font-family: Arial, sans-serif;">
+<div class="app-shell">
     {{> header}}
 
-    <!-- Search Form -->
-    <div style="margin-bottom: 2rem;">
+    <div class="page-card" style="margin-bottom: 22px;">
+        <div class="page-header" style="margin-bottom: 0;">
+            <div>
+                <p class="eyebrow">Search</p>
+                <h2>Task Search</h2>
+            </div>
+        </div>
 
-        <form method="GET" action="/search-tasks"
-              style="display: flex; gap: 10px; align-items: center;">
-
-            <input
-                type="text"
-                name="search"
-                placeholder="Search tasks..."
-                value="{{search}}"
-                style="
-                    flex: 1;
-                    padding: 8px;
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
-                "
-            />
-
-            <input
-                type="hidden"
-                name="filter"
-                id="filterInput"
-                value="{{filter}}"
-            />
-
-            <!-- Search Button -->
-            <button
-                type="submit"
-                style="
-                    background-color: #007bff;
-                    color: white;
-                    padding: 8px 15px;
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-                ">
-                Search
-            </button>
-
-            <!-- Filter Button -->
-            <button
-                type="button"
-                onclick="openFilter()"
-                style="
-                    background-color: #ff8da1;
-                    color: white;
-                    padding: 8px 15px;
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-                ">
-                Filter
-            </button>
-
+        <form method="GET" action="/search-tasks" class="modern-form" style="margin-top: 16px;">
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+                <input type="text" name="search" placeholder="Search tasks..." value="{{search}}" style="flex: 1; min-width: 220px;">
+                <input type="hidden" name="filter" id="filterInput" value="{{filter}}">
+                <button type="submit" class="primary-button">Search</button>
+                <button type="button" class="secondary-button" onclick="openFilter()">Filter</button>
+            </div>
         </form>
 
-        <!-- Filter Modal -->
-        <div id="filterModal"
-             style="
-                display: none;
-                position: fixed;
-                top: 30%;
-                left: 40%;
-                background: white;
-                padding: 20px;
-                border: 1px solid black;
-                z-index: 1000;
-                border-radius: 8px;
-             ">
-
-            <h3>Choose Filter</h3>
-
-            <button type="button" onclick="setFilter(0)">TODO</button>
-            <button type="button" onclick="setFilter(1)">IN_PROGRESS</button>
-            <button type="button" onclick="setFilter(3)">REVIEW</button>
-            <button type="button" onclick="setFilter(4)">TEST</button>
-            <button type="button" onclick="setFilter(2)">COMPLETED</button>
-            <button type="button" onclick="setFilter(-1)">All / Clear Filter</button>
-
-            <br><br>
-
-            <button type="button" onclick="closeFilter()">Close</button>
+        <div id="filterModal" style="display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.38); display: none; justify-content: center; align-items: center; z-index: 50;">
+            <div style="background: white; border-radius: 20px; padding: 24px; width: min(90vw, 420px); box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);">
+                <h3 style="margin-top: 0;">Choose Filter</h3>
+                <div class="choice-group" style="margin-top: 12px;">
+                    <button type="button" class="secondary-button" onclick="setFilter(0)">TODO</button>
+                    <button type="button" class="secondary-button" onclick="setFilter(1)">IN PROGRESS</button>
+                    <button type="button" class="secondary-button" onclick="setFilter(3)">REVIEW</button>
+                    <button type="button" class="secondary-button" onclick="setFilter(4)">TEST</button>
+                    <button type="button" class="secondary-button" onclick="setFilter(2)">COMPLETED</button>
+                    <button type="button" class="secondary-button" onclick="setFilter(-1)">All</button>
+                </div>
+                <div style="margin-top: 18px; text-align: right;">
+                    <button type="button" class="button" onclick="closeFilter()">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Task Table -->
-    <div style="flex: 1;">
-
-        <h2>Tasks</h2>
-
-        <table style="
-            width: 100%;
-            border-collapse: collapse;
-            border: 1px solid #ddd;
-        ">
-
-            <thead>
-                <tr style="background-color: #f2f2f2;">
-
-                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">
-                        ID
-                    </th>
-
-                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">
-                        Title
-                    </th>
-
-                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">
-                        Creator
-                    </th>
-
-                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">
-                        Assignees
-                    </th>
-
-                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">
-                        Due Date
-                    </th>
-
-                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">
-                        Status
-                    </th>
-
-                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">
-                        Actions
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                {{#tasks}}
-                <tr>
-
-                    <td style="border: 1px solid #ddd; padding: 8px;">
-                        {{taskId}}
-                    </td>
-
-                    <td style="border: 1px solid #ddd; padding: 8px;">
-                        {{title}}
-                    </td>
-
-                    <td style="border: 1px solid #ddd; padding: 8px;">
-                        {{creator.username}}
-                    </td>
-
-                    <td style="border: 1px solid #ddd; padding: 8px;">
-                        {{#assignees}}
-                            {{username}}{{^last}}, {{/last}}
-                        {{/assignees}}
-                    </td>
-
-                    <td style="border: 1px solid #ddd; padding: 8px;">
-                        {{due}}
-                    </td>
-
-                    <td style="border: 1px solid #ddd; padding: 8px;">
-                        {{status}}
-                    </td>
-
-                    <td style="border: 1px solid #ddd; padding: 8px;">
-
-                        <a href="/edit-task/{{taskId}}"
-                           style="
-                                background-color: #007bff;
-                                color: white;
-                                padding: 6px 12px;
-                                text-decoration: none;
-                                border-radius: 5px;
-                           ">
-                            Edit Task
-                        </a>
-
-                    </td>
-
-                </tr>
-                {{/tasks}}
-
-            </tbody>
-        </table>
+    <div class="page-card">
+        <h2 style="margin-top: 0; margin-bottom: 18px;">Tasks</h2>
+        <div class="table-shell">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Creator</th>
+                        <th>Assignees</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#tasks}}
+                    <tr>
+                        <td>{{taskId}}</td>
+                        <td>{{title}}</td>
+                        <td>{{creator.username}}</td>
+                        <td>{{#assignees}}{{username}}{{^last}}, {{/last}}{{/assignees}}</td>
+                        <td>{{due}}</td>
+                        <td><span class="status-pill">{{status}}</span></td>
+                        <td><a href="/edit-task/{{taskId}}" class="button">Edit</a></td>
+                    </tr>
+                    {{/tasks}}
+                </tbody>
+            </table>
+        </div>
     </div>
-
 </div>
 <script>
 function openFilter() {
-    document.getElementById("filterModal").style.display = "block";
+    document.getElementById("filterModal").style.display = "flex";
 }
 
 function closeFilter() {

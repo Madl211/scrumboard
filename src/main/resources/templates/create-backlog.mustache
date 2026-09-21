@@ -1,22 +1,27 @@
-<div style="max-width: 1200px;margin: 2vh auto;font-family: Arial, sans-serif;">
+<div class="app-shell">
     {{> header}}
 
-    <div style="width: 600px; margin: auto;">
-        <h2>Create New Backlog</h2>
-
-        <form action="/create-backlog" method="post" style="display: flex; flex-direction: column; gap: 1rem;">
+    <div class="page-card" style="max-width: 640px; margin: 0 auto;">
+        <div class="page-header" style="margin-bottom: 0;">
             <div>
-                <label for="bezeichnung" style="display: block; margin-bottom: 0.5rem;">name:</label>
-                <input type="text" id="bezeichnung" name="bezeichnung" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                <p class="eyebrow">Backlog</p>
+                <h2>Create New Backlog</h2>
+            </div>
+        </div>
+
+        <form action="/create-backlog" method="post" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 18px;">
+            <div class="field">
+                <label for="bezeichnung">Name</label>
+                <input type="text" id="bezeichnung" name="bezeichnung" required>
             </div>
 
             {{#showErrorMessage}}
-                <div style="color: red;">Error wrong input</div>
+                <div class="error-box">Error: wrong input</div>
             {{/showErrorMessage}}
-            
-            <div style="display: flex; gap: 1rem;">
-                <button type="submit" style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Create Backlog</button>
-                <a href="/home" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Cancel</a>
+
+            <div class="form-actions">
+                <button type="submit" class="success-button">Create Backlog</button>
+                <a href="/home" class="secondary-button">Cancel</a>
             </div>
         </form>
     </div>

@@ -1,57 +1,49 @@
-<div style="max-width: 1200px; margin: 2vh auto; font-family: Arial, sans-serif;">
-    
+<div class="app-shell">
     {{> header}}
 
-    <div style="margin-bottom: 2rem; display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+    <div class="page-header">
         <div>
-            <h2>{{backlog.bezeichnung}}  Assignees</h2>
-            <a href="/backlog/{{backlog.id}}" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;"> Back to Backlog</a>
+            <p class="eyebrow">Team</p>
+            <h2>{{backlog.bezeichnung}} Assignees</h2>
         </div>
-        <div>
-            <a href="/backlog/{{backlog.id}}/assignees/add" style="background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;"> Add Assignee</a>
+        <div class="form-actions">
+            <a href="/backlog/{{backlog.id}}" class="secondary-button">Back to Backlog</a>
+            <a href="/backlog/{{backlog.id}}/assignees/add" class="success-button">Add Assignee</a>
         </div>
     </div>
 
-    {{#backlogAssignees}}
-    <table style="width: 100%; border-collapse: collapse; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-        <thead>
-            <tr style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6;">
-                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #495057;">Benutzer</th>
-                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #495057;">E-Mail</th>
-                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #495057;">Rolle</th>
-                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #495057;">Aktion</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#backlogAssignees}}
-            <tr style="border-bottom: 1px solid #dee2e6;">
-                <td style="padding: 12px 16px;">
-                    <strong>{{username}}</strong>
-                </td>
-                <td style="padding: 12px 16px; color: #495057;">{{email}}</td>
-                <td style="padding: 12px 16px;">
-                    <span style="background-color: 
-                        {{#isProductOwner}}#dc3545{{/isProductOwner}}
-                        {{#isScrumMaster}}#28a745{{/isScrumMaster}}
-                        {{#isDeveloper}}#17a2b8{{/isDeveloper}}
-                        {{^isProductOwner}}{{^isScrumMaster}}{{^isDeveloper}}#6c757d{{/isDeveloper}}{{/isScrumMaster}}{{/isProductOwner}}
-                        ; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; display: inline-block;">
-                        {{role}}
-                    </span>
-                </td>
-                <td style="padding: 12px 16px;">
-                    <a href="/backlog/{{backlog.id}}/assignees/remove/{{assigneeId}}" 
-                       style="color: #dc3545; text-decoration: none;"
-                       onclick="return confirm('Do you want to remove {{username}}?');">
-                         Remove
-                    </a>
-                </td>
-            </tr>
-            {{/backlogAssignees}}
-        </tbody>
-    </table>
-    {{/backlogAssignees}}
-   
+    <div class="table-shell">
+        {{#backlogAssignees}}
+        <table>
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>E-Mail</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#backlogAssignees}}
+                <tr>
+                    <td><strong>{{username}}</strong></td>
+                    <td>{{email}}</td>
+                    <td>
+                        <span class="status-pill" style="background-color: {{roleColor}}; color: white;">
+                            {{role}}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="/backlog/{{backlog.id}}/assignees/remove/{{assigneeId}}" style="color: #ef4444; font-weight: 600;" onclick="return confirm('Do you want to remove {{username}}?');">
+                            Remove
+                        </a>
+                    </td>
+                </tr>
+                {{/backlogAssignees}}
+            </tbody>
+        </table>
+        {{/backlogAssignees}}
+    </div>
 </div>
 
 <script>

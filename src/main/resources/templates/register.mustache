@@ -1,27 +1,248 @@
-<meta charset="UTF-8">
-<div style="max-width: 420px;margin: 2vh auto;font-family: Arial, sans-serif;display: flex;height: 96vh;justify-content: center;align-items: center;flex-direction: column;">
-    <h1>Register</h1>
-    {{#errorMessage}}
-    <div style="color: red; margin-bottom: 10px;">{{errorMessage}}</div>
-    {{/errorMessage}}
-    <form action="/register" method="post" style="display: flex; flex-direction: column; gap: 10px;">
-        <label>
-            E-Mail
-            <input type="email" name="email" value="{{email}}" required style="width: 100%; padding: 8px;" />
-        </label>
-        <label>
-            Username
-            <input type="text" name="username" value="{{username}}" required style="width: 100%; padding: 8px;" />
-        </label>
-        <label>
-            Password
-            <input type="password" name="password" required style="width: 100%; padding: 8px;" />
-        </label>
-        <label>
-            Confirm Passwort 
-            <input type="password" name="confirmPassword" required style="width: 100%; padding: 8px;" />
-        </label>
-        <button type="submit" style="padding: 10px;">Register</button>
-    </form>
-    <p style="margin-top: 16px;">Already registered? <a href="/login">Sign up</a></p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        :root {
+            --bg-1: #eef3ff;
+            --bg-2: #f7f9ff;
+            --card: rgba(255, 255, 255, 0.88);
+            --primary: #4f46e5;
+            --primary-2: #6d5ef7;
+            --primary-dark: #312e81;
+            --accent: #14b8a6;
+            --text: #111827;
+            --muted: #64748b;
+            --danger-bg: #fee2e2;
+            --danger-text: #991b1b;
+            --danger-border: #fecaca;
+            --shadow: 0 30px 60px rgba(79, 70, 229, 0.16), 0 14px 28px rgba(15, 23, 42, 0.09);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.38), transparent 18%),
+                radial-gradient(circle at 85% 80%, rgba(45, 212, 191, 0.28), transparent 20%),
+                linear-gradient(135deg, #eef2ff 0%, #f8faff 35%, #edfdfd 100%);
+        }
+
+        a { text-decoration: none; }
+
+        .auth-shell {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+        }
+
+        .auth-card {
+            width: min(100%, 500px);
+            padding: 30px 30px 26px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 32px;
+            background: rgba(255,255,255,0.84);
+            border: 1px solid rgba(99, 102, 241, 0.18);
+            box-shadow: 0 28px 60px rgba(79, 70, 229, 0.18), 0 10px 24px rgba(15, 23, 42, 0.08);
+            backdrop-filter: blur(8px);
+        }
+
+        .auth-card::before,
+        .auth-card::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(12px);
+        }
+
+        .auth-card::before {
+            width: 220px;
+            height: 220px;
+            right: -70px;
+            bottom: -80px;
+            background: rgba(79, 70, 229, 0.12);
+        }
+
+        .auth-card::after {
+            width: 180px;
+            height: 180px;
+            left: -50px;
+            top: -60px;
+            background: rgba(20, 184, 166, 0.08);
+        }
+
+        .auth-brand {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            padding: 8px 14px;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.12), rgba(99, 102, 241, 0.18));
+            border: 1px solid rgba(79, 70, 229, 0.22);
+            color: var(--primary-dark);
+            font-size: 0.73rem;
+            font-weight: 900;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .eyebrow {
+            position: relative;
+            z-index: 1;
+            margin: 0 0 8px;
+            color: var(--muted);
+            font-size: 0.73rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        h1 {
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            font-size: clamp(2.4rem, 3vw, 3rem);
+            line-height: 1.08;
+            letter-spacing: -0.04em;
+            color: var(--text);
+        }
+
+        form {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 22px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .field input {
+            width: 100%;
+            border: 1px solid rgba(79, 70, 229, 0.2);
+            border-radius: 14px;
+            background: rgba(255,255,255,0.92);
+            box-shadow: inset 0 2px 8px rgba(79, 70, 229, 0.05);
+            padding: 14px 14px;
+            font: inherit;
+            color: var(--text);
+            transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+        }
+
+        .field input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12), inset 0 2px 6px rgba(79, 70, 229, 0.04);
+        }
+
+        .primary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            border: none;
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-weight: 800;
+            font-size: 1.06rem;
+            cursor: pointer;
+            color: #ffffff;
+            background: linear-gradient(135deg, #4338ca 0%, #4f46e5 22%, #6d5ef7 100%);
+            box-shadow: 0 18px 30px rgba(79, 70, 229, 0.35);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .primary-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 20px 36px rgba(79, 70, 229, 0.38);
+        }
+
+        .auth-footer {
+            position: relative;
+            z-index: 1;
+            margin-top: 18px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .inline-link {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .error-box {
+            position: relative;
+            z-index: 1;
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-weight: 600;
+            background: var(--danger-bg);
+            color: var(--danger-text);
+            border: 1px solid var(--danger-border);
+        }
+
+        @media (max-width: 520px) {
+            .auth-card {
+                padding: 22px 18px 18px;
+                border-radius: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-shell">
+        <div class="auth-card">
+            <div class="auth-brand">Scrum Board</div>
+            <div>
+                <p class="eyebrow">Create account</p>
+                <h1>Register</h1>
+            </div>
+
+            {{#errorMessage}}
+            <div class="error-box">{{errorMessage}}</div>
+            {{/errorMessage}}
+
+            <form action="/register" method="post">
+                <label class="field">
+                    E-Mail
+                    <input type="email" name="email" value="{{email}}" required />
+                </label>
+                <label class="field">
+                    Username
+                    <input type="text" name="username" value="{{username}}" required />
+                </label>
+                <label class="field">
+                    Password
+                    <input type="password" name="password" required />
+                </label>
+                <label class="field">
+                    Confirm Password
+                    <input type="password" name="confirmPassword" required />
+                </label>
+                <button type="submit" class="primary-button">Create account</button>
+            </form>
+
+            <p class="auth-footer">Already registered? <a href="/login" class="inline-link">Sign in</a></p>
+        </div>
+    </div>
+</body>
+</html>

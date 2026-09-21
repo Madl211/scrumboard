@@ -1,263 +1,321 @@
-<div style="max-width: 1600px; margin: 2vh auto; font-family: Arial, sans-serif;">
-    <div style="width: 1200px; margin: auto;">
-        {{> header}}
-    </div>
+<div class="app-shell">
+    {{> header}}
 
-    <div style="margin-bottom: 2rem; display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
-        <div style="margin-bottom: 2rem;">
+    <div class="page-header">
+        <div>
+            <p class="eyebrow">Board</p>
             <h2>{{backlog.bezeichnung}}</h2>
         </div>
-        <div>
-            <a href="/backlog/{{backlog.id}}/assignees" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Show Contributers</a>
-            <a href="/create-task" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Create Task</a>
-            <a href="/create-user-story" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Create User Story</a>
+        <div class="topbar-nav" style="justify-content: flex-end;">
+            <a href="/backlog/{{backlog.id}}/assignees" class="button">Contributors</a>
+            <a href="/create-task" class="button">Create Task</a>
+            <a href="/create-user-story" class="button">Create User Story</a>
         </div>
     </div>
 
-    <div style="display: flex; gap: 1rem; align-items: flex-start;">
-
-        <div style="flex: 1; min-width: 200px; border: 1px solid #ccc; padding: 16px; min-height: 400px; background-color: #f9f9f9;">
-            <h2>Todo</h2>
+    <div class="board-layout">
+        <div class="board-column">
+            <div class="column-title">
+                <h2>Todo</h2>
+                <span class="column-tag">{{todoUserStories.length}}</span>
+            </div>
 
             <h3>User Stories</h3>
             {{#todoUserStories}}
-            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <div class="story-card">
+                <div class="story-header">
                     <strong>{{titel}}</strong>
-                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityLabel}}</span>
+                    <span class="priority-badge priority-{{priorityClass}}">{{priorityLabel}}</span>
                 </div>
                 <p>{{beschreibung}}</p>
-                <details style="margin-top: 8px;">
-                    <summary style="cursor: pointer; color: #555;">Tasks</summary>
-                    <div style="margin-top: 6px;">
+                <details>
+                    <summary>Tasks</summary>
+                    <div style="margin-top: 8px;">
                         {{#tasks}}
-                        <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #eee;">
+                        <div class="meta-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 4px;">
                             <span>{{title}} ({{statusLabel}})</span>
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <span style="background-color: {{priorityColor}}; color: white; padding: 1px 6px; border-radius: 3px; font-size: 0.75em; font-weight: bold;">{{priorityLabel}}</span>
-                                <a href="/edit-task/{{taskId}}">Bearbeiten</a>
-                            </div>
+                            <a href="/edit-task/{{taskId}}">Edit</a>
                         </div>
                         {{/tasks}}
                         {{^tasks}}
-                        <p style="color: #888;">Keine Tasks zugeordnet.</p>
+                        <p class="muted-text">No tasks assigned.</p>
                         {{/tasks}}
                     </div>
                 </details>
-                <div style="margin-top: 8px;">
+                <div class="meta-row">
+                    <span></span>
                     <a href="/edit-user-story/{{id}}">Edit</a>
                 </div>
             </div>
             {{/todoUserStories}}
             {{^todoUserStories}}
-            <p>no user story</p>
+            <p class="empty-state">No user story</p>
             {{/todoUserStories}}
 
-            <hr style="margin: 20px 0;">
+            <hr style="margin: 18px 0; border: none; border-top: 1px solid rgba(148, 163, 184, 0.3);">
 
             <h3>Tasks</h3>
             {{#todoTasks}}
-            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <div class="task-card">
+                <div class="task-header">
                     <strong>{{title}}</strong>
-                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityCount}}</span>
+                    <span class="priority-badge priority-{{priorityClass}}">{{priorityCount}}</span>
                 </div>
                 <p>{{desc}}</p>
-                <p>
-                Assignees:
-                {{#assignees}}{{username}} {{/assignees}}
-                {{^assignees}}none{{/assignees}}
-                </p>
-                <a href="/edit-task/{{taskId}}">Edit</a>
+                <p class="muted-text">Assignees: {{#assignees}}{{username}} {{/assignees}}{{^assignees}}none{{/assignees}}</p>
+                <div class="meta-row">
+                    <span></span>
+                    <a href="/edit-task/{{taskId}}">Edit</a>
+                </div>
             </div>
             {{/todoTasks}}
             {{^todoTasks}}
-            <p>no task</p>
+            <p class="empty-state">No task</p>
             {{/todoTasks}}
         </div>
 
-        <div style="flex: 1; min-width: 200px; border: 1px solid #ccc; padding: 16px; min-height: 400px; background-color: #f9f9f9;">
-            <h2>In Progress</h2>
+        <div class="board-column">
+            <div class="column-title">
+                <h2>In Progress</h2>
+                <span class="column-tag">{{inProgressUserStories.length}}</span>
+            </div>
 
             <h3>User Stories</h3>
             {{#inProgressUserStories}}
-            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <div class="story-card">
+                <div class="story-header">
                     <strong>{{titel}}</strong>
-                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityLabel}}</span>
+                    <span class="priority-badge priority-{{priorityClass}}">{{priorityLabel}}</span>
                 </div>
                 <p>{{beschreibung}}</p>
-                <details style="margin-top: 8px;">
-                    <summary style="cursor: pointer; color: #555;">Tasks</summary>
-                    <div style="margin-top: 6px;">
+                <details>
+                    <summary>Tasks</summary>
+                    <div style="margin-top: 8px;">
                         {{#tasks}}
-                        <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #eee;">
+                        <div class="meta-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 4px;">
                             <span>{{title}} ({{statusLabel}})</span>
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <span style="background-color: {{priorityColor}}; color: white; padding: 1px 6px; border-radius: 3px; font-size: 0.75em; font-weight: bold;">{{priorityLabel}}</span>
-                                <a href="/edit-task/{{taskId}}">Edit</a>
-                            </div>
+                            <a href="/edit-task/{{taskId}}">Edit</a>
                         </div>
                         {{/tasks}}
                         {{^tasks}}
-                        <p style="color: #888;">no task assigned.</p>
+                        <p class="muted-text">No task assigned.</p>
                         {{/tasks}}
                     </div>
                 </details>
-                <div style="margin-top: 8px;">
-                    <a href="/edit-user-story/{{id}}">edit</a>
+                <div class="meta-row">
+                    <span></span>
+                    <a href="/edit-user-story/{{id}}">Edit</a>
                 </div>
             </div>
             {{/inProgressUserStories}}
             {{^inProgressUserStories}}
-            <p>no user story</p>
+            <p class="empty-state">No user story</p>
             {{/inProgressUserStories}}
 
-            <hr style="margin: 20px 0;">
+            <hr style="margin: 18px 0; border: none; border-top: 1px solid rgba(148, 163, 184, 0.3);">
 
             <h3>Tasks</h3>
             {{#inProgressTasks}}
-            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <div class="task-card">
+                <div class="task-header">
                     <strong>{{title}}</strong>
-                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityCount}}</span>
+                    <span class="priority-badge priority-{{priorityClass}}">{{priorityCount}}</span>
                 </div>
                 <p>{{desc}}</p>
-                <p>
-                Assignees:
-                {{#assignees}}{{username}} {{/assignees}}
-                {{^assignees}}none{{/assignees}}
-                </p>
-                <a href="/edit-task/{{taskId}}">Edit</a>
+                <p class="muted-text">Assignees: {{#assignees}}{{username}} {{/assignees}}{{^assignees}}none{{/assignees}}</p>
+                <div class="meta-row">
+                    <span></span>
+                    <a href="/edit-task/{{taskId}}">Edit</a>
+                </div>
             </div>
             {{/inProgressTasks}}
             {{^inProgressTasks}}
-            <p>no task</p>
+            <p class="empty-state">No task</p>
             {{/inProgressTasks}}
         </div>
 
-        <div style="flex: 1; min-width: 200px; border: 1px solid #ccc; padding: 16px; min-height: 400px; background-color: #f9f9f9;">
-            <h2>Review</h2>
+        <div class="board-column">
+            <div class="column-title">
+                <h2>Review</h2>
+                <span class="column-tag">{{reviewUserStories.length}}</span>
+            </div>
 
             <h3>User Stories</h3>
             {{#reviewUserStories}}
-            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <div class="story-card">
+                <div class="story-header">
                     <strong>{{titel}}</strong>
-                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityLabel}}</span>
+                    <span class="priority-badge priority-{{priorityClass}}">{{priorityLabel}}</span>
                 </div>
                 <p>{{beschreibung}}</p>
-                <details style="margin-top: 8px;">
-                    <summary style="cursor: pointer; color: #555;">Tasks</summary>
-                    <div style="margin-top: 6px;">
+                <details>
+                    <summary>Tasks</summary>
+                    <div style="margin-top: 8px;">
                         {{#tasks}}
-                        <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #eee;">
+                        <div class="meta-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 4px;">
                             <span>{{title}} ({{statusLabel}})</span>
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <span style="background-color: {{priorityColor}}; color: white; padding: 1px 6px; border-radius: 3px; font-size: 0.75em; font-weight: bold;">{{priorityLabel}}</span>
-                                <a href="/edit-task/{{taskId}}">Bearbeiten</a>
-                            </div>
+                            <a href="/edit-task/{{taskId}}">Edit</a>
                         </div>
                         {{/tasks}}
                         {{^tasks}}
-                        <p style="color: #888;">no task assigned.</p>
+                        <p class="muted-text">No task assigned.</p>
                         {{/tasks}}
                     </div>
                 </details>
-                <div style="margin-top: 8px;">
+                <div class="meta-row">
+                    <span></span>
                     <a href="/edit-user-story/{{id}}">Edit</a>
                 </div>
             </div>
             {{/reviewUserStories}}
             {{^reviewUserStories}}
-            <p>no user story</p>
+            <p class="empty-state">No user story</p>
             {{/reviewUserStories}}
 
-            <hr style="margin: 20px 0;">
+            <hr style="margin: 18px 0; border: none; border-top: 1px solid rgba(148, 163, 184, 0.3);">
 
             <h3>Tasks</h3>
             {{#reviewTasks}}
-            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <div class="task-card">
+                <div class="task-header">
                     <strong>{{title}}</strong>
-                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityCount}}</span>
+                    <span class="priority-badge priority-{{priorityClass}}">{{priorityCount}}</span>
                 </div>
                 <p>{{desc}}</p>
-                <p>
-                Assignees:
-                {{#assignees}}{{username}} {{/assignees}}
-                {{^assignees}}none{{/assignees}}
-                </p>
-                <a href="/edit-task/{{taskId}}">Edit</a>
+                <p class="muted-text">Assignees: {{#assignees}}{{username}} {{/assignees}}{{^assignees}}none{{/assignees}}</p>
+                <div class="meta-row">
+                    <span></span>
+                    <a href="/edit-task/{{taskId}}">Edit</a>
+                </div>
             </div>
             {{/reviewTasks}}
             {{^reviewTasks}}
-            <p>no task</p>
+            <p class="empty-state">No task</p>
             {{/reviewTasks}}
         </div>
 
-        <div style="flex: 1; min-width: 200px; border: 1px solid #ccc; padding: 16px; min-height: 400px; background-color: #f9f9f9;">
-            <h2>Test</h2>
+        <div class="board-column">
+            <div class="column-title">
+                <h2>Test</h2>
+                <span class="column-tag">{{testUserStories.length}}</span>
+            </div>
 
             <h3>User Stories</h3>
             {{#testUserStories}}
-            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <div class="story-card">
+                <div class="story-header">
                     <strong>{{titel}}</strong>
-                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityLabel}}</span>
+                    <span class="priority-badge priority-{{priorityClass}}">{{priorityLabel}}</span>
                 </div>
                 <p>{{beschreibung}}</p>
-                <details style="margin-top: 8px;">
-                    <summary style="cursor: pointer; color: #555;">Tasks</summary>
-                    <div style="margin-top: 6px;">
+                <details>
+                    <summary>Tasks</summary>
+                    <div style="margin-top: 8px;">
                         {{#tasks}}
-                        <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #eee;">
+                        <div class="meta-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 4px;">
                             <span>{{title}} ({{statusLabel}})</span>
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <span style="background-color: {{priorityColor}}; color: white; padding: 1px 6px; border-radius: 3px; font-size: 0.75em; font-weight: bold;">{{priorityLabel}}</span>
-                                <a href="/edit-task/{{taskId}}">Edit</a>
-                            </div>
+                            <a href="/edit-task/{{taskId}}">Edit</a>
                         </div>
                         {{/tasks}}
                         {{^tasks}}
-                        <p style="color: #888;">no task assigned</p>
+                        <p class="muted-text">No task assigned.</p>
                         {{/tasks}}
                     </div>
                 </details>
-                <div style="margin-top: 8px;">
+                <div class="meta-row">
+                    <span></span>
                     <a href="/edit-user-story/{{id}}">Edit</a>
                 </div>
             </div>
             {{/testUserStories}}
             {{^testUserStories}}
-            <p>no User story</p>
+            <p class="empty-state">No user story</p>
             {{/testUserStories}}
 
-            <hr style="margin: 20px 0;">
+            <hr style="margin: 18px 0; border: none; border-top: 1px solid rgba(148, 163, 184, 0.3);">
 
             <h3>Tasks</h3>
             {{#testTasks}}
-            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background-color: #fff;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <div class="task-card">
+                <div class="task-header">
                     <strong>{{title}}</strong>
-                    <span style="background-color: {{priorityColor}}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold;">{{priorityCount}}</span>
+                    <span class="priority-badge priority-{{priorityClass}}">{{priorityCount}}</span>
                 </div>
                 <p>{{desc}}</p>
-                <p>
-                Assignees:
-                {{#assignees}}{{username}} {{/assignees}}
-                {{^assignees}}none{{/assignees}}
-                </p>
-                <a href="/edit-task/{{taskId}}">Edit</a>
+                <p class="muted-text">Assignees: {{#assignees}}{{username}} {{/assignees}}{{^assignees}}none{{/assignees}}</p>
+                <div class="meta-row">
+                    <span></span>
+                    <a href="/edit-task/{{taskId}}">Edit</a>
+                </div>
             </div>
             {{/testTasks}}
             {{^testTasks}}
-            <p>no task</p>
+            <p class="empty-state">No task</p>
             {{/testTasks}}
         </div>
 
-        <div style="flex: 1; min-width: 200px; border: 1px solid #ccc; padding: 16px; min-height: 400px; background-color: #f9f9f9;">
-            <h2>Done</h2>
+        <div class="board-column">
+            <div class="column-title">
+                <h2>Done</h2>
+                <span class="column-tag">{{doneUserStories.length}}</span>
+            </div>
+
+            <h3>User Stories</h3>
+            {{#doneUserStories}}
+            <div class="story-card">
+                <div class="story-header">
+                    <strong>{{titel}}</strong>
+                    <span class="priority-badge priority-{{priorityClass}}">{{priorityLabel}}</span>
+                </div>
+                <p>{{beschreibung}}</p>
+                <details>
+                    <summary>Tasks</summary>
+                    <div style="margin-top: 8px;">
+                        {{#tasks}}
+                        <div class="meta-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 4px;">
+                            <span>{{title}} ({{statusLabel}})</span>
+                            <a href="/edit-task/{{taskId}}">Edit</a>
+                        </div>
+                        {{/tasks}}
+                        {{^tasks}}
+                        <p class="muted-text">No task assigned.</p>
+                        {{/tasks}}
+                    </div>
+                </details>
+                <div class="meta-row">
+                    <span></span>
+                    <a href="/edit-user-story/{{id}}">Edit</a>
+                </div>
+            </div>
+            {{/doneUserStories}}
+            {{^doneUserStories}}
+            <p class="empty-state">No user story</p>
+            {{/doneUserStories}}
+
+            <hr style="margin: 18px 0; border: none; border-top: 1px solid rgba(148, 163, 184, 0.3);">
+
+            <h3>Tasks</h3>
+            {{#doneTasks}}
+            <div class="task-card">
+                <div class="task-header">
+                    <strong>{{title}}</strong>
+                    <span class="priority-badge priority-{{priorityClass}}">{{priorityCount}}</span>
+                </div>
+                <p>{{desc}}</p>
+                <p class="muted-text">Assignees: {{#assignees}}{{username}} {{/assignees}}{{^assignees}}none{{/assignees}}</p>
+                <div class="meta-row">
+                    <span></span>
+                    <a href="/edit-task/{{taskId}}">Edit</a>
+                </div>
+            </div>
+            {{/doneTasks}}
+            {{^doneTasks}}
+            <p class="empty-state">No task</p>
+            {{/doneTasks}}
+        </div>
+    </div>
+</div>
+
 
             <h3>User Stories</h3>
             {{#doneUserStories}}
