@@ -1,0 +1,5 @@
+*.tex linguist-documentation
+*.drawio linguist-documentation
+abgabedokumente/** linguist-documentation
+anforderungen/** linguist-documentation
+abschlusspraesentation/** linguist-documentation

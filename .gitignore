@@ -335,3 +335,6 @@ output/
 
 .vscode
 .idea
+# macOS / local databases
+.DS_Store
+*.db
