@@ -14,17 +14,6 @@ Development took place on the university's GitLab; this repository is a copy of 
 - SQLite via JDBC (no ORM)
 - Maven, JUnit
 
-## My contribution
-
-- Requirements: refined requirements and user stories for the initial backlog
-- Design documentation: class and sequence diagrams, interfaces and traceability tables for the sprint documents
-- Features:
-  - registration with password confirmation, e-mail format validation and login via username
-  - opening Scrum boards and adding tasks
-  - user stories in the backlog view and in the task dropdown (story S3.2)
-  - task and user-story priorities with priority badges and sorting by priority (story S3.3)
-- Testing: documented manual test cases for my user stories
-
 ## Project documents
 
 - `anforderungen/` – requirements and use-case diagram
